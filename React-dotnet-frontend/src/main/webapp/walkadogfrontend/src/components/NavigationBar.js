@@ -39,8 +39,8 @@ const NavigationBar = () => {
     //     </>
     // );
 
-    const pages = ['Login', 'Show Dogs', 'List Trainers'];
-    const settings = ['Profile', 'Account', 'Logout'];
+    const pagestwod = {'Login':"login", 'Show Dogs':"list", 'List Trainers':"users"}
+    const settings = {'Profile':"home", 'Account':"#", 'Logout':"logout"};
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -110,7 +110,7 @@ const NavigationBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
+              {Object.entries(pagestwod).map(([page, value]) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -136,15 +136,18 @@ const NavigationBar = () => {
           >
             Walk-A-Dog
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}> 
+          
+            {Object.entries(pagestwod).map(([idx, value]) => (
+                <Link to={value}>
+                    <Button
+                        key={idx}
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                        {idx}
+                    </Button>
+                </Link>
             ))}
           </Box>
 
@@ -170,10 +173,12 @@ const NavigationBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+              {Object.entries(settings).map(([idx, value]) => (
+                <Link to={value}>
+                    <MenuItem key={idx} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{idx}</Typography>
+                    </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
