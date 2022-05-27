@@ -87,7 +87,10 @@ const Login = (props) => {
                                     borderColor: 'primary.secondary'
                                 }
                             },
-                            "& label": {color: "primary.secondary"}
+                            "& label": {color: "primary.secondary"},
+                            "& .MuiInputBase-input": {
+                                color: '#D3D3D3'
+                            }
                         }}
                         />
                         <TextField
@@ -101,12 +104,16 @@ const Login = (props) => {
                         autoComplete="current-password"
                         
                         sx={{
+
                             "& .MuiInputBase-root": {
                                 "& > fieldset": {
                                     borderColor: 'primary.secondary'
                                 }
                             },
-                            "& label": {color: "primary.secondary"}
+                            "& label": {color: "primary.secondary"},
+                            "& .MuiInputBase-input": {
+                                color: '#D3D3D3'
+                            }
                         }}
                         />
                         <FormControlLabel
