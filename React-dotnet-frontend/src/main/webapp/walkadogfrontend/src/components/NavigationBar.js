@@ -39,8 +39,13 @@ const NavigationBar = () => {
     //     </>
     // );
 
-    const pagestwod = {'Login':"login", 'Show Dogs':"list", 'List Trainers':"users"}
-    const settings = {'Profile':"home", 'Account':"#", 'Logout':"logout"};
+    const authedItems = {'Login':"login", 'Show Dogs':"list", 'List Trainers':"users"}
+    const authedSettings = {'Profile':"home", 'Account':"#", 'Logout':"logout"};
+
+    const unAuthedItems = {'Login':"login"};
+    const unAuthedSettings = {'Login':"login"};
+
+
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -110,7 +115,7 @@ const NavigationBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {Object.entries(pagestwod).map(([page, value]) => (
+              {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([page, value]) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -138,7 +143,7 @@ const NavigationBar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}> 
           
-            {Object.entries(pagestwod).map(([idx, value]) => (
+            {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([idx, value]) => (
                 <Link to={value}>
                     <Button
                         key={idx}
@@ -152,7 +157,7 @@ const NavigationBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Open authedSettings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
@@ -173,7 +178,7 @@ const NavigationBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {Object.entries(settings).map(([idx, value]) => (
+              {Object.entries(auth.isLoggedIn ? authedSettings : unAuthedSettings).map(([idx, value]) => (
                 <Link to={value}>
                     <MenuItem key={idx} onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{idx}</Typography>
