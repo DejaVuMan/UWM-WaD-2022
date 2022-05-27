@@ -1,102 +1,146 @@
 import React, {useState} from 'react';
 import { useDispatch} from "react-redux";
-import {Col, InputGroup, Row, Card, Form, FormControl, Button, Alert} from 'react-bootstrap'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEnvelope, faLock, faSignInAlt, faUndo} from "@fortawesome/free-solid-svg-icons";
 import {authenticateUser} from "../../services/index";
+
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+          main: '#3f51b5',
+          secondary: '#D3D3D3',
+        },
+        secondary: {
+          main: '#f50057',
+        },
+      },
+  });
 
 const Login = (props) => {
 
-    const [error, setError] = useState();
-    const [show, setShow] = useState(true);
-
-    const initialState = {
-        username:'', password:''
-    }
-
-    const [ user, setUser] = useState(initialState);
-
-    const credentialChange = event => {
-        const { name, value } = event.target
-        setUser({...user, [name]: value})
-    }
+    // const credentialChange = event => {
+    //     const { name, value } = event.target
+    //     setUser({...user, [name]: value})
+    // }
 
     const dispatch = useDispatch();
 
-    const resetForm = () => {
-       setUser(initialState);
-    }
+    const validateUser = (event) => {
+        event.preventDefault();
 
-    const validateUser = () => {
-      dispatch(authenticateUser(user.username, user.password))
+        const data = new FormData(event.currentTarget);
+
+      dispatch(authenticateUser(data.get('username'), data.get('password')))
         .then((response) => {
             console.log(response.data)
             return props.history.push("/home")
         })
         .catch((error) => {
             console.log(error.message)
-            setShow(true);
-            resetForm();
-            setError("Zły username i hasło")
         })
     }
 
         return (
-            <Row className={"justify-content-md-center"}>
-                <Col xs={5}>
-                    {show && props.message && (
-                        <Alert variant="success" onClose={() => setShow(false)} dismissible>
-                            {props.message}
-                        </Alert>
-                    )}
-                    {show && error && (
-                        <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-                            {error}
-                        </Alert>
-                    )}
-                    <Card className={"border border-info bg-dark text-white"}>
-                       <Card.Header>
-                           <FontAwesomeIcon style={{color: "white"}} icon={faSignInAlt}/> Zaloguj się!
-                       </Card.Header>
-                       <Card.Body>
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <InputGroup>
-                                        <InputGroup.Prepend>
-                                            <InputGroup.Text><FontAwesomeIcon icon={faEnvelope}/></InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <FormControl required autoComplete="off" type="text" name="username" value={user.username} onChange={credentialChange}
-                                            className={"bg-dark text-white"} placeholder="Podaj username"/>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Form.Row>
-                           <Form.Row>
-                                <Form.Group as={Col}>
-                                    <InputGroup>
-                                        <InputGroup.Prepend>
-                                            <InputGroup.Text><FontAwesomeIcon icon={faLock}/></InputGroup.Text>
-                                        </InputGroup.Prepend>
-                                        <FormControl required autoComplete="off" type="password" name="password" value={user.password} onChange={credentialChange}
-                                            className={"bg-dark text-white"} placeholder="Podaj hasło"/>
-                                    </InputGroup>
-                                </Form.Group>
-                            </Form.Row>
-                       </Card.Body>
-                       <Card.Footer style={{"textAlign":"right"}}>
-                            <Button size={"sm"} type={"button"} variant={"success"} onClick={validateUser}
-                                    disabled={user.username.length===0 || user.password.length===0}>
-                                <FontAwesomeIcon icon={faSignInAlt}/> Zaloguj
-                            </Button>{' '}
-                           <Button size={"sm"} type={"button"} variant={"info"} onClick={resetForm}
-                                    disabled={user.username.length===0 && user.password.length===0}>
-                                <FontAwesomeIcon icon={faUndo}/> Wyczyść
-                            </Button>
-                       </Card.Footer>
-                    </Card>
-                </Col>
-            </Row>
-        );
+            <ThemeProvider theme={theme}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                    >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5" color="common.white">
+                        Sign in
+                    </Typography>
+                    <Box component="form" onSubmit={validateUser} noValidate sx={{ mt: 1}}> {/* changes color of text for remember me??? */}
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="Username"
+                        name="username"
+                        autoComplete="username"
+                        autoFocus
+                        sx={{
+                            "& .MuiInputBase-root": {
+                                "& > fieldset": {
+                                    borderColor: 'primary.secondary'
+                                }
+                            },
+                            "& label": {color: "primary.secondary"}
+                        }}
+                        />
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        
+                        sx={{
+                            "& .MuiInputBase-root": {
+                                "& > fieldset": {
+                                    borderColor: 'primary.secondary'
+                                }
+                            },
+                            "& label": {color: "primary.secondary"}
+                        }}
+                        />
+                        <FormControlLabel
+                        control={<Checkbox value="remember" color="primary" sx={{ color: "primary.main", '&.Mui-checked': { color: "primary.main", }, }}/>}
+                        label={
+                            <Typography color="common.white">
+                                Remember Me?
+                            </Typography>}
+                        />
+                        <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        >
+                        Sign In
+                        </Button>
+                        <Grid container>
+                        <Grid item xs>
+                            <Link href="#" variant="body2" color="common.white">
+                            Forgot password?
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="#" variant="body2" color="common.white">
+                            {"Don't have an account? Sign Up"}
+                            </Link>
+                        </Grid>
+                        </Grid>
+                    </Box>
+                    </Box>
+                </Container>
+                </ThemeProvider>
+            );
 }
-
 
 export default Login;
