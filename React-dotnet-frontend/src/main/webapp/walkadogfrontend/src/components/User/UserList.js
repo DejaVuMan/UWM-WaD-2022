@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 
@@ -35,6 +36,20 @@ class UserList extends Component {
     // };
 
     render() {
+
+        const theme = createTheme({
+            palette: {
+                mode: 'dark',
+                primary: {
+                  main: '#3f51b5',
+                  secondary: '#D3D3D3',
+                },
+                secondary: {
+                  main: '#f50057',
+                },
+              },
+          });
+
         const userData = this.props.userData;
         const users = userData.users;
         console.log(users)
@@ -46,22 +61,19 @@ class UserList extends Component {
             textAlign: 'center',
             color: theme.palette.text.secondary,
           }));
-        // obecniUsers.map((user, index) =>(
-        //     <tr key={index}>
-        //         <td>{user.firstName}{' '}{user.lastName}</td>
-        //         <td>{user.username}</td>
-        //     </tr>
-        // ))
         return (
-        <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2} columns={16}>
-                {users.map((user, index) =>
-                    <Grid item xs={8} key={index}>
-                    <Item>{user.firstName} {user.lastName}</Item>
-                    </Grid>
-                )}
-            </Grid>
+        <ThemeProvider theme={theme}>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2} columns={16}>
+                    {users.map((user, index) =>
+                        <Grid item xs={8} key={index}>
+                            <Item>Name: {user.firstName} {user.lastName}</Item>
+                            <Item>Username: {user.username}</Item>
+                        </Grid>
+                    )}
+                </Grid>
             </Box>
+        </ThemeProvider>
         );
     }
 }
