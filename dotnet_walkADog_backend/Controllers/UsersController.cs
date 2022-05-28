@@ -50,6 +50,14 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
+    [HttpGet("trainers")]
+    public IActionResult GetAllTrainers()
+    {
+        var trainers = _userService.GetAllTrainerData();
+        Console.WriteLine(trainers.First());
+        return Ok(trainers);
+    }
+
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {

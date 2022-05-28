@@ -8,6 +8,7 @@ public class User
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Username { get; set; }
+    public bool IsTrainer { get; set; }
 
     [JsonIgnore]
     public string PasswordHash { get; set; }

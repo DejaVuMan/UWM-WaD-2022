@@ -15,6 +15,10 @@ public interface IUserService
     void Register(RegisterRequest model);
     void Update(int id, UpdateRequest model);
     void Delete(int id);
+
+    IEnumerable<TrainerData> GetAllTrainerData();
+
+    //void InsertTrainerTable(int id);
 }
 
 public class UserService : IUserService
@@ -52,6 +56,11 @@ public class UserService : IUserService
         return _context.Users;
     }
 
+    public IEnumerable<TrainerData> GetAllTrainerData()
+    {
+        return _context.TrainerData;
+    }
+
     public User GetById(int id)
     {
         return getUser(id);
@@ -71,6 +80,20 @@ public class UserService : IUserService
 
         // save user
         _context.Users.Add(user);
+
+        _context.SaveChanges();
+
+        if(user.IsTrainer)
+        {
+            Console.WriteLine("User attempting to register is a Trainer.");
+            InsertTrainerTable testModel = new InsertTrainerTable();
+            Console.WriteLine("Created empty InsertTrainerTable model.");
+            testModel.userId = user.Id;
+            testModel.currentRating = 0;
+            testModel.ratingCount = 0;
+            Console.WriteLine("Values set.");
+            InsertTrainerTable(testModel);
+        }
         _context.SaveChanges();
     }
 
@@ -99,7 +122,22 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    // helper methods
+    public void InsertTrainerTable(InsertTrainerTable model)
+    {
+        Console.WriteLine("Entered method for calls");
+        try{
+            var trainer = _mapper.Map<TrainerData>(model);
+            Console.WriteLine("mapped elements.");
+            var trainerData = 
+            _context.TrainerData.Add(trainer);
+            _context.SaveChanges();
+        Console.WriteLine("Trainer data table saved!");
+        } catch (Exception e){
+            Console.WriteLine("Exception occurred! " + e);
+        }
+    }
+
+    //helper methods
 
     private User getUser(int id)
     {

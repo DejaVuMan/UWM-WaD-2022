@@ -26,5 +26,8 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
+
+        //InsertTrainerTable -> TrainerData
+        CreateMap<InsertTrainerTable, TrainerData>();
     }
 }

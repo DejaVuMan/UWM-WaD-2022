@@ -16,6 +16,26 @@ namespace WebApi.Migrations.SqliteMigrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
 
+            modelBuilder.Entity("WebApi.Entities.TrainerData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<float>("currentRating")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("ratingCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrainerData");
+                });
+
             modelBuilder.Entity("WebApi.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -24,6 +44,9 @@ namespace WebApi.Migrations.SqliteMigrations
 
                     b.Property<string>("FirstName")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsTrainer")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
                         .HasColumnType("TEXT");

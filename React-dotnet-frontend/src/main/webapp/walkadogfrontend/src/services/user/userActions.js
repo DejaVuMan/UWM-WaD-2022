@@ -17,7 +17,7 @@ export const fetchUsers = () => {
     }
 }
 
-export const registerUser = (firstname, lastname, username, password) => async (dispatch) => {
+export const registerUser = (firstname, lastname, username, password, isTrainer) => async (dispatch) => {
     dispatch(userRequest())
     try {
         const response = await axios.post(REGISTER_URL, {
@@ -25,6 +25,7 @@ export const registerUser = (firstname, lastname, username, password) => async (
             lastname: lastname,
             username: username,
             password: password,
+            isTrainer: isTrainer
         });
         dispatch(userSavedSuccess(response.data))
         return Promise.resolve(response.data)

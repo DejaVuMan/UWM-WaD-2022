@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // add services to DI container
 {
+    Console.WriteLine("Test");
     var services = builder.Services;
     var env = builder.Environment;
  

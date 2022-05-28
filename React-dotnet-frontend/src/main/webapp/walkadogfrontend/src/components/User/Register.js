@@ -44,7 +44,7 @@ const Register = (props) => {
 
         const data = new FormData(event.currentTarget);
 
-      dispatch(registerUser(data.get('firstname'),data.get('lastname'),data.get('username'),data.get('password')))
+      dispatch(registerUser(data.get('firstname'),data.get('lastname'),data.get('username'),data.get('password'), checked? true : false))
         .then((response) => {
             console.log(response.data)
             return props.history.push("/login")

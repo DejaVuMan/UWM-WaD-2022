@@ -77,6 +77,7 @@ class UserList extends Component {
     }
 
     render() {
+        console.log("Call on UserList")
         const {obecnaStrona, usersNaStrone} = this.state;
         const ostatniIndeks = obecnaStrona * usersNaStrone;
         const pierwszyIndeks = ostatniIndeks - usersNaStrone;
@@ -85,9 +86,8 @@ class UserList extends Component {
         const users = userData.users;
         const obecniUsers = users && users.slice(pierwszyIndeks, ostatniIndeks);
         const wszystkieStrony = users.length / usersNaStrone;
-
+        console.log(users)
         return (
-
             <div>
                 {userData.erorr ?
                     <Alert variant={"danger"}>
