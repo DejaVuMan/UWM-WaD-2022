@@ -116,9 +116,9 @@ const NavigationBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([page, value]) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([idx, value]) => (
+                <MenuItem key={idx} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{idx}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -145,9 +145,8 @@ const NavigationBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}> 
           
             {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([idx, value]) => (
-                <Link to={value}>
+                <Link to={value} key={idx}>
                     <Button
-                        key={idx}
                         onClick={handleCloseNavMenu}
                         sx={{ my: 2, color: 'white', display: 'block' }}
                     >
@@ -180,8 +179,8 @@ const NavigationBar = () => {
               onClose={handleCloseUserMenu}
             >
               {Object.entries(auth.isLoggedIn ? authedSettings : unAuthedSettings).map(([idx, value]) => (
-                <Link to={value}>
-                    <MenuItem key={idx} onClick={value === 'logout' ? logout : handleCloseUserMenu}>
+                <Link to={value} key={idx}>
+                    <MenuItem onClick={value === 'logout' ? logout : handleCloseUserMenu}>
                     <Typography textAlign="center">{idx}</Typography>
                     </MenuItem>
                 </Link>
