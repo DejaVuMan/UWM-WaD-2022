@@ -1,16 +1,13 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {fetchUsers} from "../../services/index";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faFastBackward,
-    faFastForward,
-    faStepBackward,
-    faStepForward,
-    faUser
-} from "@fortawesome/free-solid-svg-icons";
-import {Card, InputGroup, Table, FormControl, Button, Alert} from "react-bootstrap";
 import "../../assets/css/Style.css";
+
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
 
 
 class UserList extends Component {
@@ -37,130 +34,34 @@ class UserList extends Component {
     //         });
     // };
 
-    zmienStrone = event => {
-        this.setState({
-            [event.target.name]: parseInt(event.target.value)
-        })
-    }
-
-    pierwszaStrona = () => {
-        if(this.state.obecnaStrona >1) {
-            this.setState({
-                obecnaStrona: 1
-            })
-        }
-    }
-
-    poprzedniaStrona = () => {
-        if(this.state.obecnaStrona >1) {
-            this.setState({
-                obecnaStrona: this.state.obecnaStrona - 1
-            })
-        }
-    }
-
-    ostatniaStrona = () => {
-        let usersLength = this.props.userData.users.length;
-        if(this.state.obecnaStrona < Math.ceil(usersLength / this.state.usersNaStrone)) {
-            this.setState({
-                obecnaStrona: Math.ceil(usersLength / this.state.usersNaStrone)
-            })
-        }
-    }
-
-    nastepnaStrona = () => {
-        if(this.state.obecnaStrona < Math.ceil(this.props.userData.users.length / this.state.usersNaStrone)) {
-            this.setState({
-                obecnaStrona: this.state.obecnaStrona + 1
-            })
-        }
-    }
-
     render() {
-        console.log("Call on UserList")
-        const {obecnaStrona, usersNaStrone} = this.state;
-        const ostatniIndeks = obecnaStrona * usersNaStrone;
-        const pierwszyIndeks = ostatniIndeks - usersNaStrone;
-
         const userData = this.props.userData;
         const users = userData.users;
-        const obecniUsers = users && users.slice(pierwszyIndeks, ostatniIndeks);
-        const wszystkieStrony = users.length / usersNaStrone;
         console.log(users)
+
+        const Item = styled(Paper)(({ theme }) => ({
+            backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+            ...theme.typography.body2,
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            color: theme.palette.text.secondary,
+          }));
+        // obecniUsers.map((user, index) =>(
+        //     <tr key={index}>
+        //         <td>{user.firstName}{' '}{user.lastName}</td>
+        //         <td>{user.username}</td>
+        //     </tr>
+        // ))
         return (
-            <div>
-                {userData.erorr ?
-                    <Alert variant={"danger"}>
-                        {userData.error}
-
-                    </Alert> :
-                    <Card className={"border border-dark bg-dark text-white"}>
-                        <Card.Header><FontAwesomeIcon icon={faUser}/> Lista użytkowników</Card.Header>
-                        <Card.Body>
-                            <Table bordered hover striped variant="dark">
-                                <thead>
-                                <tr>
-                                    <td>Imie i Nazwisko</td>
-                                    <td>Username</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {users.length === 0 ?
-                                    <tr>
-                                        <td colSpan={6}>Brak dostępnych użytkowników.</td>
-                                    </tr> :
-                                    obecniUsers.map((user, index) =>(
-                                        <tr key={index}>
-                                            <td>{user.firstName}{' '}{user.lastName}</td>
-                                            <td>{user.username}</td>
-                                        </tr>
-                                    ))
-                                }
-                                </tbody>
-                            </Table>
-                        </Card.Body>
-                        {users.length > 0 ?
-                            <Card.Footer>
-                                <div style={{"float": "left"}}>
-                                    Strona {obecnaStrona} z {wszystkieStrony}
-                                </div>
-                                <div style={{"float": "right"}}>
-                                    <InputGroup size={"sm"}>
-                                        <InputGroup.Prepend>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === 1 ? true : false}
-                                                    onClick={this.pierwszaStrona}>
-                                                <FontAwesomeIcon icon={faFastBackward}/>Pierwsza
-                                            </Button>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === 1 ? true : false}
-                                                    onClick={this.poprzedniaStrona}>
-                                                <FontAwesomeIcon icon={faStepBackward}/>Poprzednia
-                                            </Button>
-                                        </InputGroup.Prepend>
-                                        <FormControl className={"stronaCss bg-dark"} name="obecnaStrona"
-                                                     value={obecnaStrona}
-                                                     onChange={this.zmienStrone}/>
-                                        <InputGroup.Append>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === wszystkieStrony ? true : false}
-                                                    onClick={this.nastepnaStrona}>
-                                                <FontAwesomeIcon icon={faStepForward}/>Nastepna
-                                            </Button>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === wszystkieStrony ? true : false}
-                                                    onClick={this.ostatniaStrona}>
-                                                <FontAwesomeIcon icon={faFastForward}/>Ostatnia
-                                            </Button>
-                                        </InputGroup.Append>
-                                    </InputGroup>
-                                </div>
-                            </Card.Footer> : null
-                        }
-                    </Card>
-
-                }
-            </div>
+        <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2} columns={16}>
+                {users.map((user, index) =>
+                    <Grid item xs={8} key={index}>
+                    <Item>{user.firstName} {user.lastName}</Item>
+                    </Grid>
+                )}
+            </Grid>
+            </Box>
         );
     }
 }
