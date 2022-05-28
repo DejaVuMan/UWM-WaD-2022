@@ -1,123 +1,196 @@
-import React, {useState} from "react";
-import {faPhone, faEnvelope, faLock, faUndo, faUserPlus, faUser,} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Row, Col, Card, Form, InputGroup, FormControl, Button,} from "react-bootstrap";
-import MyToast from "../MyToast";
-import {registerUser} from "../../services/index";
+import React from 'react';
 import {useDispatch} from "react-redux";
+import {registerUser} from "../../services/index";
 
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch'
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+          main: '#3f51b5',
+          secondary: '#D3D3D3',
+        },
+        secondary: {
+          main: '#f50057',
+        },
+      },
+  });
 
 const Register = (props) => {
 
-    const [show, setShow] = useState(false)
-    const [message, setMessage] = useState('')
+    const dispatch = useDispatch();
+    
+    const [checked, setChecked] = React.useState(false);
 
-    const initialState = {
-        name:'', email:'', password:'', mobile:''
-    };
+    const toggleChecked = () => {
+        setChecked((prev) => !prev);
+      };
 
-    const [user, setUser] = useState(initialState)
+    const saveUser = (event) => {
+        event.preventDefault();
 
-    const userChange = (event) => {
-        const {name, value} = event.target;
-        setUser({...user, [name]:value})
-    };
+        const data = new FormData(event.currentTarget);
 
-    const dispatch = useDispatch()
-
-    const saveUser = () => {
-        dispatch(registerUser(user))
-            .then((response) => {
-                setShow(true);
-                setMessage(response.message)
-                resetRegisterForm()
-                setTimeout(() => {
-                    setShow(false)
-                    props.history.push("/login")
-                },2000)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+      dispatch(registerUser(data.get('firstname'),data.get('lastname'),data.get('username'),data.get('password')))
+        .then((response) => {
+            console.log(response.data)
+            return props.history.push("/login")
+        })
+        .catch((error) => {
+            console.log(error.message)
+        })
     }
-    const resetRegisterForm = () => {
-        setUser(initialState);
-    };
+
         return (
-            <div>
-                <div style={{"display": show ? "block" : "none"}}>
-                    <MyToast show ={ show} message = {message} type = {"success"}/>
-                </div>
-                <Row className="justify-content-md-center">
-                    <Col xs={5}>
-                        <Card className={"border border-dark bg-dark text-white"}>
-                            <Card.Header>
-                                <FontAwesomeIcon icon={faUserPlus}/> Rejestracja
-                            </Card.Header>
-                            <Card.Body>
-                                <Form.Row>
-                                    <Form.Group as={Col}>
-                                        <InputGroup>
-                                            <InputGroup.Prepend>
-                                                <InputGroup.Text><FontAwesomeIcon icon={faUser}/></InputGroup.Text>
-                                            </InputGroup.Prepend>
-                                            <FormControl autoComplete="off" type="text" name="name" value={user.name} onChange={userChange}
-                                                         className={"bg-dark text-white"} placeholder="Podaj imie"/>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Form.Group as={Col}>
-                                        <InputGroup>
-                                            <InputGroup.Prepend>
-                                                <InputGroup.Text><FontAwesomeIcon icon={faEnvelope}/></InputGroup.Text>
-                                            </InputGroup.Prepend>
-                                            <FormControl required autoComplete="off" type="text" name="email" value={user.email} onChange={userChange}
-                                                         className={"bg-dark text-white"} placeholder="Podaj adres e-mail"/>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Form.Group as={Col}>
-                                        <InputGroup>
-                                            <InputGroup.Prepend>
-                                                <InputGroup.Text><FontAwesomeIcon icon={faLock}/></InputGroup.Text>
-                                            </InputGroup.Prepend>
-                                            <FormControl required autoComplete="off" type="password" name="password" value={user.password} onChange={userChange}
-                                                         className={"bg-dark text-white"} placeholder="Podaj Hasło"/>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Form.Row>
-                                <Form.Row>
-                                    <Form.Group as={Col}>
-                                        <InputGroup>
-                                            <InputGroup.Prepend>
-                                                <InputGroup.Text><FontAwesomeIcon icon={faPhone}/></InputGroup.Text>
-                                            </InputGroup.Prepend>
-                                            <FormControl autoComplete="off" type="text" name="mobile" value={user.mobile} onChange={userChange}
-                                                         className={"bg-dark text-white"} placeholder="Podaj numer telefonu"/>
-                                        </InputGroup>
-                                    </Form.Group>
-                                </Form.Row>
-                            </Card.Body>
-                            <Card.Footer style={{"textAlign":"right"}}>
-                                <Button size="sm" type="button" variant="success"
-                                        onClick={saveUser}
-                                        disabled={user.email.length === 0 || user.password.length === 0}>
-                                    <FontAwesomeIcon icon={faUserPlus}/> Zarejestruj
-                                </Button>{' '}
-                                <Button size="sm" type="button" variant="info" onClick={resetRegisterForm}>
-                                    <FontAwesomeIcon icon={faUndo}/> Wyczyść
-                                </Button>
-                            </Card.Footer>
-                        </Card>
-                    </Col>
-                </Row>
+            <ThemeProvider theme={theme}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                    >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5" color="common.white">
+                        Sign Up
+                    </Typography>
+                    <Box component="form" onSubmit={saveUser} noValidate sx={{ mt: 1}}> {/* changes color of text for remember me??? */}
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="firstname"
+                        label="First Name"
+                        name="firstname"
+                        autoComplete="firstname"
+                        autoFocus
+                        
+                        sx={{
 
-            </div>
+                            "& .MuiInputBase-root": {
+                                "& > fieldset": {
+                                    borderColor: 'primary.secondary'
+                                }
+                            },
+                            "& label": {color: "primary.secondary"},
+                            "& .MuiInputBase-input": {
+                                color: '#D3D3D3'
+                            }
+                        }}
+                        />
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="lastname"
+                        label="Last Name"
+                        name="lastname"
+                        autoComplete="lastname"
+                        autoFocus
+                        
+                        sx={{
 
-        );
+                            "& .MuiInputBase-root": {
+                                "& > fieldset": {
+                                    borderColor: 'primary.secondary'
+                                }
+                            },
+                            "& label": {color: "primary.secondary"},
+                            "& .MuiInputBase-input": {
+                                color: '#D3D3D3'
+                            }
+                        }}
+                        />
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="Username"
+                        name="username"
+                        autoComplete="username"
+                        autoFocus
+                        sx={{
+                            "& .MuiInputBase-root": {
+                                "& > fieldset": {
+                                    borderColor: 'primary.secondary'
+                                }
+                            },
+                            "& label": {color: "primary.secondary"},
+                            "& .MuiInputBase-input": {
+                                color: '#D3D3D3'
+                            }
+                        }}
+                        />
+                        <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        
+                        sx={{
+
+                            "& .MuiInputBase-root": {
+                                "& > fieldset": {
+                                    borderColor: 'primary.secondary'
+                                }
+                            },
+                            "& label": {color: "primary.secondary"},
+                            "& .MuiInputBase-input": {
+                                color: '#D3D3D3'
+                            }
+                        }}
+                        />
+                        <FormControlLabel
+                            control={<Switch size="small" checked={checked} onChange={toggleChecked} color="primary"/>}
+                            label={
+                                <Typography color="common.white">
+                                    {checked? 'Trainer':'Dog Owner'}
+                                </Typography>
+                            }
+                        />
+                        <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        >
+                        Sign Up
+                        </Button>
+                        <Grid container>
+                        <Grid item>
+                            <Link href="#" variant="body2" color="common.white">
+                            {"Already have an account? Sign In"}
+                            </Link>
+                        </Grid>
+                        </Grid>
+                    </Box>
+                    </Box>
+                </Container>
+                </ThemeProvider>
+            );
 }
-
 
 export default Register;

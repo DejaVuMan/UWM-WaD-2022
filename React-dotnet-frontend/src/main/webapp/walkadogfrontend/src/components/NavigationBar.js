@@ -1,61 +1,197 @@
-import React from "react";
+import * as React from "react";
 import { useDispatch, useSelector} from "react-redux";
-import {Navbar, Nav} from "react-bootstrap";
 import {Link} from 'react-router-dom';
 import {logoutUser} from "../services/index";
-import {
-    faCalendar,
-    faPlusSquare,
-    faSignInAlt,
-    faSignOutAlt,
-    faTasks,
-    faUserPlus,
-    faUsers
-} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
 import '../assets/css/Style.css';
 const NavigationBar = () => {
+
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
+     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
     const auth = useSelector((state) => state.auth)
     const dispatch = useDispatch();
 
     const logout = () => {
         dispatch(logoutUser())
+        console.log("Logged out.")
     }
+    // <Link to={"login"}, {"/add"}, {"list"}, {"users"}, {"logout"}, {auth.isLoggedIn ? "home" : ""} + {auth.isLoggedIn ? userLinks : guestLinks}
 
-    const guestLinks = (
-        <>
-            <div className={"mr-auto"}></div>
-            <Nav className={"navbar-right"}>
-                <Link to={"login"} className="nav-link" style={{color: "white"}}><FontAwesomeIcon icon={faSignInAlt}/> Zaloguj się!</Link>
-            </Nav>
-        </>
-    );
+    // const guestLinks = (
+    //     <>
+    //         <div className={"mr-auto"}></div>
+    //         <Nav className={"navbar-right"}>
+    //             <Link to={"login"} className="nav-link" style={{color: "white"}}><FontAwesomeIcon icon={faSignInAlt}/> Zaloguj się!</Link>
+    //         </Nav>
+    //     </>
+    // );
 
-    const userLinks = (
-        <>
-            <Nav className={"mr-auto"}>
-                <Link to={"/add"} style={{color: "white"}} className="nav-link"><FontAwesomeIcon icon={faPlusSquare}/> Dodaj Psa</Link>
-                <Link to={"list"} style={{color: "white"}} className="nav-link"><FontAwesomeIcon icon={faTasks}/> Lista Psów</Link>
-                <Link to={"users"} style={{color: "white"}} className="nav-link"><FontAwesomeIcon icon={faUsers}/> Lista Właścicielów</Link>
-            </Nav>
-            <Nav className={"navbar-right"}>
-                <Link to={"register"} style={{color: "white"}} className="nav-link"><FontAwesomeIcon icon={faUserPlus}/> Zarejestruj użytkownika!</Link>
-                <Link to={"logout"} style={{color: "white"}} className="nav-link" onClick={logout}><FontAwesomeIcon icon={faSignOutAlt}/> Wyloguj się!</Link>
-            </Nav>
-        </>
-    );
+    const authedItems = {'Show Dogs':"list", 'List Trainers':"users"}
+    const authedSettings = {'Profile':"home", 'Account':"#", 'Logout':"logout"};
 
-    return (
-        <div>
-            <Navbar bg="info" style={{opacity:"0.8"}} variant="dark">
-                <Link to={auth.isLoggedIn ? "home" : ""} className="navbar-brand text-white">
-                    <FontAwesomeIcon icon={faCalendar}/> Walk-A-Dog
+    const unAuthedItems = {'Login':"login"};
+    const unAuthedSettings = {'Login':"login"};
+
+
+
+    const handleOpenNavMenu = (event) => {
+        setAnchorElNav(event.currentTarget);
+    }
+    
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+    
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+  return (
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Walk-A-Dog
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([page, value]) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href=""
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Walk-A-Dog
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}> 
+          
+            {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([idx, value]) => (
+                <Link to={value}>
+                    <Button
+                        key={idx}
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: 'white', display: 'block' }}
+                    >
+                        {idx}
+                    </Button>
                 </Link>
-                {auth.isLoggedIn ? userLinks : guestLinks}
-            </Navbar>
-        </div>
-    );
-}
+            ))}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open authedSettings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {Object.entries(auth.isLoggedIn ? authedSettings : unAuthedSettings).map(([idx, value]) => (
+                <Link to={value}>
+                    <MenuItem key={idx} onClick={value === 'logout' ? logout : handleCloseUserMenu}>
+                    <Typography textAlign="center">{idx}</Typography>
+                    </MenuItem>
+                </Link>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
+};
 
 export default NavigationBar;

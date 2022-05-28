@@ -17,10 +17,15 @@ export const fetchUsers = () => {
     }
 }
 
-export const registerUser = (userObj) => async (dispatch) => {
+export const registerUser = (firstname, lastname, username, password) => async (dispatch) => {
     dispatch(userRequest())
     try {
-        const response = await axios.post(REGISTER_URL, userObj)
+        const response = await axios.post(REGISTER_URL, {
+            firstname: firstname,
+            lastname: lastname,
+            username: username,
+            password: password,
+        });
         dispatch(userSavedSuccess(response.data))
         return Promise.resolve(response.data)
     } catch(error) {
