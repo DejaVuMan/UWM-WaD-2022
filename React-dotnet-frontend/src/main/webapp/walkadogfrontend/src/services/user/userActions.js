@@ -17,6 +17,19 @@ export const fetchUsers = () => {
     }
 }
 
+export const fetchTrainers = () => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/trainers", localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })
+    }
+}
+
 export const registerUser = (firstname, lastname, username, password, isTrainer) => async (dispatch) => {
     dispatch(userRequest())
     try {

@@ -46,14 +46,14 @@ public class UsersController : ControllerBase
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _userService.GetAll();
+        var users = _userService.GetAllTrainers();//_userService.GetAll();
         return Ok(users);
     }
 
     [HttpGet("trainers")]
     public IActionResult GetAllTrainers()
     {
-        var trainers = _userService.GetAllTrainerData();
+        var trainers = _userService.GetAllTrainers();
         Console.WriteLine(trainers.First());
         return Ok(trainers);
     }

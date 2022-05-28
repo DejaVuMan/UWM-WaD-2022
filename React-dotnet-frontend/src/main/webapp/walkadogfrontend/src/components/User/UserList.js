@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchUsers} from "../../services/index";
+import {fetchUsers, fetchTrainers} from "../../services/index";
 import "../../assets/css/Style.css";
 
 import { styled } from '@mui/material/styles';
@@ -16,9 +16,7 @@ class UserList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
-            obecnaStrona: 1,
-            usersNaStrone: 5,
+            users: []
         };
     }
 
@@ -51,6 +49,7 @@ class UserList extends Component {
           });
 
         const userData = this.props.userData;
+        console.log(userData)
         const users = userData.users;
         console.log(users)
 
@@ -86,7 +85,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUsers: () => dispatch(fetchUsers())
+        fetchUsers: () => dispatch(fetchUsers()),
+        //fetchTrainers: () => dispatch (fetchTrainers())
     }
 }
 
