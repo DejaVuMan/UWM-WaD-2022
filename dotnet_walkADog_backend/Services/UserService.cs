@@ -56,7 +56,13 @@ public class UserService : IUserService
         return _context.Users;
     }
 
-    public IEnumerable<TrainerData> GetAllTrainerData()
+    public IEnumerable<User> GetAllTrainers() // call this one first when displaying trainers
+    {
+        return _context.Users.Where(check => check.IsTrainer);
+        // return only users which selected trainer during options
+    }
+
+    public IEnumerable<TrainerData> GetAllTrainerData() // then call this one
     {
         return _context.TrainerData;
     }
