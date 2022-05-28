@@ -1,7 +1,5 @@
 namespace WebApi.Entities;
 
-using System.Text.Json.Serialization;
-
 public class TrainerData
 {
     public int Id { get; set; }
