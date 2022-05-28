@@ -42,6 +42,9 @@ namespace WebApi.Migrations.SqlServerMigrations
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");
+                    
+                    b.Property<bool>("IsTrainer")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

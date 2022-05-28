@@ -17,6 +17,7 @@ namespace WebApi.Migrations.SqlServerMigrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsTrainer = table.Column<bool>(type: "bit", nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
