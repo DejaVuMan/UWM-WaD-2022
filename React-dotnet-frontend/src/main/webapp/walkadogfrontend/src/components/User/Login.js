@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { useDispatch} from "react-redux";
+import React from 'react';
+import {useDispatch} from "react-redux";
 import {authenticateUser} from "../../services/index";
 
 import Avatar from '@mui/material/Avatar';
@@ -30,11 +30,6 @@ const theme = createTheme({
   });
 
 const Login = (props) => {
-
-    // const credentialChange = event => {
-    //     const { name, value } = event.target
-    //     setUser({...user, [name]: value})
-    // }
 
     const dispatch = useDispatch();
 
@@ -138,7 +133,7 @@ const Login = (props) => {
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2" color="common.white">
+                            <Link href="./Register" variant="body2" color="common.white">
                             {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
