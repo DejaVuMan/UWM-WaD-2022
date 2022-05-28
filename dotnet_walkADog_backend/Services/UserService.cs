@@ -125,12 +125,16 @@ public class UserService : IUserService
     public void InsertTrainerTable(InsertTrainerTable model)
     {
         Console.WriteLine("Entered method for calls");
-        var trainer = _mapper.Map<TrainerData>(model);
-        Console.WriteLine("mapped elements.");
-        var trainerData = 
-        _context.TrainerData.Add(trainer);
-        _context.SaveChanges();
+        try{
+            var trainer = _mapper.Map<TrainerData>(model);
+            Console.WriteLine("mapped elements.");
+            var trainerData = 
+            _context.TrainerData.Add(trainer);
+            _context.SaveChanges();
         Console.WriteLine("Trainer data table saved!");
+        } catch (Exception e){
+            Console.WriteLine("Exception occurred! " + e);
+        }
     }
 
     //helper methods
