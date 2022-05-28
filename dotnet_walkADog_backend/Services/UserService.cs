@@ -15,6 +15,8 @@ public interface IUserService
     void Register(RegisterRequest model);
     void Update(int id, UpdateRequest model);
     void Delete(int id);
+
+    //void InsertTrainerTable(int id);
 }
 
 public class UserService : IUserService
@@ -71,7 +73,18 @@ public class UserService : IUserService
 
         // save user
         _context.Users.Add(user);
+
         _context.SaveChanges();
+
+        if(user.IsTrainer)
+        {
+            InsertTrainerTable testModel = new InsertTrainerTable();
+            testModel.userId = user.Id;
+            testModel.currentRating = 0;
+            testModel.ratingCount = 0;
+
+            InsertTrainerTable(testModel);
+        }
     }
 
     public void Update(int id, UpdateRequest model)
@@ -99,7 +112,16 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    // helper methods
+    public void InsertTrainerTable(InsertTrainerTable model)
+    {
+        var trainer = _mapper.Map<TrainerData>(model);
+
+        var trainerData = 
+        _context.TrainerData.Add(trainer);
+        _context.SaveChanges();
+    }
+
+    //helper methods
 
     private User getUser(int id)
     {
