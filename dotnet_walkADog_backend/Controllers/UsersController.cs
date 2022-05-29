@@ -69,8 +69,24 @@ public class UsersController : ControllerBase
         return Ok(trainersdata);
     }
 
+    // GET http://localhost:4000/users/trainersdata
+    [HttpGet("trainersdata/{id}")]
+    public IActionResult GetTrainerDataById(int id)
+    {
+        var trainersdata = _userService.GetTrainerDataById(id);
+        return Ok(trainersdata);
+    }
 
-    // GET http://localhost:4000/register
+    // 
+    // [HttpGet("trainers/{id}")]
+    // public IActionResult GetByTrainerId(int id)
+    // {
+    //     var trainer = _userService.GetById(id);
+    //     return Ok(trainer);
+    // }
+    // Unnecessary, we can call on userService since front-end dictates correct ID anyway
+
+    // GET http://localhost:4000/users/{id}
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
