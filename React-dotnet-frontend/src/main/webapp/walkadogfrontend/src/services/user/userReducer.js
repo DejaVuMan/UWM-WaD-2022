@@ -26,6 +26,12 @@ const reducer = (state = initialState, action) => {
                 users: [],
                 error: action.payload
             }
+        case UT.TRAINER_SUCCESS:
+            return {
+                users: action.payload,
+                trainerdata: action.traindat,
+                error: ''
+            }
         default:
             return state;
     }

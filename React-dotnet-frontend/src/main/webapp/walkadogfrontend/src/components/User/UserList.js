@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchUsers, fetchTrainers} from "../../services/index";
+import {fetchTrainersAndData} from "../../services/index";
 import "../../assets/css/Style.css";
-
+//fetchTrainers, fetchTrainerData
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -16,13 +16,16 @@ class UserList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []
+            users: [],
+            trainerdata: []
         };
     }
 
     componentDidMount() {
         //this.findAllRandomUsers();
-        this.props.fetchUsers();
+        // this.props.fetchUsers();
+        this.props.fetchTrainersAndData();
+        //this.props.fetchTrainerData();
     }
 
     // findAllRandomUsers() {
@@ -48,10 +51,16 @@ class UserList extends Component {
               },
           });
 
-        const userData = this.props.userData;
-        console.log(userData)
-        const users = userData.users;
-        console.log(users)
+        const trainersAll = this.props.trainers;
+        const trainersInd = trainersAll.users;
+
+        const trainersDataInd = trainersAll.trainerdata;
+        console.log("Displaying array data from trainersInd")
+        console.log(trainersInd)
+        console.log(trainersDataInd)
+
+        // console.log("Displaying array data from trainersDataInd")
+        // console.log(trainersDataInd)
 
         const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -64,7 +73,7 @@ class UserList extends Component {
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} columns={16}>
-                    {users.map((user, index) =>
+                    {trainersInd.map((user, index) =>
                         <Grid item xs={8} key={index}>
                             <Item>Name: {user.firstName} {user.lastName}</Item>
                             <Item>Username: {user.username}</Item>
@@ -77,16 +86,17 @@ class UserList extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        userData: state.user
+        trainers: state.user,
+        //trainersdata: state.trainerdata
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUsers: () => dispatch(fetchUsers()),
-        //fetchTrainers: () => dispatch (fetchTrainers())
+        fetchTrainersAndData: () => dispatch (fetchTrainersAndData())
     }
 }
 

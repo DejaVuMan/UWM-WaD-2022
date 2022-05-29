@@ -66,6 +66,7 @@ public class UserService : IUserService
 
     public IEnumerable<TrainerData> GetAllTrainerData() // then call this one
     {
+        Console.WriteLine("Entered GetAllTrainersData method");
         return _context.TrainerData;
     }
 
