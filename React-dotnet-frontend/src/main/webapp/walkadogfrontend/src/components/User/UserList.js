@@ -7,6 +7,8 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Rating from '@mui/material/Rating'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
@@ -17,15 +19,11 @@ class UserList extends Component {
         super(props);
         this.state = {
             users: [],
-            trainerdata: []
         };
     }
 
     componentDidMount() {
-        //this.findAllRandomUsers();
-        // this.props.fetchUsers();
         this.props.fetchTrainersAndData();
-        //this.props.fetchTrainerData();
     }
 
     // findAllRandomUsers() {
@@ -49,18 +47,18 @@ class UserList extends Component {
                   main: '#f50057',
                 },
               },
+            typography: {
+                color: '#3f51b5'
+              }
           });
 
         const trainersAll = this.props.trainers;
         const trainersInd = trainersAll.users;
 
         const trainersDataInd = trainersAll.trainerdata;
-        console.log("Displaying array data from trainersInd")
+        console.log("Displaying array data")
         console.log(trainersInd)
         console.log(trainersDataInd)
-
-        // console.log("Displaying array data from trainersDataInd")
-        // console.log(trainersDataInd)
 
         const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -74,9 +72,9 @@ class UserList extends Component {
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} columns={16}>
                     {trainersInd.map((user, index) =>
-                        <Grid item xs={8} key={index}>
+                        <Grid item xs={8} key={index}> {/* Index here related to the index of the element from mapping, NOT index of user.*/}
                             <Item>Name: {user.firstName} {user.lastName}</Item>
-                            <Item>Username: {user.username}</Item>
+                            {TrainerRating(trainersDataInd, user.id)}
                         </Grid>
                     )}
                 </Grid>
@@ -86,11 +84,31 @@ class UserList extends Component {
     }
 }
 
+function TrainerRating(trainersDataInd, id) {
+    for(var i = 0; i < trainersDataInd.length; i++)
+    {
+        if(trainersDataInd[i].userId === id)
+        {
+            return(
+                <div>
+                    <Typography component="legend" color="primary.secondary">Rating based on {trainersDataInd[i].ratingCount} reviews:</Typography>
+                    <Rating name="read-only" value={trainersDataInd[i].currentRating} readOnly />
+                </div>
+            )
+        }
+    }
+    return(
+    <div>
+        <Typography component="legend" color="primary.secondary">This trainer doesn't have any reviews yet!</Typography>
+        <Rating name="read-only" value={0} readOnly />
+    </div>
+    )
+}
+
 const mapStateToProps = (state) => {
     console.log(state)
     return {
         trainers: state.user,
-        //trainersdata: state.trainerdata
     }
 }
 
