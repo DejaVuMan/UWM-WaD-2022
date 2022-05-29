@@ -74,7 +74,7 @@ class UserList extends Component {
                 <Grid container spacing={2} columns={16}>
                     {trainersInd.map((user, index) =>
                         <Grid item xs={8} key={index}> {/* Index here related to the index of the element from mapping, NOT index of user.*/}
-                        <Link to={"#"}>
+                        <Link to={"/users/"+user.id}>
                             <Item>Name: {user.firstName} {user.lastName}</Item>
                             {TrainerRating(trainersDataInd, user.id, Item)}
                         </Link>
