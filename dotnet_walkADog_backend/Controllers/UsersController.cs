@@ -27,6 +27,7 @@ public class UsersController : ControllerBase
         _appSettings = appSettings.Value;
     }
 
+    // POST http://localhost:4000/users/authenticate
     [AllowAnonymous]
     [HttpPost("authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
@@ -35,6 +36,7 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
+    // POST http://localhost:4000/users/register
     [AllowAnonymous]
     [HttpPost("register")]
     public IActionResult Register(RegisterRequest model)
@@ -43,21 +45,32 @@ public class UsersController : ControllerBase
         return Ok(new { message = "Registration successful" });
     }
 
+    // GET http://localhost:4000/users
     [HttpGet]
     public IActionResult GetAll()
     {
-        var users = _userService.GetAll();
+        var users = _userService.GetAll();//_userService.GetAll();
         return Ok(users);
     }
 
+    // GET http://localhost:4000/users/trainers
     [HttpGet("trainers")]
     public IActionResult GetAllTrainers()
     {
-        var trainers = _userService.GetAllTrainerData();
-        Console.WriteLine(trainers.First());
+        var trainers = _userService.GetAllTrainers();
         return Ok(trainers);
     }
 
+    // GET http://localhost:4000/users/trainersdata
+    [HttpGet("trainersdata")]
+    public IActionResult GetAllTrainerData()
+    {
+        var trainersdata = _userService.GetAllTrainerData();
+        return Ok(trainersdata);
+    }
+
+
+    // GET http://localhost:4000/register
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
@@ -65,6 +78,7 @@ public class UsersController : ControllerBase
         return Ok(user);
     }
 
+    // PUT http://localhost:4000/users/{id}
     [HttpPut("{id}")]
     public IActionResult Update(int id, UpdateRequest model)
     {
@@ -72,6 +86,7 @@ public class UsersController : ControllerBase
         return Ok(new { message = "User updated successfully" });
     }
 
+    // DELETE http://localhost:4000/user/id
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {

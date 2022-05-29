@@ -1,16 +1,17 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchUsers} from "../../services/index";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faFastBackward,
-    faFastForward,
-    faStepBackward,
-    faStepForward,
-    faUser
-} from "@fortawesome/free-solid-svg-icons";
-import {Card, InputGroup, Table, FormControl, Button, Alert} from "react-bootstrap";
+import {fetchTrainersAndData} from "../../services/index";
+import {Link} from 'react-router-dom';
 import "../../assets/css/Style.css";
+//fetchTrainers, fetchTrainerData
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Rating from '@mui/material/Rating'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 
 class UserList extends Component {
@@ -19,14 +20,11 @@ class UserList extends Component {
         super(props);
         this.state = {
             users: [],
-            obecnaStrona: 1,
-            usersNaStrone: 5,
         };
     }
 
     componentDidMount() {
-        //this.findAllRandomUsers();
-        this.props.fetchUsers();
+        this.props.fetchTrainersAndData();
     }
 
     // findAllRandomUsers() {
@@ -37,143 +35,98 @@ class UserList extends Component {
     //         });
     // };
 
-    zmienStrone = event => {
-        this.setState({
-            [event.target.name]: parseInt(event.target.value)
-        })
-    }
-
-    pierwszaStrona = () => {
-        if(this.state.obecnaStrona >1) {
-            this.setState({
-                obecnaStrona: 1
-            })
-        }
-    }
-
-    poprzedniaStrona = () => {
-        if(this.state.obecnaStrona >1) {
-            this.setState({
-                obecnaStrona: this.state.obecnaStrona - 1
-            })
-        }
-    }
-
-    ostatniaStrona = () => {
-        let usersLength = this.props.userData.users.length;
-        if(this.state.obecnaStrona < Math.ceil(usersLength / this.state.usersNaStrone)) {
-            this.setState({
-                obecnaStrona: Math.ceil(usersLength / this.state.usersNaStrone)
-            })
-        }
-    }
-
-    nastepnaStrona = () => {
-        if(this.state.obecnaStrona < Math.ceil(this.props.userData.users.length / this.state.usersNaStrone)) {
-            this.setState({
-                obecnaStrona: this.state.obecnaStrona + 1
-            })
-        }
-    }
-
     render() {
-        console.log("Call on UserList")
-        const {obecnaStrona, usersNaStrone} = this.state;
-        const ostatniIndeks = obecnaStrona * usersNaStrone;
-        const pierwszyIndeks = ostatniIndeks - usersNaStrone;
 
-        const userData = this.props.userData;
-        const users = userData.users;
-        const obecniUsers = users && users.slice(pierwszyIndeks, ostatniIndeks);
-        const wszystkieStrony = users.length / usersNaStrone;
-        console.log(users)
+        const theme = createTheme({
+            palette: {
+                mode: 'dark',
+                primary: {
+                  main: '#3f51b5',
+                  secondary: '#D3D3D3',
+                },
+                secondary: {
+                  main: '#f50057',
+                },
+              },
+            typography: {
+                color: '#3f51b5'
+              }
+          });
+
+        const trainersAll = this.props.trainers;
+        const trainersInd = trainersAll.users;
+
+        const trainersDataInd = trainersAll.trainerdata;
+        console.log("Displaying array data")
+        console.log(trainersInd)
+        console.log(trainersDataInd)
+
+        const Item = styled(Paper)(({ theme }) => ({
+            backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+            ...theme.typography.body2,
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            color: theme.palette.text.secondary,
+          })); 
         return (
-            <div>
-                {userData.erorr ?
-                    <Alert variant={"danger"}>
-                        {userData.error}
-
-                    </Alert> :
-                    <Card className={"border border-dark bg-dark text-white"}>
-                        <Card.Header><FontAwesomeIcon icon={faUser}/> Lista użytkowników</Card.Header>
-                        <Card.Body>
-                            <Table bordered hover striped variant="dark">
-                                <thead>
-                                <tr>
-                                    <td>Imie i Nazwisko</td>
-                                    <td>Username</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {users.length === 0 ?
-                                    <tr>
-                                        <td colSpan={6}>Brak dostępnych użytkowników.</td>
-                                    </tr> :
-                                    obecniUsers.map((user, index) =>(
-                                        <tr key={index}>
-                                            <td>{user.firstName}{' '}{user.lastName}</td>
-                                            <td>{user.username}</td>
-                                        </tr>
-                                    ))
-                                }
-                                </tbody>
-                            </Table>
-                        </Card.Body>
-                        {users.length > 0 ?
-                            <Card.Footer>
-                                <div style={{"float": "left"}}>
-                                    Strona {obecnaStrona} z {wszystkieStrony}
-                                </div>
-                                <div style={{"float": "right"}}>
-                                    <InputGroup size={"sm"}>
-                                        <InputGroup.Prepend>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === 1 ? true : false}
-                                                    onClick={this.pierwszaStrona}>
-                                                <FontAwesomeIcon icon={faFastBackward}/>Pierwsza
-                                            </Button>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === 1 ? true : false}
-                                                    onClick={this.poprzedniaStrona}>
-                                                <FontAwesomeIcon icon={faStepBackward}/>Poprzednia
-                                            </Button>
-                                        </InputGroup.Prepend>
-                                        <FormControl className={"stronaCss bg-dark"} name="obecnaStrona"
-                                                     value={obecnaStrona}
-                                                     onChange={this.zmienStrone}/>
-                                        <InputGroup.Append>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === wszystkieStrony ? true : false}
-                                                    onClick={this.nastepnaStrona}>
-                                                <FontAwesomeIcon icon={faStepForward}/>Nastepna
-                                            </Button>
-                                            <Button type={"button"} variant={"outline-info"}
-                                                    disabled={obecnaStrona === wszystkieStrony ? true : false}
-                                                    onClick={this.ostatniaStrona}>
-                                                <FontAwesomeIcon icon={faFastForward}/>Ostatnia
-                                            </Button>
-                                        </InputGroup.Append>
-                                    </InputGroup>
-                                </div>
-                            </Card.Footer> : null
-                        }
-                    </Card>
-
-                }
-            </div>
+        <ThemeProvider theme={theme}>
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={2} columns={16}>
+                    {trainersInd.map((user, index) =>
+                        <Grid item xs={8} key={index}> {/* Index here related to the index of the element from mapping, NOT index of user.*/}
+                        <Link to={"/users/"+user.id}>
+                            <Item>Name: {user.firstName} {user.lastName}</Item>
+                            {TrainerRating(trainersDataInd, user.id, Item)}
+                        </Link>
+                        </Grid>
+                    )}
+                </Grid>
+            </Box>
+        </ThemeProvider>
         );
     }
 }
 
-const mapStateToProps = state => {
+function TrainerRating(trainersDataInd, id, Item) {
+    for(var i = 0; i < trainersDataInd.length; i++)
+    {
+        if(trainersDataInd[i].userId === id)
+        {
+            if(trainersDataInd[i].ratingCount < 1)
+            {
+                return(
+                    <Item>
+                        <Typography component="legend" color="primary.secondary">This trainer doesn't have any reviews yet!</Typography>
+                        <Rating name="read-only" value={0} readOnly />
+                    </Item>
+                )  
+            }
+            return(
+                <Item>
+                    <Typography component="legend" color="primary.secondary">Rating based on {trainersDataInd[i].ratingCount} reviews:</Typography>
+                    <Rating name="read-only" value={trainersDataInd[i].currentRating} precision={0.5} readOnly />
+                </Item>
+            )
+        }
+    }
+    return(
+        <Item>
+            <Typography component="legend" color="primary.secondary">This trainer doesn't have any reviews yet!</Typography>
+            <Rating name="read-only" value={0} readOnly />
+        </Item>
+    )
+}
+
+const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        userData: state.user
+        trainers: state.user,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUsers: () => dispatch(fetchUsers())
+        fetchTrainersAndData: () => dispatch (fetchTrainersAndData())
     }
 }
 

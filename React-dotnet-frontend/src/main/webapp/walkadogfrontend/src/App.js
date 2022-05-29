@@ -9,6 +9,7 @@ import TaskList from "./components/Task/TaskList";
 import UserList from "./components/User/UserList";
 import Login from "./components/User/Login";
 import Register from "./components/User/Register";
+import UserProfile from "./components/User/UserProfile";
 import Home from "./components/Home";
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
@@ -36,6 +37,7 @@ const App = () => {
                   <Route path="/edit/:id" exact component={Task}/>
                   <Route path="/list" exact component={TaskList}/>
                   <Route path="/users" exact component={UserList}/>
+                  <Route path="/users/:id" exact component={UserProfile}/>
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>

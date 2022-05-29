@@ -17,6 +17,48 @@ export const fetchUsers = () => {
     }
 }
 
+export const fetchTrainers = () => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/users/trainers", localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })
+    }
+}
+
+export const fetchTrainerData = () => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/users/trainersdata", localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })        
+    }
+}
+
+export const fetchTrainersAndData = () => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.all([axios.get("http://localhost:4000/users/trainers", localStorage.getItem('jwtToken')),
+        axios.get("http://localhost:4000/users/trainersdata", localStorage.getItem('jwtToken'))])
+        .then(axios.spread((...responses) =>{
+            dispatch(trainerSuccess(responses[0].data, responses[1].data))
+            //dispatch(userSuccess(responses[1].data))
+        })
+        )
+        .catch(errors => {
+            dispatch(userFailure(errors.message))
+        })
+    }
+}
+
 export const registerUser = (firstname, lastname, username, password, isTrainer) => async (dispatch) => {
     dispatch(userRequest())
     try {
@@ -52,6 +94,13 @@ const userSuccess = users => {
     return {
         type: UT.USER_SUCCESS,
         payload: users
+    }
+}
+
+const trainerSuccess = (users, traindat) => {
+    return {
+        type: UT.TRAINER_SUCCESS,
+        payload: users, traindat
     }
 }
 

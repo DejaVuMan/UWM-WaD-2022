@@ -17,6 +17,7 @@ public interface IUserService
     void Delete(int id);
 
     IEnumerable<TrainerData> GetAllTrainerData();
+    IEnumerable<User> GetAllTrainers();
 
     //void InsertTrainerTable(int id);
 }
@@ -58,12 +59,14 @@ public class UserService : IUserService
 
     public IEnumerable<User> GetAllTrainers() // call this one first when displaying trainers
     {
-        return _context.Users.Where(check => check.IsTrainer);
+        Console.WriteLine("Entered GetAllTrainers method");
+        return _context.Users.Where(elem => elem.IsTrainer == true);
         // return only users which selected trainer during options
     }
 
     public IEnumerable<TrainerData> GetAllTrainerData() // then call this one
     {
+        Console.WriteLine("Entered GetAllTrainersData method");
         return _context.TrainerData;
     }
 
