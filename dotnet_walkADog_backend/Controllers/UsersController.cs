@@ -69,7 +69,7 @@ public class UsersController : ControllerBase
         return Ok(trainersdata);
     }
 
-    // GET http://localhost:4000/users/trainersdata
+    // GET http://localhost:4000/users/trainersdata/{id}
     [HttpGet("trainersdata/{id}")]
     public IActionResult GetTrainerDataById(int id)
     {
