@@ -36,6 +36,7 @@ const App = () => {
                   <Route path="/edit/:id" exact component={Task}/>
                   <Route path="/list" exact component={TaskList}/>
                   <Route path="/users" exact component={UserList}/>
+                  <Route path="/users/:id" exact component={"#"}/>
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
