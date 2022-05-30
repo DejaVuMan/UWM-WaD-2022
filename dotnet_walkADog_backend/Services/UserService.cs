@@ -19,6 +19,8 @@ public interface IUserService
     IEnumerable<TrainerData> GetAllTrainerData();
     IEnumerable<User> GetAllTrainers();
 
+    TrainerData GetTrainerDataById(int id);
+
     //void InsertTrainerTable(int id);
 }
 
@@ -49,6 +51,15 @@ public class UserService : IUserService
         // authentication successful
         var response = _mapper.Map<AuthenticateResponse>(user);
         response.Token = _jwtUtils.GenerateToken(user);
+        if(user.IsTrainer){
+            response.IsTrainer = true;
+        }
+        else
+        {
+            response.IsTrainer = false;
+        }
+        Console.WriteLine(response.Username);
+        Console.WriteLine(response.IsTrainer);
         return response;
     }
 
@@ -68,6 +79,11 @@ public class UserService : IUserService
     {
         Console.WriteLine("Entered GetAllTrainersData method");
         return _context.TrainerData;
+    }
+
+    public TrainerData GetTrainerDataById(int id)
+    {
+        return getTrainerData(id);
     }
 
     public User GetById(int id)
@@ -153,5 +169,13 @@ public class UserService : IUserService
         var user = _context.Users.Find(id);
         if (user == null) throw new KeyNotFoundException("User not found");
         return user;
+    }
+
+    private TrainerData getTrainerData(int id)
+    {
+        var dbId = _context.TrainerData.Where(elem => elem.userId == id);
+        var trainerData = dbId.FirstOrDefault();
+        if(trainerData == null) throw new KeyNotFoundException("Trainer data not found");
+        return trainerData;
     }
 }

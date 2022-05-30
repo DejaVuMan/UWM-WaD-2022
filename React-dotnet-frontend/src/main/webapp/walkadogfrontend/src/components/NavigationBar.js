@@ -64,6 +64,7 @@ const NavigationBar = () => {
         setAnchorElUser(null);
     };
 
+    console.log(auth)
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -117,9 +118,11 @@ const NavigationBar = () => {
               }}
             >
               {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([idx, value]) => (
-                <MenuItem key={idx} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{idx}</Typography>
-                </MenuItem>
+                <Link to={value} key={idx}>
+                  <MenuItem key={idx} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{idx}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
