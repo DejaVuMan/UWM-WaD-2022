@@ -3,11 +3,12 @@ import {connect} from "react-redux";
 //import {useParams} from 'react-router-dom';
 import {fetchTrainersAndDataById} from "../../services/index";
 
-import { CardContent, CardHeader, CardMedia } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import Card from '@mui/material/Card'
+import { Rating } from "@mui/material";
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
 
 class UserProfile extends Component {
     constructor(props) {
@@ -40,8 +41,15 @@ class UserProfile extends Component {
                 },
               },
             typography: {
-                color: '#3f51b5'
-              }
+                title:{
+                    color: '#D3D3D3',
+                    fontSize: 36
+                },
+                rating:{
+                    color: '#D3D3D3',
+                    textAlign: 'center' 
+                }
+              },
           });
 
         const trainersSum = this.props.trainersind;
@@ -53,28 +61,51 @@ class UserProfile extends Component {
         console.log(trainersIndividual)
         console.log(trainersDataInd)
 
-        const Item = styled(Paper)(({ theme }) => ({
-            backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-          })); 
+        // const Item = styled(Paper)(({ theme }) => ({
+        //     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        //     ...theme.typography.body2,
+        //     padding: theme.spacing(1),
+        //     textAlign: 'center',
+        //     color: theme.palette.text.secondary,
+        //   })); 
           return(
             <ThemeProvider theme={theme}>
-                <Card sx={{minWidth: 275}}>
-                    <CardContent>
-                    </CardContent>
-                    <CardMedia
-                        component="img"
-                        height="194"
-                        image="https://s3.cfluent.com/cdn-uploads/3524/1497367462-dogs-training-2-1024x683.jpg"
-                        alt="Dog in disguise as a Dog Trainer"
-                    />
-                    <CardContent>
-                        Test
-                    </CardContent>
-                </Card>
+                <Grid
+                    container
+                    justify = "center"
+                    alignItems = "center"
+                    direction = "column"
+                    style={{ minHeight: "100vh" }}
+                    rowSpacing={3}
+                >
+                    <Grid item>
+                        <Typography variant="title">
+                            {trainersIndividual.firstName} {trainersIndividual.lastName}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Avatar 
+                        src="https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/11/alone-Best-Dp-Profile-Images-For-Instagram-photo.gif"
+                        sx={{ width: 384, height: 384, alignSelf: 'center' }}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Box
+                            sx={{
+                                width: 300,
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Rating value={trainersDataInd.currentRating === undefined ? 3 : trainersDataInd.currentRating} precision={0.5} readOnly/>
+                            {<Box sx={{ ml: 10 }}> 
+                                <Typography variant="rating">
+                                    Rating based on {trainersDataInd.currentRating === undefined ? 0 : trainersDataInd.ratingCount} reviews
+                                </Typography>
+                            </Box>}
+                        </Box>
+                    </Grid>
+                </Grid>
               </ThemeProvider>
           )
     }
