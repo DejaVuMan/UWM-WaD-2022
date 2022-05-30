@@ -14,7 +14,7 @@ class UserProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []
+            users: [],
         };
     }
 
@@ -27,6 +27,12 @@ class UserProfile extends Component {
             this.props.fetchTrainersAndDataById(this.props.match.params.id);
         }
     }
+
+    componentWillUnmount() {
+
+    }
+
+
 
     render() {
         const theme = createTheme({
@@ -86,7 +92,7 @@ class UserProfile extends Component {
                     <Grid item>
                         <Avatar 
                         src="https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/11/alone-Best-Dp-Profile-Images-For-Instagram-photo.gif"
-                        sx={{ width: 384, height: 384, alignSelf: 'center' }}
+                        sx={{ width: '40vh', height: '40vh', alignSelf: 'center' }} // use vh for good enough size on desktop and near ideal size on mobile
                         />
                     </Grid>
                     <Grid item>
@@ -98,7 +104,7 @@ class UserProfile extends Component {
                             }}
                         >
                             <Rating value={trainersDataInd.currentRating === undefined ? 3 : trainersDataInd.currentRating} precision={0.5} readOnly/>
-                            {<Box sx={{ ml: 10 }}> 
+                            {<Box sx={{ ml: 8, display: 'flex', alignItems: 'center', }}> 
                                 <Typography variant="rating">
                                     Rating based on {trainersDataInd.currentRating === undefined ? 0 : trainersDataInd.ratingCount} reviews
                                 </Typography>

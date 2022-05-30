@@ -11,7 +11,8 @@ export const authenticateUser = (username, password) => async (dispatch) => {
             password: password,
         });
         localStorage.setItem('jwtToken', response.data.token);
-        dispatch(success({username: response.data.name, isLoggedIn: true }));
+        console.log(response.data)
+        dispatch(success({username: response.data.username, isLoggedIn: true, isTrainer: response.data.isTrainer }));
         return Promise.resolve(response.data)
     } catch (error) {
         dispatch(failure());

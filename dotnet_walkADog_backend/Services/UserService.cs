@@ -51,6 +51,15 @@ public class UserService : IUserService
         // authentication successful
         var response = _mapper.Map<AuthenticateResponse>(user);
         response.Token = _jwtUtils.GenerateToken(user);
+        if(user.IsTrainer){
+            response.IsTrainer = true;
+        }
+        else
+        {
+            response.IsTrainer = false;
+        }
+        Console.WriteLine(response.Username);
+        Console.WriteLine(response.IsTrainer);
         return response;
     }
 
