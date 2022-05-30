@@ -139,6 +139,16 @@ class UserProfile extends Component {
                             <Item>Email: dogTraXXXXXX@gmail.com</Item>
                         </Stack>
                     </Grid>
+                    <Grid item>
+                        <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        >
+                            Reserve me...
+                        </Button>
+                    </Grid>
                 </Grid>
             </ThemeProvider>
           )
