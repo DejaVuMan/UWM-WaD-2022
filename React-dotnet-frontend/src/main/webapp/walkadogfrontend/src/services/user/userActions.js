@@ -92,6 +92,22 @@ export const registerUser = (firstname, lastname, username, password, isTrainer)
     }
 }
 
+export const userUpdate = (firstname, lastname, username, password, id) => async (dispatch) => {
+    return dispatch => {
+        dispatch(userRequest()) // might change this to userUpdate()?
+            axios.put("http://localhost:4000/users/" + id, {
+                firstname: firstname,
+                lastname: lastname,
+                username: username,
+                password: password
+            }).then(response => {
+                dispatch(updateSuccess(response))
+            }).catch(error => {
+                dispatch(updateFailure(error))
+            })
+    }
+}
+
 const userRequest = () => {
     return {
         type: UT.USER_REQUEST
@@ -109,6 +125,20 @@ const userSuccess = users => {
     return {
         type: UT.USER_SUCCESS,
         payload: users
+    }
+}
+
+const updateSuccess = (users, traindat) => { // return copy of new record after PUT
+    return {
+        type: UT.UPDATE_SUCCESS,
+        payload: users, traindat // if user is not trainer, traindat remains empty
+    }
+}
+
+const updateFailure = (error) => {
+    return {
+        type: UT.UPDATE_FAILURE,
+        payload: error
     }
 }
 
