@@ -10,6 +10,7 @@ import UserList from "./components/User/UserList";
 import Login from "./components/User/Login";
 import Register from "./components/User/Register";
 import TrainerProfile from "./components/User/TrainerProfile";
+import UpdateProfile from "./components/User/UpdateProfile";
 import Home from "./components/Home";
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
@@ -35,7 +36,7 @@ const App = () => {
                   <Route path="/" exact component={Welcome}/>
                   <Route path="/home" exact component={Home}/>
                   <Route path="/add" exact component={Task}/>
-                  <Route path="/edit/:id" exact component={Task}/>
+                  <Route path="/edit/:id" exact component={UpdateProfile}/>
                   <Route path="/list" exact component={TaskList}/>
                   <Route path="/users" exact component={UserList}/>
                   <Route path="/users/:id" exact component={TrainerProfile}/>

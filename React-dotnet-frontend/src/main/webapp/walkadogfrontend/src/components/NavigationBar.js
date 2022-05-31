@@ -63,7 +63,7 @@ const NavigationBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    console.log("Logging Auth value")
     console.log(auth)
   return (
     <AppBar position="static">
