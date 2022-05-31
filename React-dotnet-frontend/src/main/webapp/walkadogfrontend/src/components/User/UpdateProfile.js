@@ -44,7 +44,6 @@ class UpdateProfile extends Component {
                 <h1> no auth! </h1>
             )
         }
-
     }
 }
 
