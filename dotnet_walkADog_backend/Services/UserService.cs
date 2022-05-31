@@ -124,6 +124,8 @@ public class UserService : IUserService
 
     public void Update(int id, UpdateRequest model)
     {
+        Console.WriteLine();
+        Console.WriteLine("Updating user data.");
         var user = getUser(id);
 
         // validate
@@ -133,6 +135,12 @@ public class UserService : IUserService
         // hash password if it was entered
         if (!string.IsNullOrEmpty(model.Password))
             user.PasswordHash = BCrypt.HashPassword(model.Password);
+
+        // if user.IsTrainer -> GetTrainerDataById(id)
+        if(user.IsTrainer)
+        {
+            Console.WriteLine("User to update is also a trainer.");
+        }
 
         // copy model to user and save
         _mapper.Map(model, user);
@@ -174,7 +182,7 @@ public class UserService : IUserService
     private TrainerData getTrainerData(int id)
     {
         var dbId = _context.TrainerData.Where(elem => elem.userId == id);
-        var trainerData = dbId.FirstOrDefault();
+        var trainerData = dbId.FirstOrDefault(); // ensure if it doesnt exist, we dont throw exception in setting trainerData
         if(trainerData == null) throw new KeyNotFoundException("Trainer data not found");
         return trainerData;
     }
