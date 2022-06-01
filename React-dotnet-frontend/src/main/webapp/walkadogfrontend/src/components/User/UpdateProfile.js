@@ -103,7 +103,11 @@ class UpdateProfile extends Component {
                             </Typography>
                             {<Box sx={{ ml: 1, display: 'flex', alignItems: 'center', }}> 
                                 <img src={userIndividual.isTrainer? trainerIcon : ownerIcon} alt="Trainer or User Icon" height={userIndividual.isTrainer? "32" : "48"}></img>
-                                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                                <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
+                                    onClick={() =>{
+                                        alert('clicked');
+                                    }}
+                                >
                                     Edit...
                                 </Button>
                             </Box>}
