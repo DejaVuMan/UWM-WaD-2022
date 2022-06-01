@@ -13,10 +13,11 @@ import TrainerProfile from "./components/User/TrainerProfile";
 import UpdateProfile from "./components/User/UpdateProfile";
 import Home from "./components/Home";
 
+//import AuthProvider from "../src/services/user/auth/authContext.js";
+
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 const App = () => {
-
   window.onbeforeunload = (event) => {
     const e = event || window.event;
     e.preventDefault();
@@ -25,7 +26,6 @@ const App = () => {
     }
     return '';
   }
-
   return (
     <Router>
       <NavigationBar/>

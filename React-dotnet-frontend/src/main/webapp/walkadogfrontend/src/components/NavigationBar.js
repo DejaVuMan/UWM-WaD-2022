@@ -24,9 +24,11 @@ const NavigationBar = () => {
 
     const auth = useSelector((state) => state.auth)
     const dispatch = useDispatch();
+    //const { setAuth, user } = useAuth();
 
     const logout = () => {
         dispatch(logoutUser())
+        //setAuth(false);
         console.log("Logged out.")
     }
     // <Link to={"login"}, {"/add"}, {"list"}, {"users"}, {"logout"}, {auth.isLoggedIn ? "home" : ""} + {auth.isLoggedIn ? userLinks : guestLinks}
