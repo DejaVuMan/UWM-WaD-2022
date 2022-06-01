@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import {connect} from "react-redux";
 //import {useParams} from 'react-router-dom';
 import {openfetchTrainersAndDataById} from "../../services/index";
@@ -21,8 +21,12 @@ class UpdateProfile extends Component {
         super(props);
         this.state = {
             users: [],
-            id: localStorage.getItem('loggedId')
+            id: localStorage.getItem('loggedId'),
+            editMode: false
         };
+
+        this.updateMode = this.updateMode.bind(this);
+        this.DisplaySaveButton = this.DisplaySaveButton.bind(this);
     }
 
     componentDidMount() {
@@ -30,7 +34,27 @@ class UpdateProfile extends Component {
         this.props.openfetchTrainersAndDataById(this.props.match.params.id);
     }
 
+    updateMode(){
+        this.setState({
+            editMode: !this.editMode
+        });
+    }
+
+    DisplaySaveButton = (state) => {
+        console.log("hello there");
+        console.log(this.state);
+        if(!this.state.editMode) return null;
+        return(
+            <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
+            onClick={this.updateMode}
+        >
+            Save Changes
+        </Button>
+        )
+    }
+
     render() {
+
         if(this.props.match.params.id !== this.state.id) // If LocalStorageID == ID of user we're trying to update alongside the bearer token sent in request
         {
             this.props.history.push("/home");
@@ -81,6 +105,7 @@ class UpdateProfile extends Component {
           })); 
 
         return (
+            <div>
             <ThemeProvider theme={theme}>
                 <Grid
                     container
@@ -103,12 +128,11 @@ class UpdateProfile extends Component {
                             {<Box sx={{ ml: 1, display: 'flex', alignItems: 'center', }}> 
                                 <img src={userIndividual.isTrainer? trainerIcon : ownerIcon} alt="Trainer or User Icon" height={userIndividual.isTrainer? "32" : "48"}></img>
                                 <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
-                                    onClick={() =>{
-
-                                    }}
+                                    onClick={this.updateMode}
                                 >
                                     Edit...
                                 </Button>
+                                {this.DisplaySaveButton(this.state)}
                             </Box>}
                         </Box>
                     </Grid>
@@ -133,6 +157,7 @@ class UpdateProfile extends Component {
                     </Grid>
                 </Grid>
             </ThemeProvider>
+            </div>
         )
     }
 }
