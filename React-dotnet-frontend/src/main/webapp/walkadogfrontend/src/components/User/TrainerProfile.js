@@ -24,10 +24,7 @@ class TrainerProfile extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        if(id)
-        {
-            this.props.fetchTrainersAndDataById(this.props.match.params.id);
-        }
+        this.props.fetchTrainersAndDataById(this.props.match.params.id);
     }
 
     componentWillUnmount() {
@@ -69,7 +66,7 @@ class TrainerProfile extends Component {
         const trainersIndividual = trainersSum.users;
 
         const trainersDataInd = trainersSum.trainerdata;
-        console.log("Displaying array data from UserProfile")
+        console.log("Displaying array data from TrainerProfile")
         console.log(trainersSum)
         console.log(trainersIndividual)
         console.log(trainersDataInd)
@@ -168,7 +165,7 @@ class TrainerProfile extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
+    //console.log(state)
     return {
         trainersind: state.user,
     }

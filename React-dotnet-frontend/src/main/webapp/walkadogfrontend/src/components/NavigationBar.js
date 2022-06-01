@@ -42,8 +42,8 @@ const NavigationBar = () => {
     //     </>
     // );
 
-    const authedItems = {'Show Dogs':"list", 'List Trainers':"users"}
-    const authedSettings = {'Profile':"home", 'Account':"#", 'Logout':"logout"};
+    const authedItems = {'Show Dogs':"list", 'List Trainers':"users"};
+    const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"logout"};
 
     const unAuthedItems = {'Login':"login"};
     const unAuthedSettings = {'Login':"login"};

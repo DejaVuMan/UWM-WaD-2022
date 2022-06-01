@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {connect, useDispatch, useSelector} from "react-redux";
+import {connect} from "react-redux";
 //import {useParams} from 'react-router-dom';
-import {fetchTrainersAndDataById} from "../../services/index";
+import {openfetchTrainersAndDataById} from "../../services/index";
 
 import { Grid, Typography, styled } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import trainerIcon from '../../assets/trainer.png'
+import ownerIcon from '../../assets/owner.png'
 
 class UpdateProfile extends Component {
     constructor(props) {
@@ -25,38 +26,122 @@ class UpdateProfile extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        if(id)
-        {
-            console.log(id);
-        }
+        this.props.openfetchTrainersAndDataById(this.props.match.params.id);
     }
+
+    
 
     render() {
-        if(this.props.match.params.id === this.state.id)
+        if(this.props.match.params.id !== this.state.id) // If LocalStorageID == ID of user we're trying to update alongside the bearer token sent in request
         {
-            return(
-                <h1> hello world! </h1>
-            )
+            this.props.history.push("/home");
         }
-        else
-        {
-            return(
-                <h1> no auth! </h1>
-            )
-        }
+
+        const userSum = this.props.trainersind;
+        const userIndividual = userSum.users;
+        const userDataInd = userSum.trainerdata;
+
+        console.log(userIndividual)
+
+        const theme = createTheme({
+            palette: {
+                mode: 'dark',
+                primary: {
+                  main: '#3f51b5',
+                  secondary: '#D3D3D3',
+                },
+                secondary: {
+                  main: '#f50057',
+                },
+              },
+            typography: {
+                title:{
+                    color: '#D3D3D3',
+                    fontSize: 36,
+                },
+                rating:{
+                    color: '#D3D3D3',
+                },
+                primarypart:{
+                    color: '#D3D3D3',
+                    fontSize: 24,
+                },
+                secondarypart:{
+                    color: '#D3D3D3',
+                    fontSize: 18,
+                }
+              },
+          });
+
+          const Item = styled(Paper)(({ theme }) => ({
+            backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+            ...theme.typography.body2,
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            color: theme.palette.text.secondary,
+          })); 
+
+        return (
+            <ThemeProvider theme={theme}>
+                <Grid
+                    container
+                    //justifyContent = "center"
+                    alignItems = "center"
+                    direction = "column"
+                    style={{ minHeight: "100vh" }}
+                    rowSpacing={3}
+                >
+                    <Grid item>
+                    <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Typography variant="title">
+                                {userIndividual.firstName} {userIndividual.lastName}
+                            </Typography>
+                            {<Box sx={{ ml: 1, display: 'flex', alignItems: 'center', }}> 
+                                <img src={userIndividual.isTrainer? trainerIcon : ownerIcon} alt="Trainer or User Icon" height={userIndividual.isTrainer? "32" : "48"}></img>
+                                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                                    Edit...
+                                </Button>
+                            </Box>}
+                        </Box>
+                    </Grid>
+                    <Grid item>
+                                <Avatar 
+                                src="https://i.kym-cdn.com/entries/icons/original/000/021/807/ig9OoyenpxqdCQyABmOQBZDI0duHk2QZZmWg2Hxd4ro.jpg"
+                                sx={{ width: '40vh', height: '40vh', alignSelf: 'center' }} // use vh for good enough size on desktop and near ideal size on mobile
+                                />
+                    </Grid>
+                    <Divider sx={{mt:2, width:'75%'}}>
+                        <Typography variant="primarypart">
+                            Contact Info
+                        </Typography>
+                    </Divider>
+                    <Grid item>
+                        <Stack direction="row" spacing={2}>
+                            <Item>Phone Number: +1 773 32X XXXX</Item>
+                            <Item>Email: dogOwnXXXXXX@aol.com</Item>
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </ThemeProvider>
+        )
     }
 }
 
-const mapStateToProps = () => { // state
+const mapStateToProps = (state) => { // state
     //console.log(state)
     return {
-        //trainersind: state.user,
+        trainersind: state.user,
     }
 }
 
-const mapDispatchToProps = () => { // dispatch
+const mapDispatchToProps = (dispatch) => { // dispatch
     return {
-        //fetchTrainersAndDataById: (id) => dispatch (fetchTrainersAndDataById(id))
+        openfetchTrainersAndDataById: (id) => dispatch (openfetchTrainersAndDataById(id))
     }
 }
 

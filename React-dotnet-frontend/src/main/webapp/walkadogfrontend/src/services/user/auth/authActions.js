@@ -25,6 +25,7 @@ export const logoutUser = () => {
     return (dispatch) => {
         dispatch(logoutRequest());
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('loggedId');
         dispatch(success({username: '', isLoggedIn: false }))
     }
 }

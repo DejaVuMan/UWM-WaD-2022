@@ -47,7 +47,7 @@ export const fetchTrainersAndDataById = trainerId => {
     return dispatch => {
         dispatch(userRequest())
         axios.all([axios.get("http://localhost:4000/users/" + trainerId, localStorage.getItem('jwtToken')),
-        axios.get("http://localhost:4000/users/trainersdata/" + trainerId, localStorage.getItem('jwtToken'))])
+        axios.get("http://localhost:4000/users/trainersdata/" + trainerId, localStorage.getItem('jwtToken'))]) // if empty return null
         .then(axios.spread((...responses) =>{
             dispatch(trainerSuccess(responses[0].data, responses[1].data))
             //dispatch(userSuccess(responses[1].data))
@@ -58,6 +58,23 @@ export const fetchTrainersAndDataById = trainerId => {
         })
     }
 }
+
+export const openfetchTrainersAndDataById = trainerId => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.all([axios.get("http://localhost:4000/users/" + trainerId, localStorage.getItem('jwtToken')),
+        axios.get("http://localhost:4000/users/opentrainersdata/" + trainerId, localStorage.getItem('jwtToken'))]) // if empty return null
+        .then(axios.spread((...responses) =>{
+            dispatch(trainerSuccess(responses[0].data, responses[1].data))
+            //dispatch(userSuccess(responses[1].data))
+        })
+        )
+        .catch(errors => {
+            dispatch(userFailure(errors.message))
+        })
+    }
+}
+
 
 export const fetchTrainersAndData = () => {
     return dispatch => {
