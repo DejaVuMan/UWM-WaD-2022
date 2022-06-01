@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import trainerIcon from '../../assets/trainer.png'
 import ownerIcon from '../../assets/owner.png'
+import Image from 'mui-image'
 
 class UpdateProfile extends Component {
     constructor(props) {
@@ -25,11 +26,9 @@ class UpdateProfile extends Component {
     }
 
     componentDidMount() {
-        const id = this.props.match.params.id;
+        //const id = this.props.match.params.id;
         this.props.openfetchTrainersAndDataById(this.props.match.params.id);
     }
-
-    
 
     render() {
         if(this.props.match.params.id !== this.state.id) // If LocalStorageID == ID of user we're trying to update alongside the bearer token sent in request
@@ -114,10 +113,12 @@ class UpdateProfile extends Component {
                         </Box>
                     </Grid>
                     <Grid item>
-                                <Avatar 
-                                src="https://i.kym-cdn.com/entries/icons/original/000/021/807/ig9OoyenpxqdCQyABmOQBZDI0duHk2QZZmWg2Hxd4ro.jpg"
-                                sx={{ width: '40vh', height: '40vh', alignSelf: 'center' }} // use vh for good enough size on desktop and near ideal size on mobile
-                                />
+                        <Image class="test"
+                        src="https://i.kym-cdn.com/entries/icons/original/000/021/807/ig9OoyenpxqdCQyABmOQBZDI0duHk2QZZmWg2Hxd4ro.jpg"
+                        width='40vh' height='40vh' showLoading
+                        style={{borderRadius: '50%'}}
+                        // use vh for good enough size on desktop and near ideal size on mobile
+                        />
                     </Grid>
                     <Divider sx={{mt:2, width:'75%'}}>
                         <Typography variant="primarypart">
