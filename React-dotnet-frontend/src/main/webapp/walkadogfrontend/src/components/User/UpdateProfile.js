@@ -104,7 +104,7 @@ class UpdateProfile extends Component {
                                 <img src={userIndividual.isTrainer? trainerIcon : ownerIcon} alt="Trainer or User Icon" height={userIndividual.isTrainer? "32" : "48"}></img>
                                 <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
                                     onClick={() =>{
-                                        alert('clicked');
+
                                     }}
                                 >
                                     Edit...
@@ -113,7 +113,7 @@ class UpdateProfile extends Component {
                         </Box>
                     </Grid>
                     <Grid item>
-                        <Image class="test"
+                        <Image
                         src="https://i.kym-cdn.com/entries/icons/original/000/021/807/ig9OoyenpxqdCQyABmOQBZDI0duHk2QZZmWg2Hxd4ro.jpg"
                         width='40vh' height='40vh' showLoading
                         style={{borderRadius: '50%'}}
