@@ -32,6 +32,16 @@ const reducer = (state = initialState, action) => {
                 trainerdata: action.traindat,
                 error: ''
             }
+        case UT.UPDATE_SUCCESS:
+            return {
+                users: action.payload,
+                trainerdata: action.traindat,
+                error: ''
+            }
+        case UT.UPDATE_FAILURE:
+            return {
+                error: action.payload
+            }
         default:
             return state;
     }

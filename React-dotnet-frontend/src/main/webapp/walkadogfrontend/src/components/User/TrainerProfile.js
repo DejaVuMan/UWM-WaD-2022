@@ -12,8 +12,9 @@ import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
+import trainerIcon from '../../assets/trainer.png'
 
-class UserProfile extends Component {
+class TrainerProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,10 +24,7 @@ class UserProfile extends Component {
 
     componentDidMount() {
         const id = this.props.match.params.id;
-        if(id)
-        {
-            this.props.fetchTrainersAndDataById(this.props.match.params.id);
-        }
+        this.props.fetchTrainersAndDataById(this.props.match.params.id);
     }
 
     componentWillUnmount() {
@@ -68,7 +66,7 @@ class UserProfile extends Component {
         const trainersIndividual = trainersSum.users;
 
         const trainersDataInd = trainersSum.trainerdata;
-        console.log("Displaying array data from UserProfile")
+        console.log("Displaying array data from TrainerProfile")
         console.log(trainersSum)
         console.log(trainersIndividual)
         console.log(trainersDataInd)
@@ -91,9 +89,19 @@ class UserProfile extends Component {
                     rowSpacing={3}
                 >
                     <Grid item>
-                        <Typography variant="title">
-                            {trainersIndividual.firstName} {trainersIndividual.lastName}
-                        </Typography>
+                    <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Typography variant="title">
+                                {trainersIndividual.firstName} {trainersIndividual.lastName}
+                            </Typography>
+                            {<Box sx={{ ml: 1, display: 'flex', alignItems: 'center', }}> 
+                                <img src={trainerIcon} alt="Trainer Icon" height="32"></img>
+                            </Box>}
+                        </Box>
                     </Grid>
                     <Grid item>
                         <Avatar 
@@ -157,7 +165,7 @@ class UserProfile extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
+    //console.log(state)
     return {
         trainersind: state.user,
     }
@@ -169,4 +177,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(TrainerProfile);

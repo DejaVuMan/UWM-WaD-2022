@@ -21,6 +21,8 @@ public interface IUserService
 
     TrainerData GetTrainerDataById(int id);
 
+    TrainerData OpenGetTrainerDataById(int id);
+
     //void InsertTrainerTable(int id);
 }
 
@@ -86,6 +88,11 @@ public class UserService : IUserService
         return getTrainerData(id);
     }
 
+    public TrainerData OpenGetTrainerDataById(int id) // open ended call not necessitate data
+    {
+     return getDataOpenEnded(id);   
+    }
+
     public User GetById(int id)
     {
         return getUser(id);
@@ -124,6 +131,8 @@ public class UserService : IUserService
 
     public void Update(int id, UpdateRequest model)
     {
+        Console.WriteLine();
+        Console.WriteLine("Updating user data.");
         var user = getUser(id);
 
         // validate
@@ -134,10 +143,17 @@ public class UserService : IUserService
         if (!string.IsNullOrEmpty(model.Password))
             user.PasswordHash = BCrypt.HashPassword(model.Password);
 
+        // if user.IsTrainer -> GetTrainerDataById(id)
+        if(user.IsTrainer)
+        {
+            Console.WriteLine("User to update is also a trainer.");
+        }
+
         // copy model to user and save
         _mapper.Map(model, user);
         _context.Users.Update(user);
         _context.SaveChanges();
+        Console.WriteLine("Changes Added!");
     }
 
     public void Delete(int id)
@@ -166,16 +182,27 @@ public class UserService : IUserService
 
     private User getUser(int id)
     {
+        Console.WriteLine("entered method for user retrieval");
         var user = _context.Users.Find(id);
         if (user == null) throw new KeyNotFoundException("User not found");
+        Console.WriteLine("no exceptions thrown");
         return user;
+    }
+
+    private TrainerData getDataOpenEnded(int id) // similar to getTrainerData but doesnt necessitate response
+    {
+        var dbId = _context.TrainerData.Where(elem => elem.userId == id);
+        var trainerData = dbId.FirstOrDefault(); // ensure exception isnt thrown
+        return trainerData;
     }
 
     private TrainerData getTrainerData(int id)
     {
+        Console.WriteLine("Entered TrainerData");
         var dbId = _context.TrainerData.Where(elem => elem.userId == id);
-        var trainerData = dbId.FirstOrDefault();
+        var trainerData = dbId.FirstOrDefault(); // ensure if it doesnt exist, we dont throw exception in setting trainerData
         if(trainerData == null) throw new KeyNotFoundException("Trainer data not found");
+        Console.WriteLine("no exceptions thrown");
         return trainerData;
     }
 }

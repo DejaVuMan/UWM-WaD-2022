@@ -24,9 +24,11 @@ const NavigationBar = () => {
 
     const auth = useSelector((state) => state.auth)
     const dispatch = useDispatch();
+    //const { setAuth, user } = useAuth();
 
     const logout = () => {
         dispatch(logoutUser())
+        //setAuth(false);
         console.log("Logged out.")
     }
     // <Link to={"login"}, {"/add"}, {"list"}, {"users"}, {"logout"}, {auth.isLoggedIn ? "home" : ""} + {auth.isLoggedIn ? userLinks : guestLinks}
@@ -40,8 +42,8 @@ const NavigationBar = () => {
     //     </>
     // );
 
-    const authedItems = {'Show Dogs':"list", 'List Trainers':"users"}
-    const authedSettings = {'Profile':"home", 'Account':"#", 'Logout':"logout"};
+    const authedItems = {'Show Dogs':"list", 'List Trainers':"users"};
+    const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"logout"};
 
     const unAuthedItems = {'Login':"login"};
     const unAuthedSettings = {'Login':"login"};
@@ -63,7 +65,7 @@ const NavigationBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    console.log("Logging Auth value(s) from NavBar")
     console.log(auth)
   return (
     <AppBar position="static">

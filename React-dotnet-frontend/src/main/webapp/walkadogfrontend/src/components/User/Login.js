@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 //import Dialog from '@mui/material/Dialog';
+//const { setAuth } = useAuth();
 
 const theme = createTheme({
     palette: {
@@ -42,6 +43,7 @@ const Login = (props) => {
       dispatch(authenticateUser(data.get('username'), data.get('password')))
         .then((response) => {
             console.log(response.data)
+            //setAuth(true);
             return props.history.push("/home")
         })
         .catch((error) => {
