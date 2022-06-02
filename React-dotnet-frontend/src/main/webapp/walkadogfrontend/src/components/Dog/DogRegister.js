@@ -11,6 +11,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Snackbar, Alert } from '@mui/material';
 
 const theme = createTheme({
     palette: {
@@ -27,9 +28,21 @@ const theme = createTheme({
 
   const DogRegister = (props) => {
 
-    const dispatch = useDispatch();
+    const [open, successOpen, checked] = React.useState(false);
+
+    const handleSuccess = () => {
+        successOpen(true);
+      };
     
-    const [checked] = React.useState(false);
+      const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        successOpen(false);
+      };
+
+    const dispatch = useDispatch();
 
     const saveDog = (event) => {
         event.preventDefault();
@@ -39,7 +52,7 @@ const theme = createTheme({
       dispatch(registerDog(localStorage.getItem('loggedId'),data.get('Name'),data.get('Breed'),data.get('ObedienceLevel'), checked? true : false))
         .then((response) => {
             console.log(response.data)
-            return props.history.push("/home")
+            handleSuccess()
         })
         .catch((error) => {
             console.log(error.message)
@@ -142,6 +155,11 @@ const theme = createTheme({
                 </Box>
                 </Box>
             </Container>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Your dog was added succesfully!
+                </Alert>
+            </Snackbar>
             </ThemeProvider>
         );
 }
