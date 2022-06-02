@@ -36,7 +36,7 @@ const theme = createTheme({
 
         const data = new FormData(event.currentTarget);
 
-      dispatch(registerDog(data.get(localStorage.getItem('loggedId')),data.get('Name'),data.get('Breed'),data.get('ObedienceLevel'), checked? true : false))
+      dispatch(registerDog(localStorage.getItem('loggedId'),data.get('Name'),data.get('Breed'),data.get('ObedienceLevel'), checked? true : false))
         .then((response) => {
             console.log(response.data)
             return props.history.push("/home")

@@ -32,7 +32,14 @@ public class DogsController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register(RegisterDog model)
     {
-        _dogService.Register(model);
+        try
+        {
+            _dogService.Register(model);
+        } 
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+        }
         return Ok(new { message = "Registration successful" });
     }
 }

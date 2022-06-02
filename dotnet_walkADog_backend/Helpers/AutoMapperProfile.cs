@@ -3,6 +3,7 @@ namespace WebApi.Helpers;
 using AutoMapper;
 using WebApi.Entities;
 using WebApi.Models.Users;
+using WebApi.Models.Dogs;
 
 public class AutoMapperProfile : Profile
 {
@@ -13,6 +14,9 @@ public class AutoMapperProfile : Profile
 
         // RegisterRequest -> User
         CreateMap<RegisterRequest, User>();
+
+        // RegisterDog -> Dog
+        CreateMap<RegisterDog, Dog>();
 
         // UpdateRequest -> User
         CreateMap<UpdateRequest, User>()
