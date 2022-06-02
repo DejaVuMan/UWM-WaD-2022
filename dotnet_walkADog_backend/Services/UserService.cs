@@ -129,17 +129,6 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    public void RegisterDog(RegisterDog model)
-    {
-        // map model to new dog object
-        var dog = _mapper.Map<Dog>(model);
-
-        // save dog
-        _context.Dogs.Add(dog);
-
-        _context.SaveChanges();
-    }
-
     public void Update(int id, UpdateRequest model)
     {
         Console.WriteLine();
