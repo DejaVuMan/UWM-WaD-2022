@@ -14,6 +14,8 @@ import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import trainerIcon from '../../assets/trainer.png'
 import ownerIcon from '../../assets/owner.png'
+import { TextField } from "@mui/material";
+
 import Image from 'mui-image'
 
 class UpdateProfile extends Component {
@@ -26,7 +28,7 @@ class UpdateProfile extends Component {
         };
 
         this.updateMode = this.updateMode.bind(this);
-        this.DisplaySaveButton = this.DisplaySaveButton.bind(this);
+        this.saveData = this.saveData.bind(this);
     }
 
     componentDidMount() {
@@ -35,22 +37,14 @@ class UpdateProfile extends Component {
     }
 
     updateMode(){
-        this.setState({
-            editMode: !this.editMode
-        });
+        this.setState(prevState => ({
+            editMode: !prevState.editMode
+        }));
+        console.log(this.state.editMode);
     }
 
-    DisplaySaveButton = (state) => {
-        console.log("hello there");
-        console.log(this.state);
-        if(!this.state.editMode) return null;
-        return(
-            <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
-            onClick={this.updateMode}
-        >
-            Save Changes
-        </Button>
-        )
+    saveData(){
+        this.updateMode();
     }
 
     render() {
@@ -123,7 +117,9 @@ class UpdateProfile extends Component {
                             }}
                         >
                             <Typography variant="title">
-                                {userIndividual.firstName} {userIndividual.lastName}
+                                {this.state.editMode? <TextField required id="firstName" label="First Name" variant="filled" defaultValue={userIndividual.firstName} sx ={{m:1}}/> : userIndividual.firstName + ' '}
+
+                                {this.state.editMode? <TextField required id="lastName" label="last Name" variant="filled" defaultValue={userIndividual.lastName} sx ={{m:1}}/> : userIndividual.lastName}
                             </Typography>
                             {<Box sx={{ ml: 1, display: 'flex', alignItems: 'center', }}> 
                                 <img src={userIndividual.isTrainer? trainerIcon : ownerIcon} alt="Trainer or User Icon" height={userIndividual.isTrainer? "32" : "48"}></img>
@@ -132,7 +128,7 @@ class UpdateProfile extends Component {
                                 >
                                     Edit...
                                 </Button>
-                                {this.DisplaySaveButton(this.state)}
+                                {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }}onClick={this.saveData}> Save </Button> : null}
                             </Box>}
                         </Box>
                     </Grid>
