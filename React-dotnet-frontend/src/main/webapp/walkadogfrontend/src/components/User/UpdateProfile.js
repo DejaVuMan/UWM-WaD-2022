@@ -33,6 +33,7 @@ class UpdateProfile extends Component {
 
         this.updateMode = this.updateMode.bind(this);
         this.updateInputValue = this.updateInputValue.bind(this);
+        this.updateProfile = this.updateProfile.bind(this);
     }
 
     componentDidMount() {
@@ -40,7 +41,7 @@ class UpdateProfile extends Component {
         this.props.openfetchTrainersAndDataById(this.props.match.params.id);
     }
 
-    updateMode(){
+    updateMode() {
         this.setState(prevState => ({
             editMode: !prevState.editMode
         }));
@@ -57,14 +58,16 @@ class UpdateProfile extends Component {
     }
 
     updateProfile() {
-        this.props.userUpdate(this.state.firstName, this.state.lastName, this.state.id)
+        this.props.userUpdate(this.state.firstName, this.state.lastName, this.state.id);
+        this.updateMode();
     }
 
     render() {
 
         if(this.props.match.params.id !== this.state.id) // If LocalStorageID == ID of user we're trying to update alongside the bearer token sent in request
         {
-            this.props.history.push("/home");
+            console.log("non equal id");
+            //this.props.history.push("/home");
         }
 
         const userSum = this.props.trainersind;
@@ -72,44 +75,6 @@ class UpdateProfile extends Component {
         const userDataInd = userSum.trainerdata;
 
         console.log(userIndividual)
-
-        const theme = createTheme({
-            palette: {
-                mode: 'dark',
-                primary: {
-                  main: '#3f51b5',
-                  secondary: '#D3D3D3',
-                },
-                secondary: {
-                  main: '#f50057',
-                },
-              },
-            typography: {
-                title:{
-                    color: '#D3D3D3',
-                    fontSize: 36,
-                },
-                rating:{
-                    color: '#D3D3D3',
-                },
-                primarypart:{
-                    color: '#D3D3D3',
-                    fontSize: 24,
-                },
-                secondarypart:{
-                    color: '#D3D3D3',
-                    fontSize: 18,
-                }
-              },
-          });
-
-          const Item = styled(Paper)(({ theme }) => ({
-            backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-          })); 
 
         return (
             <div>
@@ -150,11 +115,11 @@ class UpdateProfile extends Component {
                             {<Box sx={{ ml: 1, display: 'flex', alignItems: 'center', }}> 
                                 <img src={userIndividual.isTrainer? trainerIcon : ownerIcon} alt="Trainer or User Icon" height={userIndividual.isTrainer? "32" : "48"}></img>
                                 <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
-                                    onClick={this.updateMode} disabled={this.state.editMode}
+                                onClick={this.updateMode} disabled={this.state.editMode} 
                                 >
                                     Edit...
                                 </Button>
-                                {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }}onClick={this.updateProfile()}> Save </Button> : null}
+                                {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }}onClick={this.updateProfile}> Save </Button> : null}
                             </Box>}
                         </Box>
                     </Grid>
@@ -184,6 +149,44 @@ class UpdateProfile extends Component {
         )
     }
 }
+
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: {
+          main: '#3f51b5',
+          secondary: '#D3D3D3',
+        },
+        secondary: {
+          main: '#f50057',
+        },
+      },
+    typography: {
+        title:{
+            color: '#D3D3D3',
+            fontSize: 36,
+        },
+        rating:{
+            color: '#D3D3D3',
+        },
+        primarypart:{
+            color: '#D3D3D3',
+            fontSize: 24,
+        },
+        secondarypart:{
+            color: '#D3D3D3',
+            fontSize: 18,
+        }
+      },
+  });
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
 const mapStateToProps = (state) => { // state
     //console.log(state)
