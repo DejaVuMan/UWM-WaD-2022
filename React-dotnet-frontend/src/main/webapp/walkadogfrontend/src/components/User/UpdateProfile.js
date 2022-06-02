@@ -27,7 +27,7 @@ class UpdateProfile extends Component {
             users: [],
             id: localStorage.getItem('loggedId'),
             editMode: false,
-            firstName: "Nicholas",
+            firstName: null,
             lastName: null
         };
 
@@ -53,13 +53,14 @@ class UpdateProfile extends Component {
         console.log("Call on updateInputValue");
         console.log(val);
         this.setState({
-            lastName: val
+            [evt.target.id]: val
         });
     }
 
     updateProfile() {
         this.props.userUpdate(this.state.firstName, this.state.lastName, this.state.id);
         this.updateMode();
+        this.props.history.push("/home");
     }
 
     render() {
@@ -101,6 +102,7 @@ class UpdateProfile extends Component {
                                 label="First Name" 
                                 variant="filled" 
                                 defaultValue={userIndividual.firstName} 
+                                onChange={evt => this.updateInputValue(evt)}
                                 sx={{m:1}}/> : userIndividual.firstName + ' '}
 
                                 {this.state.editMode? 
