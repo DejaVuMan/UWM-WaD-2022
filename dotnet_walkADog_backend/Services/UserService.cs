@@ -153,6 +153,7 @@ public class UserService : IUserService
         _mapper.Map(model, user);
         _context.Users.Update(user);
         _context.SaveChanges();
+        Console.WriteLine("Changes Added!");
     }
 
     public void Delete(int id)

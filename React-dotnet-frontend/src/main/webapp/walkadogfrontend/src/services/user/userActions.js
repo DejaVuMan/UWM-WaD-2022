@@ -109,20 +109,18 @@ export const registerUser = (firstname, lastname, username, password, isTrainer)
     }
 }
 
-export const userUpdate = (firstname, lastname, username, password, id) => async (dispatch) => {
-    return dispatch => {
-        dispatch(userRequest()) // might change this to userUpdate()?
-            axios.put("http://localhost:4000/users/" + id, {
+export const userUpdate = (firstname, lastname, id) => async (dispatch) => { // username, password,
+    dispatch(userRequest())
+    try {
+        axios.put("http://localhost:4000/users/" + id, {
                 firstname: firstname,
-                lastname: lastname,
-                username: username,
-                password: password
-            }).then(response => {
-                dispatch(updateSuccess(response))
-            }).catch(error => {
-                dispatch(updateFailure(error))
-            })
-    }
+                lastname: lastname
+            }, localStorage.getItem('jwtToken'))
+            .then(response => {
+            console.log(response)})
+        } catch(error) {
+            console.log(error.message)
+        }
 }
 
 const userRequest = () => {
