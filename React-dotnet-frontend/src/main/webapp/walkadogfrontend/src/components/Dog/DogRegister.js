@@ -28,18 +28,28 @@ const theme = createTheme({
 
   const DogRegister = (props) => {
 
-    const [open, successOpen, checked] = React.useState(false);
+    const [open, successOpen, checked, failOpen] = React.useState(false);
 
-    const handleSuccess = () => {
-        successOpen(true);
+    const handleSuccessOpen = () => {
+            successOpen(true);
       };
+
+    const handleFailOpen = () => {
+        failOpen(true);
+    }
     
-      const handleClose = (event, reason) => {
+    const handleSuccessClose = (event, reason) => {
         if (reason === 'clickaway') {
           return;
         }
-    
         successOpen(false);
+      };
+
+    const handleFailClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        failOpen(false);
       };
 
     const dispatch = useDispatch();
@@ -52,10 +62,11 @@ const theme = createTheme({
       dispatch(registerDog(localStorage.getItem('loggedId'),data.get('Name'),data.get('Breed'),data.get('ObedienceLevel'), checked? true : false))
         .then((response) => {
             console.log(response.data)
-            handleSuccess()
+            handleSuccessOpen()
         })
         .catch((error) => {
             console.log(error.message)
+            handleFailOpen()
         })
     }
     return (
@@ -155,9 +166,14 @@ const theme = createTheme({
                 </Box>
                 </Box>
             </Container>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-                Your dog was added succesfully!
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleSuccessClose}>
+                <Alert onClose={handleSuccessClose} severity="success" sx={{ width: '100%' }}>
+                    "Your dog was added succesfully!"
+                </Alert>
+            </Snackbar>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleFailClose}>
+                <Alert onClose={handleFailClose} severity="error" sx={{ width: '100%' }}>
+                    "Your data ran away! Please try again."
                 </Alert>
             </Snackbar>
             </ThemeProvider>

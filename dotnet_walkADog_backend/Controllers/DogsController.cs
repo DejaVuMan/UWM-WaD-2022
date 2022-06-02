@@ -35,11 +35,12 @@ public class DogsController : ControllerBase
         try
         {
             _dogService.Register(model);
+            return Ok(new { message = "Registration successful" });
         } 
         catch(Exception e)
         {
             Console.WriteLine(e);
+            return Ok(new { message = "User tried to add a dog with an already existing name"});
         }
-        return Ok(new { message = "Registration successful" });
     }
 }

@@ -30,14 +30,22 @@ public class DogService : IDogService
 
     public void Register(RegisterDog model)
     {
-        Console.WriteLine("Entered Register for Dog");
+        var nameUniqueness = _context.Dogs.Where(x => x.userId == model.userId);
+
+        if(nameUniqueness.Any())
+        {
+            foreach(var elem in nameUniqueness)
+            {
+                if(elem.Name == model.Name)
+                    throw new AppException("You already added a dog named " + model.Name);
+            }
+        }
+
         // map model to new dog object
         var dog = _mapper.Map<Dog>(model);
-        Console.WriteLine("Mapped Dog");
 
         // save dog
         _context.Dogs.Add(dog);
-        Console.WriteLine("Added Dog");
 
         _context.SaveChanges();
         Console.WriteLine("Saved Dog");
