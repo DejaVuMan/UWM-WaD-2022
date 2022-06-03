@@ -109,6 +109,20 @@ export const registerUser = (firstname, lastname, username, password, isTrainer)
     }
 }
 
+export const userUpdate = (firstname, lastname, id) => async (dispatch) => { // username, password,
+    dispatch(userRequest())
+    try {
+        axios.put("http://localhost:4000/users/" + id, {
+                firstname: firstname,
+                lastname: lastname
+            }, localStorage.getItem('jwtToken'))
+            .then(response => {
+            console.log(response)})
+        } catch(error) {
+            console.log(error.message)
+        }
+}
+
 export const registerDog = (userId, Name, Breed, ObedienceLevel) => async (dispatch) => {
     dispatch(userRequest())
     try {
@@ -128,18 +142,17 @@ export const registerDog = (userId, Name, Breed, ObedienceLevel) => async (dispa
     }
 }
 
-export const userUpdate = (firstname, lastname, id) => async (dispatch) => { // username, password,
-    dispatch(userRequest())
-    try {
-        axios.put("http://localhost:4000/users/" + id, {
-                firstname: firstname,
-                lastname: lastname
-            }, localStorage.getItem('jwtToken'))
-            .then(response => {
-            console.log(response)})
-        } catch(error) {
-            console.log(error.message)
-        }
+export const fetchDogs = () => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/users/dogs", localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })
+    }
 }
 
 const userRequest = () => {
