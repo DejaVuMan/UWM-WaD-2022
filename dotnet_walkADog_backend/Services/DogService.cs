@@ -9,6 +9,8 @@ using WebApi.Models.Dogs;
 public interface IDogService
 {
     void Register(RegisterDog model);
+
+    IEnumerable<Dog> GetDogs(int id);
 }
 
 public class DogService : IDogService
@@ -49,5 +51,11 @@ public class DogService : IDogService
 
         _context.SaveChanges();
         Console.WriteLine("Saved Dog");
+    }
+
+    public IEnumerable<Dog> GetDogs(int id)
+    {
+        // return all dogs in IEnumerable where userId matches passed id
+        return _context.Dogs.Where(elem => elem.userId == id);
     }
 }
