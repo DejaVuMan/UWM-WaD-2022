@@ -53,7 +53,6 @@ const Register = (props) => {
             console.log(error.message)
         })
     }
-
         return (
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">

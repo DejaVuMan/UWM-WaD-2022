@@ -180,7 +180,7 @@ public class UserService : IUserService
 
     //helper methods
 
-    private User getUser(int id)
+    private User getUser(int id) // why is this entered for DogRegister call?
     {
         Console.WriteLine("entered method for user retrieval");
         var user = _context.Users.Find(id);

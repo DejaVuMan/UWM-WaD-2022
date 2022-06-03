@@ -109,6 +109,25 @@ export const registerUser = (firstname, lastname, username, password, isTrainer)
     }
 }
 
+export const registerDog = (userId, Name, Breed, ObedienceLevel) => async (dispatch) => {
+    dispatch(userRequest())
+    try {
+        const response = await axios.post("http://localhost:4000/dogs/register", {
+            userId: userId,
+            Name: Name,
+            Breed: Breed,
+            ObedienceLevel: ObedienceLevel
+        }, localStorage.getItem('jwtToken'));
+        dispatch(dogSavedSuccess(response.data))
+        console.log(response.data)
+        return Promise.resolve(response.data)
+    } catch(error) {
+        console.log(error)
+        dispatch(dogFailure(error.message))
+        return Promise.reject(error)
+    }
+}
+
 export const userUpdate = (firstname, lastname, id) => async (dispatch) => { // username, password,
     dispatch(userRequest())
     try {
@@ -133,6 +152,20 @@ const userSavedSuccess = (user) => {
     return {
         type: UT.USER_SAVED_SUCCESS,
         payload: user
+    }
+}
+
+const dogSavedSuccess = (dog) => {
+    return {
+        type: UT.DOG_SAVED_SUCCESS,
+        payload: dog
+    }
+}
+
+const dogFailure = (error) => {
+    return {
+        type: UT.DOG_FAILURE,
+        payload: error
     }
 }
 
