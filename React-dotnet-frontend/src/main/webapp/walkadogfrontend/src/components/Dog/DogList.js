@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchTrainersAndData} from "../../services/index";
+import {fetchDogs} from "../../services/index";
 import {Link} from 'react-router-dom';
 import "../../assets/css/Style.css";
 import { styled } from '@mui/material/styles';
@@ -8,10 +8,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Rating from '@mui/material/Rating'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-class UserList extends Component {
+class DogList extends Component {
 
     constructor(props) {
         super(props);
@@ -21,7 +20,7 @@ class UserList extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchTrainersAndData();
+        this.props.fetchDogs(parseInt(localStorage.getItem('loggedId')));
     }
 
     // findAllRandomUsers() {
@@ -33,6 +32,9 @@ class UserList extends Component {
     // };
 
     render() {
+        console.log("display from doglist")
+        console.log(localStorage.getItem('loggedId'))
+        console.log(Number.isInteger(parseInt(localStorage.getItem('loggedId'))))
 
         const theme = createTheme({
             palette: {
@@ -50,13 +52,12 @@ class UserList extends Component {
               }
           });
 
-        const trainersAll = this.props.trainers;
-        const trainersInd = trainersAll.users;
+        const dogsAll = this.props.dogs;
+        const dogsInd = dogsAll.users;
 
-        const trainersDataInd = trainersAll.trainerdata;
         console.log("Displaying array data")
-        console.log(trainersInd)
-        console.log(trainersDataInd)
+        console.log(dogsAll)
+        console.log(dogsInd)
 
         const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -69,11 +70,10 @@ class UserList extends Component {
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} columns={16}>
-                    {trainersInd.map((user, index) =>
+                    {dogsInd.map((dog, index) =>
                         <Grid item xs={8} key={index}> {/* Index here related to the index of the element from mapping, NOT index of user.*/}
-                        <Link to={"/users/"+user.id}>
-                            <Item>Name: {user.firstName} {user.lastName}</Item>
-                            {TrainerRating(trainersDataInd, user.id, Item)}
+                        <Link to={"/dogs/"+dog.id}>
+                            <Item>Name: {dog.name}</Item>
                         </Link>
                         </Grid>
                     )}
@@ -82,36 +82,6 @@ class UserList extends Component {
         </ThemeProvider>
         );
     }
-}
-
-function TrainerRating(trainersDataInd, id, Item) {
-    for(var i = 0; i < trainersDataInd.length; i++)
-    {
-        if(trainersDataInd[i].userId === id)
-        {
-            if(trainersDataInd[i].ratingCount < 1)
-            {
-                return(
-                    <Item>
-                        <Typography component="legend" color="primary.secondary">This trainer doesn't have any reviews yet!</Typography>
-                        <Rating name="read-only" value={0} readOnly />
-                    </Item>
-                )  
-            }
-            return(
-                <Item>
-                    <Typography component="legend" color="primary.secondary">Rating based on {trainersDataInd[i].ratingCount} reviews:</Typography>
-                    <Rating name="read-only" value={trainersDataInd[i].currentRating} precision={0.5} readOnly />
-                </Item>
-            )
-        }
-    }
-    return(
-        <Item>
-            <Typography component="legend" color="primary.secondary">This trainer doesn't have any reviews yet!</Typography>
-            <Rating name="read-only" value={0} readOnly />
-        </Item>
-    )
 }
 
 const mapStateToProps = (state) => {
@@ -123,8 +93,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchTrainersAndData: () => dispatch (fetchTrainersAndData())
+        fetchDogs: (id) => dispatch (fetchDogs(id))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserList);
+export default connect(mapStateToProps, mapDispatchToProps)(DogList);

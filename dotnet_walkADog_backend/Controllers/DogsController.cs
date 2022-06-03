@@ -44,12 +44,22 @@ public class DogsController : ControllerBase
         }
     }
 
-    // GET http://localhost:4000/dogs
-    [HttpGet]
+    // GET http://localhost:4000/dogs/{id}
+    [HttpGet("{id}")]
     public IActionResult GetDogs(int id)
     {
-        var dogs = _dogService.GetDogs(id);//_userService.GetAll();
-        return Ok(dogs);
+        try{
+            Console.WriteLine("Entered GetDogs call");
+            var dogs = _dogService.GetDogs(id);//_userService.GetAll();
+            Console.WriteLine(dogs.FirstOrDefault());
+            return Ok(dogs);
+        } 
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+            return Ok(new { message = "An error ocurred"});
+        }
+
     }
 
 }

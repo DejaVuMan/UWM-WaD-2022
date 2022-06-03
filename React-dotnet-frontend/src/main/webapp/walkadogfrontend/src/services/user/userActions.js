@@ -142,16 +142,17 @@ export const registerDog = (userId, Name, Breed, ObedienceLevel) => async (dispa
     }
 }
 
-export const fetchDogs = () => {
-    return dispatch => {
-        dispatch(userRequest())
-        axios.get("http://localhost:4000/users/dogs", localStorage.getItem('jwtToken'))
-        .then(response => {
+export const fetchDogs = (userId) => async (dispatch) => {
+    dispatch(userRequest())
+    try {
+        const response = await axios.get("http://localhost:4000/dogs/" + userId,  localStorage.getItem('jwtToken'));
             dispatch(userSuccess(response.data))
-        })
-        .catch(error => {
-            dispatch(userFailure(error.message))
-        })
+            console.log(response.data)
+            return Promise.resolve(response.data)
+    } catch(error) {
+        console.log(error)
+        dispatch(userFailure(error.message))
+        return Promise.reject(error)
     }
 }
 

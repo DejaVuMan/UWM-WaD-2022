@@ -55,7 +55,8 @@ public class DogService : IDogService
 
     public IEnumerable<Dog> GetDogs(int id)
     {
+        Console.WriteLine("ID: " + id);
         // return all dogs in IEnumerable where userId matches passed id
-        return _context.Dogs.Where(elem => elem.userId == id);
+        return _context.Dogs.Where(x => x.userId == id);
     }
 }
