@@ -235,19 +235,19 @@ const userSuccess = users => {
     }
 }
 
-const updateSuccess = (users, traindat) => { // return copy of new record after PUT
-    return {
-        type: UT.UPDATE_SUCCESS,
-        payload: users, traindat // if user is not trainer, traindat remains empty
-    }
-}
+// const updateSuccess = (users, traindat) => { // return copy of new record after PUT
+//     return {
+//         type: UT.UPDATE_SUCCESS,
+//         payload: users, traindat // if user is not trainer, traindat remains empty
+//     }
+// }
 
-const updateFailure = (error) => {
-    return {
-        type: UT.UPDATE_FAILURE,
-        payload: error
-    }
-}
+// const updateFailure = (error) => {
+//     return {
+//         type: UT.UPDATE_FAILURE,
+//         payload: error
+//     }
+// }
 
 const trainerSuccess = (users, traindat) => {
     return {

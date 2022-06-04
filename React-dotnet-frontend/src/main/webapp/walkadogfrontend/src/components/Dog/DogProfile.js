@@ -1,5 +1,5 @@
-import React, {Component, useState} from "react";
-import {connect, useDispatch} from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import {fetchDogById, dogUpdate, removeDogById} from "../../services/index";
 
 import { Grid, Typography, styled } from "@mui/material";

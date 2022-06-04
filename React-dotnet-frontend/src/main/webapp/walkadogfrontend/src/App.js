@@ -3,7 +3,7 @@ import './App.css';
 import NavigationBar from "./components/NavigationBar";
 import {Container, Row, Col} from "react-bootstrap";
 import Welcome from "./components/Welcome";
-import Footer from "./components/Footer";
+//import Footer from "./components/Footer";
 import Task from "./components/Task/Task";
 import TaskList from "./components/Task/TaskList";
 import UserList from "./components/User/UserList";
