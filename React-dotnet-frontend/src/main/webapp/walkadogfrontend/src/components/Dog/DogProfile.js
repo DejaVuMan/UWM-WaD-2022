@@ -30,6 +30,7 @@ class UpdateProfile extends Component {
         this.updateMode = this.updateMode.bind(this);
         this.updateInputValue = this.updateInputValue.bind(this);
         this.updateProfile = this.updateProfile.bind(this);
+        this.removeProfile = this.removeProfile.bind(this);
     }
 
     componentDidMount() {
@@ -131,7 +132,7 @@ class UpdateProfile extends Component {
                         </Stack>
                     </Grid>
                     <Grid item>
-                        {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }} onClick={this.updateProfile}> Remove </Button> : null}
+                        {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }} onClick={this.removeProfile}> Remove </Button> : null}
                     </Grid>
                 </Grid>
             </ThemeProvider>

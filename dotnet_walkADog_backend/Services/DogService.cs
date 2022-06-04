@@ -109,6 +109,7 @@ public class DogService : IDogService
     {
         var dog = getDog(id);
         _context.Dogs.Remove(dog);
+        _context.SaveChanges();
     }
 
         //helper methods

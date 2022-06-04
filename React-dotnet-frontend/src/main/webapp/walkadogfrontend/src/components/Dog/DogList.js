@@ -9,6 +9,8 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Avatar } from "@mui/material";
+import PetsIcon from '@mui/icons-material/Pets';
 
 class DogList extends Component {
 
@@ -70,9 +72,23 @@ class DogList extends Component {
                 <Grid container spacing={2} columns={16}>
                     {dogsInd.map((dog, index) =>
                         <Grid item xs={8} key={index}> {/* Index here related to the index of the element from mapping, NOT index of user.*/}
-                        <Link to={"/dogs/"+dog.id}>
-                            <Item>Name: {dog.name}</Item>
-                        </Link>
+                        <Item>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Link to={"/dogs/"+dog.id}>
+                                Name: {dog.name}
+                            </Link>
+                            {<Box sx={{ ml: 8, display: 'flex', alignItems: 'center', }}> 
+                            <Avatar>
+                                <PetsIcon />
+                            </Avatar>
+                            </Box>}
+                        </Box>
+                        </Item>
                         </Grid>
                     )}
                 </Grid>
