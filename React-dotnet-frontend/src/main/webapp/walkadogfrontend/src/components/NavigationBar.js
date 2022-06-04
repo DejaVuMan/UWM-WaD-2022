@@ -42,7 +42,7 @@ const NavigationBar = () => {
     //     </>
     // );
 
-    const authedItems = {'Show Dogs':"/dogs/" + 1, 'List Trainers':"users"};
+    const authedItems = {'Show Dogs':"/dogs", 'List Trainers':"users"};
     const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"logout"};
 
     const unAuthedItems = {'Login':"login"};

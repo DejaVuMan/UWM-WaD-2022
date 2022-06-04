@@ -158,18 +158,33 @@ export const fetchDogs = (userId) => async (dispatch) => {
     }
 }
 
-export const dogUpdate = (name, obediencelevel, id) => async (dispatch) => { // username, password,
+export const dogUpdate = (name, breed, obediencelevel, userId, id) => async (dispatch) => { // username, password,
     dispatch(userRequest())
     try {
         axios.put("http://localhost:4000/dogs/" + id, {
-                name: name,
-                obediencelevel: obediencelevel
+                Name: name,
+                Breed: breed,
+                ObedienceLevel: obediencelevel,
+                userId: userId
             }, localStorage.getItem('jwtToken'))
             .then(response => {
             console.log(response)})
         } catch(error) {
             console.log(error.message)
         }
+}
+
+export const fetchDogById = (userId) => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/dogs/" + userId, localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })  
+    }
 }
 
 

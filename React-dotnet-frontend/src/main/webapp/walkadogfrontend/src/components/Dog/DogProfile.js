@@ -18,9 +18,10 @@ class UpdateProfile extends Component {
         super(props);
         this.state = {
             users: [],
-            id: localStorage.getItem('loggedId'),
+            userid: localStorage.getItem('loggedId'),
             editMode: false,
             Name: null,
+            breed: "Dinosaur",
             ObedienceLevel: null
         };
 
@@ -31,7 +32,7 @@ class UpdateProfile extends Component {
 
     componentDidMount() {
         //const id = this.props.match.params.id;
-        this.props.fetchDogs(this.props.match.params.id);
+        this.props.fetchDogById(this.props.match.params.id);
     }
 
     updateMode() {
@@ -51,18 +52,12 @@ class UpdateProfile extends Component {
     }
 
     updateProfile() {
-        this.props.dogUpdate(this.state.Name, this.state.ObedienceLevel, this.state.id);
+        this.props.dogUpdate(this.state.Name, this.state.breed, this.state.ObedienceLevel, this.state.userid, this.props.match.params.id);
         this.updateMode();
         this.props.history.push("/home");
     }
 
     render() {
-
-        if(this.props.match.params.id !== this.state.id) // If LocalStorageID == ID of dog we're trying to update alongside the bearer token sent in request
-        {
-            console.log("non equal id");
-            //this.props.history.push("/home");
-        }
 
         const dogsAll = this.props.dogs;
         const dogIndividual = dogsAll.users;
@@ -90,12 +85,12 @@ class UpdateProfile extends Component {
                             <Typography variant="title">
                                 {this.state.editMode? 
                                 <TextField 
-                                required id="firstName" 
+                                required id="Name" 
                                 label="Name" 
                                 variant="filled" 
-                                defaultValue={dogIndividual.Name} 
+                                defaultValue={dogIndividual.name} 
                                 onChange={evt => this.updateInputValue(evt)}
-                                sx={{m:1}}/> : dogIndividual.Name + ' '}
+                                sx={{m:1}}/> : dogIndividual.name + ' '}
                             </Typography>
                             {<Box sx={{ ml: 1, display: 'flex', alignItems: 'center', }}> 
                                 <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}
@@ -164,14 +159,14 @@ const Item = styled(Paper)(({ theme }) => ({
 const mapStateToProps = (state) => { // state
     //console.log(state)
     return {
-        trainersind: state.user,
+        dogs: state.user,
     }
 }
 
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {
-        fetchDogById: (id) => dispatch (fetchDogs(id))
-        dogUpdate: (Name, ObedienceLevel, id) => dispatch (userUpdate(Name, ObedienceLevel, id))
+        fetchDogById: (id) => dispatch (fetchDogById(id)),
+        dogUpdate: (Name, breed, ObedienceLevel, userId, id) => dispatch (dogUpdate(Name, breed, ObedienceLevel, userId, id))
     }
 }
 

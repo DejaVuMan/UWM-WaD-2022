@@ -66,12 +66,13 @@ public class DogService : IDogService
 
     public void Update(int id, DogUpdateRequest model)
     {
-        Console.WriteLine();
+        Console.WriteLine(model.userId);
         Console.WriteLine("Updating dog data.");
         var dog = getDog(id);
 
+        try {
         // validate
-        var nameUniqueness = _context.Dogs.Where(x => x.userId == model.UserId);
+        var nameUniqueness = _context.Dogs.Where(x => x.userId == model.userId);
         if (model.Name != dog.Name)
         {
             if(nameUniqueness.Any())
@@ -89,6 +90,12 @@ public class DogService : IDogService
         _context.Dogs.Update(dog);
         _context.SaveChanges();
         Console.WriteLine("Dog changes Added!");
+
+        } 
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
 
     public Dog GetById(int id)
