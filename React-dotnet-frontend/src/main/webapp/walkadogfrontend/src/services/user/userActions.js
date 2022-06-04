@@ -145,10 +145,12 @@ export const registerDog = (userId, Name, Breed, ObedienceLevel) => async (dispa
 export const fetchDogs = (userId) => async (dispatch) => {
     dispatch(userRequest())
     try {
-        const response = await axios.get("http://localhost:4000/dogs/" + userId,  localStorage.getItem('jwtToken'));
-            dispatch(userSuccess(response.data))
-            console.log(response.data)
-            return Promise.resolve(response.data)
+        const response = await axios.post("http://localhost:4000/dogs",{
+            userId: userId
+        },  localStorage.getItem('jwtToken'));
+        dispatch(userSuccess(response.data))
+        console.log(response.data)
+        return Promise.resolve(response.data)
     } catch(error) {
         console.log(error)
         dispatch(userFailure(error.message))

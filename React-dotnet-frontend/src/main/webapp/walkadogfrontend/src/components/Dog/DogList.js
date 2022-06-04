@@ -20,7 +20,7 @@ class DogList extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchDogs(parseInt(localStorage.getItem('loggedId')));
+        this.props.fetchDogs(localStorage.getItem('loggedId'));
     }
 
     // findAllRandomUsers() {
@@ -33,8 +33,6 @@ class DogList extends Component {
 
     render() {
         console.log("display from doglist")
-        console.log(localStorage.getItem('loggedId'))
-        console.log(Number.isInteger(parseInt(localStorage.getItem('loggedId'))))
 
         const theme = createTheme({
             palette: {
