@@ -18,6 +18,7 @@ import Home from "./components/Home";
 //import AuthProvider from "../src/services/user/auth/authContext.js";
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import DogProfile from "./components/Dog/DogProfile";
 
 const App = () => {
   window.onbeforeunload = (event) => {
@@ -44,7 +45,8 @@ const App = () => {
                   <Route path="/users/:id" exact component={TrainerProfile}/>
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
-                  <Route path="/dogs/:id" exact component={DogList}/>
+                  <Route path="/dogs" exact component={DogList}/>
+                  <Route path="/dogs/:id" exact component={DogProfile}/>
                   <Route path="/dogs/register" exact component={DogRegister}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>

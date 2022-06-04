@@ -31,6 +31,19 @@ public class AutoMapperProfile : Profile
                 }
             ));
 
+        // DogUpdateRequest -> Dog
+        CreateMap<DogUpdateRequest, Dog>()
+            .ForAllMembers(x => x.Condition(
+                (src, dest, prop) =>
+                {
+                    // ignore null & empty string properties
+                    if (prop == null) return false;
+                    if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+
+                    return true;
+                }
+            ));
+
         //InsertTrainerTable -> TrainerData
         CreateMap<InsertTrainerTable, TrainerData>();
     }
