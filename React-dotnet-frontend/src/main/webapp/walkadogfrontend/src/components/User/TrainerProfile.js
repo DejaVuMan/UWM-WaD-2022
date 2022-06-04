@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 //import {useParams} from 'react-router-dom';
 import {fetchTrainersAndDataById} from "../../services/index";
-
+import { Link } from "react-router-dom";
 import { Grid, Typography, styled } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Rating } from "@mui/material";
@@ -23,7 +23,6 @@ class TrainerProfile extends Component {
     }
 
     componentDidMount() {
-        const id = this.props.match.params.id;
         this.props.fetchTrainersAndDataById(this.props.match.params.id);
     }
 
@@ -149,14 +148,16 @@ class TrainerProfile extends Component {
                         </Stack>
                     </Grid>
                     <Grid item>
-                        <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        >
-                            Reserve me...
-                        </Button>
+                        <Link to={"/users/" + 9 + "/reservations"}>
+                            <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            >
+                                Reserve me...
+                            </Button>
+                        </Link>
                     </Grid>
                 </Grid>
             </ThemeProvider>
