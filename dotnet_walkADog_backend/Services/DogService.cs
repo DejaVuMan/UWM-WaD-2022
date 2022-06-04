@@ -11,6 +11,10 @@ public interface IDogService
     void Register(RegisterDog model);
 
     IEnumerable<Dog> GetDogs(int id);
+
+    void Update(int id, DogUpdateRequest model);
+
+    public Dog GetById(int id);
 }
 
 public class DogService : IDogService
@@ -58,5 +62,47 @@ public class DogService : IDogService
         Console.WriteLine("ID: " + id);
         // return all dogs in IEnumerable where userId matches passed id
         return _context.Dogs.Where(x => x.userId == id);
+    }
+
+    public void Update(int id, DogUpdateRequest model)
+    {
+        Console.WriteLine();
+        Console.WriteLine("Updating dog data.");
+        var dog = getDog(id);
+
+        // validate
+        var nameUniqueness = _context.Dogs.Where(x => x.userId == model.UserId);
+        if (model.Name != dog.Name)
+        {
+            if(nameUniqueness.Any())
+            {
+                foreach(var elem in nameUniqueness)
+                {
+                    if(elem.Name == model.Name)
+                        throw new AppException("You already added a dog named " + model.Name);
+                }
+            }
+        }
+
+        // copy model to user and save
+        _mapper.Map(model, dog);
+        _context.Dogs.Update(dog);
+        _context.SaveChanges();
+        Console.WriteLine("Dog changes Added!");
+    }
+
+    public Dog GetById(int id)
+    {
+        return getDog(id);
+    }
+
+        //helper methods
+
+    private Dog getDog(int id) // why is this entered for DogRegister call?
+    {
+        Console.WriteLine("entered method for dog retrieval");
+        var dog = _context.Dogs.Find(id);
+        if (dog == null) throw new KeyNotFoundException("Dog not found");
+        return dog;
     }
 }

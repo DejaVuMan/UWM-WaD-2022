@@ -158,6 +158,21 @@ export const fetchDogs = (userId) => async (dispatch) => {
     }
 }
 
+export const dogUpdate = (name, obediencelevel, id) => async (dispatch) => { // username, password,
+    dispatch(userRequest())
+    try {
+        axios.put("http://localhost:4000/dogs/" + id, {
+                name: name,
+                obediencelevel: obediencelevel
+            }, localStorage.getItem('jwtToken'))
+            .then(response => {
+            console.log(response)})
+        } catch(error) {
+            console.log(error.message)
+        }
+}
+
+
 const userRequest = () => {
     return {
         type: UT.USER_REQUEST
