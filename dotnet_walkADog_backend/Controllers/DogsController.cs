@@ -76,6 +76,14 @@ public class DogsController : ControllerBase
     public IActionResult Update(int id, DogUpdateRequest model)
     {
         _dogService.Update(id, model);
-        return Ok(new { message = "User updated successfully" });
+        return Ok(new { message = "Dog updated successfully" });
+    }
+
+    // DELETE http://localhost:4000/dogs/{id}
+    [HttpDelete("{id}")]
+    public IActionResult DropById(int id)
+    {
+        _dogService.DropById(id);
+        return Ok(new { message = "Dog removed successfully" });
     }
 }

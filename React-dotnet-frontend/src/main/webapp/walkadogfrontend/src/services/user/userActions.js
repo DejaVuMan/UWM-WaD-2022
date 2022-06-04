@@ -187,6 +187,19 @@ export const fetchDogById = (userId) => {
     }
 }
 
+export const removeDogById = (userId) => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.delete("http://localhost:4000/dogs/" + userId, localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })  
+    }
+}
+
 
 const userRequest = () => {
     return {

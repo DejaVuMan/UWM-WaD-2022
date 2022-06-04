@@ -15,6 +15,8 @@ public interface IDogService
     void Update(int id, DogUpdateRequest model);
 
     public Dog GetById(int id);
+
+    public void DropById(int id);
 }
 
 public class DogService : IDogService
@@ -101,6 +103,12 @@ public class DogService : IDogService
     public Dog GetById(int id)
     {
         return getDog(id);
+    }
+
+    public void DropById(int id)
+    {
+        var dog = getDog(id);
+        _context.Dogs.Remove(dog);
     }
 
         //helper methods

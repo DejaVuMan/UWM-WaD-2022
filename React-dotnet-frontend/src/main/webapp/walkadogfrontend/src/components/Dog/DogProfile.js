@@ -1,6 +1,6 @@
 import React, {Component, useState} from "react";
 import {connect, useDispatch} from "react-redux";
-import {fetchDogById, dogUpdate} from "../../services/index";
+import {fetchDogById, dogUpdate, removeDogById} from "../../services/index";
 
 import { Grid, Typography, styled } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -59,6 +59,12 @@ class UpdateProfile extends Component {
         this.props.history.push("/home");
     }
 
+    removeProfile() {
+        this.props.removeDogById(this.props.match.params.id);
+        this.updateMode();
+        this.props.history.push("/home");
+    }
+
     render() {
 
         const dogsAll = this.props.dogs;
@@ -100,7 +106,7 @@ class UpdateProfile extends Component {
                                 >
                                     Edit...
                                 </Button>
-                                {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }}onClick={this.updateProfile}> Save </Button> : null}
+                                {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }} onClick={this.updateProfile}> Save </Button> : null}
                             </Box>}
                         </Box>
                     </Grid>
@@ -123,6 +129,9 @@ class UpdateProfile extends Component {
                             <Item>Breed: {dogIndividual.breed}</Item>
                             <Item>Obedience Level: {dogIndividual.obedienceLevel}</Item>
                         </Stack>
+                    </Grid>
+                    <Grid item>
+                        {this.state.editMode? <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2, ml: 2 }} onClick={this.updateProfile}> Remove </Button> : null}
                     </Grid>
                 </Grid>
             </ThemeProvider>
@@ -179,7 +188,8 @@ const mapStateToProps = (state) => { // state
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {
         fetchDogById: (id) => dispatch (fetchDogById(id)),
-        dogUpdate: (Name, breed, ObedienceLevel, userId, id) => dispatch (dogUpdate(Name, breed, ObedienceLevel, userId, id))
+        dogUpdate: (Name, breed, ObedienceLevel, userId, id) => dispatch (dogUpdate(Name, breed, ObedienceLevel, userId, id)),
+        removeDogById: (userId) => dispatch(removeDogById(userId))
     }
 }
 
