@@ -12,6 +12,7 @@ import Register from "./components/User/Register";
 import TrainerProfile from "./components/User/TrainerProfile";
 import UpdateProfile from "./components/User/UpdateProfile";
 import DogRegister from "./components/Dog/DogRegister";
+import DogList from "./components/Dog/DogList";
 import Home from "./components/Home";
 
 //import AuthProvider from "../src/services/user/auth/authContext.js";
@@ -43,6 +44,7 @@ const App = () => {
                   <Route path="/users/:id" exact component={TrainerProfile}/>
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
+                  <Route path="/dogs/:id" exact component={DogList}/>
                   <Route path="/dogs/register" exact component={DogRegister}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>

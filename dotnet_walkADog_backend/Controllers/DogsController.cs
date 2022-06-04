@@ -43,4 +43,21 @@ public class DogsController : ControllerBase
             return Ok(new { message = "User tried to add a dog with an already existing name"});
         }
     }
+
+    // GET http://localhost:4000/dogs     /{id}
+    [HttpPost] // ("{id}")
+    public IActionResult GetDogs(RequestDogs model)
+    {
+        try{
+            Console.WriteLine("Entered GetDogs call");
+            var dogs = _dogService.GetDogs(model.userId);//_userService.GetAll();
+            Console.WriteLine(dogs.FirstOrDefault());
+            return Ok(dogs);
+        } 
+        catch(Exception e)
+        {
+            Console.WriteLine(e);
+            return Ok(new { message = "An error ocurred"});
+        }
+    }
 }

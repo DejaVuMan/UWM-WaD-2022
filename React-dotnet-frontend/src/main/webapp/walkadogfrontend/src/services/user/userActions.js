@@ -109,6 +109,20 @@ export const registerUser = (firstname, lastname, username, password, isTrainer)
     }
 }
 
+export const userUpdate = (firstname, lastname, id) => async (dispatch) => { // username, password,
+    dispatch(userRequest())
+    try {
+        axios.put("http://localhost:4000/users/" + id, {
+                firstname: firstname,
+                lastname: lastname
+            }, localStorage.getItem('jwtToken'))
+            .then(response => {
+            console.log(response)})
+        } catch(error) {
+            console.log(error.message)
+        }
+}
+
 export const registerDog = (userId, Name, Breed, ObedienceLevel) => async (dispatch) => {
     dispatch(userRequest())
     try {
@@ -128,18 +142,20 @@ export const registerDog = (userId, Name, Breed, ObedienceLevel) => async (dispa
     }
 }
 
-export const userUpdate = (firstname, lastname, id) => async (dispatch) => { // username, password,
+export const fetchDogs = (userId) => async (dispatch) => {
     dispatch(userRequest())
     try {
-        axios.put("http://localhost:4000/users/" + id, {
-                firstname: firstname,
-                lastname: lastname
-            }, localStorage.getItem('jwtToken'))
-            .then(response => {
-            console.log(response)})
-        } catch(error) {
-            console.log(error.message)
-        }
+        const response = await axios.post("http://localhost:4000/dogs",{
+            userId: userId
+        },  localStorage.getItem('jwtToken'));
+        dispatch(userSuccess(response.data))
+        console.log(response.data)
+        return Promise.resolve(response.data)
+    } catch(error) {
+        console.log(error)
+        dispatch(userFailure(error.message))
+        return Promise.reject(error)
+    }
 }
 
 const userRequest = () => {
