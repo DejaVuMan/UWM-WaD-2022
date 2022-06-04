@@ -10,6 +10,8 @@ import Button from '@mui/material/Button'
 import { TextField } from "@mui/material";
 import { IconButton } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera"
+import { Divider } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import Image from 'mui-image'
 
@@ -110,6 +112,17 @@ class UpdateProfile extends Component {
                         // use vh for good enough size on desktop and near ideal size on mobile
                         />
                         {this.state.editMode? <IconButton color="primary" aria-label="upload picture" component="span"> <PhotoCamera /> </IconButton> : null}
+                    </Grid>
+                    <Divider sx={{mt:2, width:'75%'}}>
+                        <Typography variant="primarypart">
+                            Dog info
+                        </Typography>
+                    </Divider>
+                    <Grid item>
+                        <Stack direction="row" spacing={2}>
+                            <Item>Breed: {dogIndividual.breed}</Item>
+                            <Item>Obedience Level: {dogIndividual.obedienceLevel}</Item>
+                        </Stack>
                     </Grid>
                 </Grid>
             </ThemeProvider>
