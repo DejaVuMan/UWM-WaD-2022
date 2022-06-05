@@ -14,7 +14,7 @@ import UpdateProfile from "./components/User/UpdateProfile";
 import DogRegister from "./components/Dog/DogRegister";
 import DogList from "./components/Dog/DogList";
 import Home from "./components/Home";
-import Reservations from "./components/Reservations/Reservations";
+import ReservationsUser from "./components/Reservations/ReservationsUser";
 
 //import AuthProvider from "../src/services/user/auth/authContext.js";
 
@@ -44,7 +44,7 @@ const App = () => {
                   <Route path="/list" exact component={TaskList}/>
                   <Route path="/users" exact component={UserList}/>
                   <Route path="/users/:id" exact component={TrainerProfile}/>
-                  <Route path="/users/:id/reservations" exact component={Reservations}/>
+                  <Route path="/users/:id/reservations" exact component={ReservationsUser}/>
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
                   <Route path="/dogs" exact component={DogList}/>

@@ -6,12 +6,15 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
+import { Link } from 'react-router-dom';
+import { Snackbar, Alert } from '@mui/material';
+import { Button } from '@mui/material';
 
 function Reservations() {
     const [value, setValue] = React.useState(new Date());
     const today = new Date();
 
-    //{ 8:true, 9:false, 10:false, 11:true, 12:true, 13:false }
+    const [open, successOpen] = React.useState(false);
 
     const [dateFree, setDateFree] = useState([
         { date:8, isFree:true },
@@ -25,6 +28,17 @@ function Reservations() {
                                                             { date:11, avail:["1:00PM", "3:00PM", "6:00PM"] },
                                                             { date:12, avail:["2:00PM", "4:00PM", "5:00PM"] }]);
     const [currentReservations, setCurrentReservations] = useState([]);
+
+    const handleSuccessOpen = () => {
+        successOpen(true);
+    }
+
+    const handleSuccessClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        successOpen(false);
+      };
 
     const willDisableDay = (day) => {
         const parseDay = day.getDate();
@@ -56,7 +70,11 @@ function Reservations() {
     const DisplayList = () => {
         return(
         <Grid item>
-            {currentReservations.map((availDates) => <Item>{availDates}</Item>)}
+            <Stack direction="row">
+                {currentReservations.map((availDates, x) => <Button key = {x} variant="contained" sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>
+                        {availDates}
+                </Button>)}
+            </Stack>
         </Grid>
         )
     }
@@ -79,16 +97,35 @@ function Reservations() {
                         openTo="day"
                         value={value}
                         shouldDisableDate={willDisableDay}
+                        onDismiss={() => {
+                            console.log("Cancel is clicked")
+                        }}
+                        onAccept={() => {
+                            console.log("OK is clicked")
+                            handleSuccessOpen()
+                        }}
                         onChange={(newValue) => {
                         reservationList(newValue);
                         setValue(newValue);
                         }}
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => 
+                        <TextField {...params} 
+                        sx={{
+                            svg: "#FFFFFF",
+                            input: "#FFFFFF",
+                            label: "#FFFFFF"
+                        }}
+                        />}
                     />
                     </LocalizationProvider>
                 </Grid>
                 <DisplayList/>
             </Grid>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleSuccessClose}>
+                <Alert onClose={handleSuccessClose} severity="success" sx={{ width: '100%' }}>
+                    The time slot has been succesfully reserved.
+                </Alert>
+            </Snackbar>
         </ThemeProvider>
     );
 }
