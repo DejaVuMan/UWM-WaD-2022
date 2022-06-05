@@ -11,7 +11,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Avatar } from "@mui/material";
 import PetsIcon from '@mui/icons-material/Pets';
 import { Button } from "@mui/material";
-import DogRegister from "./DogRegister";
 
 class DogList extends Component {
 
