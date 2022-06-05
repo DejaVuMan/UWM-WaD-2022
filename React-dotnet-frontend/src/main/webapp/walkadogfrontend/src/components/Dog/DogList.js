@@ -10,6 +10,8 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Avatar } from "@mui/material";
 import PetsIcon from '@mui/icons-material/Pets';
+import { Button } from "@mui/material";
+import DogRegister from "./DogRegister";
 
 class DogList extends Component {
 
@@ -91,6 +93,11 @@ class DogList extends Component {
                         </Grid>
                     )}
                 </Grid>
+                <Link to={"/dogs/register"}>
+                    <Button variant="contained" sx={{ mt: 3, mb: 2, borderRadius: 8 }}>
+                        Edit...
+                    </Button>
+                </Link>
             </Box>
         </ThemeProvider>
         );

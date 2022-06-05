@@ -48,8 +48,8 @@ const App = () => {
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
                   <Route path="/dogs" exact component={DogList}/>
-                  <Route path="/dogs/:id" exact component={DogProfile}/>
-                  <Route path="/dogs/register" exact component={DogRegister}/>
+                  <Route exact path="/dogs/register" component={DogRegister}/>
+                  <Route exact path="/dogs/:id" component={DogProfile}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>
               </Col>
