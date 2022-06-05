@@ -27,9 +27,9 @@ const NavigationBar = () => {
     //const { setAuth, user } = useAuth();
 
     const logout = () => {
-        dispatch(logoutUser())
         //setAuth(false);
         console.log("Logged out.")
+        dispatch(logoutUser())
     }
     // <Link to={"login"}, {"/add"}, {"list"}, {"users"}, {"logout"}, {auth.isLoggedIn ? "home" : ""} + {auth.isLoggedIn ? userLinks : guestLinks}
 
@@ -43,7 +43,7 @@ const NavigationBar = () => {
     // );
 
     const authedItems = {'Show Dogs':"/dogs", 'List Trainers':"users"};
-    const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"logout"};
+    const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"/logout"};
 
     const unAuthedItems = {'Login':"login"};
     const unAuthedSettings = {'Login':"login"};
@@ -185,7 +185,7 @@ const NavigationBar = () => {
             >
               {Object.entries(auth.isLoggedIn ? authedSettings : unAuthedSettings).map(([idx, value]) => (
                 <Link to={value} key={idx}>
-                    <MenuItem onClick={value === 'logout' ? logout : handleCloseUserMenu}>
+                    <MenuItem onClick={value === '/logout' ? logout : handleCloseUserMenu}>
                     <Typography textAlign="center">{idx}</Typography>
                     </MenuItem>
                 </Link>
