@@ -15,8 +15,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-//import Dialog from '@mui/material/Dialog';
-//const { setAuth } = useAuth();
+import { Snackbar, Alert } from '@mui/material';
 
 const theme = createTheme({
     palette: {
@@ -33,6 +32,19 @@ const theme = createTheme({
 
 const Login = (props) => {
 
+    const [open, failOpen] = React.useState(false);
+
+    const handleFailOpen = () => {
+        failOpen(true);
+    }
+
+    const handleFailClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        failOpen(false);
+      };
+
     const dispatch = useDispatch();
 
     const validateUser = (event) => {
@@ -42,12 +54,13 @@ const Login = (props) => {
 
       dispatch(authenticateUser(data.get('username'), data.get('password')))
         .then((response) => {
-            console.log(response.data)
+            console.log(response.data);
             //setAuth(true);
-            return props.history.push("/home")
+            return props.history.push("/home");
         })
         .catch((error) => {
-            console.log(error.message)
+            console.log(error.message);
+            handleFailOpen()
         })
     }
 
@@ -144,6 +157,11 @@ const Login = (props) => {
                     </Box>
                     </Box>
                 </Container>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleFailClose}>
+                    <Alert onClose={handleFailClose} severity="error" sx={{ width: '100%' }}>
+                        Whoops! An error ocurred. 
+                    </Alert>
+                </Snackbar>
                 </ThemeProvider>
             );
 }

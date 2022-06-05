@@ -31,36 +31,6 @@ class TrainerProfile extends Component {
     }
 
     render() {
-        const theme = createTheme({
-            palette: {
-                mode: 'dark',
-                primary: {
-                  main: '#3f51b5',
-                  secondary: '#D3D3D3',
-                },
-                secondary: {
-                  main: '#f50057',
-                },
-              },
-            typography: {
-                title:{
-                    color: '#D3D3D3',
-                    fontSize: 36,
-                },
-                rating:{
-                    color: '#D3D3D3',
-                },
-                primarypart:{
-                    color: '#D3D3D3',
-                    fontSize: 24,
-                },
-                secondarypart:{
-                    color: '#D3D3D3',
-                    fontSize: 18,
-                }
-              },
-          });
-
         const trainersSum = this.props.trainersind;
         const trainersIndividual = trainersSum.users;
 
@@ -69,14 +39,6 @@ class TrainerProfile extends Component {
         console.log(trainersSum)
         console.log(trainersIndividual)
         console.log(trainersDataInd)
-
-        const Item = styled(Paper)(({ theme }) => ({
-            backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-            ...theme.typography.body2,
-            padding: theme.spacing(1),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-          })); 
           return(
             <ThemeProvider theme={theme}>
                 <Grid
@@ -164,6 +126,45 @@ class TrainerProfile extends Component {
           )
     }
 }
+
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+        primary: {
+          main: '#3f51b5',
+          secondary: '#D3D3D3',
+        },
+        secondary: {
+          main: '#f50057',
+        },
+      },
+    typography: {
+        title:{
+            color: '#D3D3D3',
+            fontSize: 36,
+        },
+        rating:{
+            color: '#D3D3D3',
+        },
+        primarypart:{
+            color: '#D3D3D3',
+            fontSize: 24,
+        },
+        secondarypart:{
+            color: '#D3D3D3',
+            fontSize: 18,
+        }
+      },
+  });
+
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  })); 
 
 const mapStateToProps = (state) => {
     //console.log(state)

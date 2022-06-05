@@ -3,7 +3,7 @@ import './App.css';
 import NavigationBar from "./components/NavigationBar";
 import {Container, Row, Col} from "react-bootstrap";
 import Welcome from "./components/Welcome";
-import Footer from "./components/Footer";
+//import Footer from "./components/Footer";
 import Task from "./components/Task/Task";
 import TaskList from "./components/Task/TaskList";
 import UserList from "./components/User/UserList";
@@ -14,7 +14,7 @@ import UpdateProfile from "./components/User/UpdateProfile";
 import DogRegister from "./components/Dog/DogRegister";
 import DogList from "./components/Dog/DogList";
 import Home from "./components/Home";
-import Reservations from "./components/Reservations/Reservations";
+import ReservationsUser from "./components/Reservations/ReservationsUser";
 
 //import AuthProvider from "../src/services/user/auth/authContext.js";
 
@@ -44,12 +44,12 @@ const App = () => {
                   <Route path="/list" exact component={TaskList}/>
                   <Route path="/users" exact component={UserList}/>
                   <Route path="/users/:id" exact component={TrainerProfile}/>
-                  <Route path="/users/:id/reservations" exact component={Reservations}/>
+                  <Route path="/users/:id/reservations" exact component={ReservationsUser}/>
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
                   <Route path="/dogs" exact component={DogList}/>
-                  <Route path="/dogs/:id" exact component={DogProfile}/>
-                  <Route path="/dogs/register" exact component={DogRegister}/>
+                  <Route exact path="/dogs/register" component={DogRegister}/>
+                  <Route exact path="/dogs/:id" component={DogProfile}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>
               </Col>
