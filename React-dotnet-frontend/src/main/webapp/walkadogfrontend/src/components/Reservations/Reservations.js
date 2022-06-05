@@ -21,7 +21,9 @@ function Reservations() {
         { date:12, isFree:true },
         { date:13, isFree:false }
     ]);
-    const dateReservations = useState({8:["10:00AM", "1:00PM"], 11:["1:00PM", "3:00PM", "6:00PM"], 12:["2:00PM", "4:00PM", "5:00PM"]});
+    const [dateReservations, setDateReservations] = useState([{ date:8, avail:["10:00AM", "1:00PM"] },
+                                                            { date:11, avail:["1:00PM", "3:00PM", "6:00PM"] },
+                                                            { date:12, avail:["2:00PM", "4:00PM", "5:00PM"] }]);
     const [currentReservations, setCurrentReservations] = useState([]);
 
     const willDisableDay = (day) => {
@@ -40,11 +42,23 @@ function Reservations() {
     }
 
     const reservationList = (day) => {
-        if(day.getDate() in dateFree[0])
+        const parseDay = day.getDate();
+        for(var i = 0; i < dateReservations.length; i++)
         {
-            setCurrentReservations(dateFree[0][day.getDate()]);
-            console.log(currentReservations);
+            if(dateReservations[i].date === parseDay)
+            {
+                setCurrentReservations(dateReservations[i].avail);
+                return;
+            }
         }
+    }
+
+    const DisplayList = () => {
+        return(
+        <Grid item>
+            {currentReservations.map((availDates) => <Item>{availDates}</Item>)}
+        </Grid>
+        )
     }
 
     return(
@@ -66,13 +80,14 @@ function Reservations() {
                         value={value}
                         shouldDisableDate={willDisableDay}
                         onChange={(newValue) => {
-                        //reservationList(newValue);
+                        reservationList(newValue);
                         setValue(newValue);
                         }}
                         renderInput={(params) => <TextField {...params} />}
                     />
                     </LocalizationProvider>
                 </Grid>
+                <DisplayList/>
             </Grid>
         </ThemeProvider>
     );
