@@ -4,6 +4,7 @@ using AutoMapper;
 using WebApi.Entities;
 using WebApi.Models.Users;
 using WebApi.Models.Dogs;
+using WebApi.Models.Reservations;
 
 public class AutoMapperProfile : Profile
 {
@@ -46,5 +47,7 @@ public class AutoMapperProfile : Profile
 
         //InsertTrainerTable -> TrainerData
         CreateMap<InsertTrainerTable, TrainerData>();
+
+        CreateMap<NewReservation, ReservationData>();
     }
 }

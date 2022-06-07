@@ -1,13 +1,17 @@
-namespace WebApi.Entities;
+namespace WebApi.Models.Reservations;
 
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
-public class ReservationData
+public class NewReservation
 {
-    public int Id { get; set; }
+    [Required]
     public DateTime startWindow { get; set; }
+
+    [Required]
     public int reservationLength { get; set; }
-    public bool isReserved { get; set; }
+
     public int userId { get; set; }
+
+    [Required]
     public int trainerId { get; set; }
 }
