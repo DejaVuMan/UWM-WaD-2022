@@ -48,6 +48,8 @@ public class AutoMapperProfile : Profile
         //InsertTrainerTable -> TrainerData
         CreateMap<InsertTrainerTable, TrainerData>();
 
+
+        // NewReservation -> ReservationData
         CreateMap<NewReservation, ReservationData>();
     }
 }

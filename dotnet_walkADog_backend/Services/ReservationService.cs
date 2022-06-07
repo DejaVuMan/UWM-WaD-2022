@@ -9,6 +9,7 @@ using WebApi.Models.Reservations;
 
 public interface IReservationService
 {
+    public void Create(NewReservation model);
 }
 
 public class ReservationService : IReservationService
@@ -25,5 +26,28 @@ public class ReservationService : IReservationService
         _context = context;
         _jwtUtils = jwtUtils;
         _mapper = mapper;
+    }
+
+       public void Create(NewReservation model)
+    {
+        var timeUniqueness = _context.ReservationData.Where(x => x.startWindow == model.startWindow);
+
+        if(timeUniqueness.Any())
+        {
+            foreach(var elem in timeUniqueness)
+            {
+                if(elem.startWindow == model.startWindow)
+                    throw new AppException("You already added a reservation window for " + model.startWindow);
+            }
+        }
+
+        // map model to new dog object
+        var resWindow = _mapper.Map<ReservationData>(model);
+
+        // save dog
+        _context.ReservationData.Add(resWindow);
+
+        _context.SaveChanges();
+        Console.WriteLine("Saved Reservation Window for TrainerId " + model.trainerId + " for date " + model.startWindow);
     }
 }

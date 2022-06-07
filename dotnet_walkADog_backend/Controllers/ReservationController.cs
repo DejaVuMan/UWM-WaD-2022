@@ -26,4 +26,14 @@ public class ReservationController : ControllerBase
         _mapper = mapper;
         _appSettings = appSettings.Value;
     }
+
+    // POST http://localhost:4000/reservation/create
+    [AllowAnonymous]
+    [HttpPost("create")]
+    public IActionResult Create(NewReservation model)
+    {
+        _reservationService.Create(model);
+        return Ok(new { message = "Reservation successfully added" });
+    }
+
 }
