@@ -59,6 +59,19 @@ export const fetchTrainersAndDataById = trainerId => {
     }
 }
 
+export const fetchUsersAndDataById = userId => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/users/"+userId, localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })     
+    }
+}
+
 export const openfetchTrainersAndDataById = trainerId => {
     return dispatch => {
         dispatch(userRequest())
@@ -87,6 +100,19 @@ export const fetchTrainersAndData = () => {
         )
         .catch(errors => {
             dispatch(userFailure(errors.message))
+        })
+    }
+}
+
+export const fetchUsersAndData = () => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/users/users", localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.essage))
         })
     }
 }

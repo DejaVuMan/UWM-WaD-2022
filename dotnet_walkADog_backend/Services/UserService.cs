@@ -16,6 +16,8 @@ public interface IUserService
     void Update(int id, UpdateRequest model);
     void Delete(int id);
 
+    IEnumerable<User> GetAllUsers();
+
     IEnumerable<TrainerData> GetAllTrainerData();
     IEnumerable<User> GetAllTrainers();
 
@@ -68,6 +70,13 @@ public class UserService : IUserService
     public IEnumerable<User> GetAll()
     {
         return _context.Users;
+    }
+
+    public IEnumerable<User> GetAllUsers()
+    {
+        Console.WriteLine("Entered GetAllUsers method");
+        return _context.Users.Where(elem => elem.IsTrainer == false);
+        // return only users which selected trainer during options
     }
 
     public IEnumerable<User> GetAllTrainers() // call this one first when displaying trainers

@@ -31,18 +31,8 @@ const NavigationBar = () => {
         console.log("Logged out.")
         dispatch(logoutUser())
     }
-    // <Link to={"login"}, {"/add"}, {"list"}, {"users"}, {"logout"}, {auth.isLoggedIn ? "home" : ""} + {auth.isLoggedIn ? userLinks : guestLinks}
 
-    // const guestLinks = (
-    //     <>
-    //         <div className={"mr-auto"}></div>
-    //         <Nav className={"navbar-right"}>
-    //             <Link to={"login"} className="nav-link" style={{color: "white"}}><FontAwesomeIcon icon={faSignInAlt}/> Zaloguj się!</Link>
-    //         </Nav>
-    //     </>
-    // );
-
-    const authedUserItems = {'Show Dogs':"/dogs", 'List Trainers':"users"};
+    const authedUserItems = {'Show Dogs':"/dogs", 'List Trainers':"users/trainers"};
     const authedTrainerItems = {'List Users':"users", 'Add Reservations':"/reservations/add"}; // Show Current Reservations?
 
     const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"/logout"};

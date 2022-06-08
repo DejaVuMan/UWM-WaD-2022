@@ -16,11 +16,12 @@ import DogList from "./components/Dog/DogList";
 import Home from "./components/Home";
 import ReservationsUser from "./components/Reservations/ReservationsUser";
 import ReservationsTrainer from "./components/Reservations/ReservationsTrainer";
-
 //import AuthProvider from "../src/services/user/auth/authContext.js";
-
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import DogProfile from "./components/Dog/DogProfile";
+import TrainerList from "./components/User/TrainerList";
+import UserProfile from "./components/User/UserProfile";
+
 const App = () => {
   window.onbeforeunload = (event) => {
     const e = event || window.event;
@@ -43,7 +44,9 @@ const App = () => {
                   <Route path="/edit/:id" exact component={UpdateProfile}/>
                   <Route path="/list" exact component={TaskList}/>
                   <Route path="/users" exact component={UserList}/>
-                  <Route path="/users/:id" exact component={TrainerProfile}/>
+                  <Route path="/users/trainers" exact component={TrainerList}/>
+                  <Route path="/trainers/:id" exact component={TrainerProfile}/>
+                  <Route path="/users/:id" exact component={UserProfile}/>
                   <Route path="/users/:id/reservations" exact component={ReservationsUser}/>
                   <Route path="/register" exact component={Register}/>
                   <Route path="/login" exact component={Login}/>
