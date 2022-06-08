@@ -10,24 +10,26 @@ import { Link } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
 import { Button } from '@mui/material';
 
-function Reservations() {
+function Reservations(props) {
     const [value, setValue] = React.useState(new Date());
     const today = new Date();
 
     const [open, successOpen] = React.useState(false);
 
-    const [dateFree, setDateFree] = useState([
-        { date:8, isFree:true },
-        { date:9, isFree:false },
-        { date:10, isFree:false },
-        { date:11, isFree:true },
-        { date:12, isFree:true },
-        { date:13, isFree:false }
-    ]);
-    const [dateReservations, setDateReservations] = useState([{ date:8, avail:["10:00AM", "1:00PM"] },
-                                                            { date:11, avail:["1:00PM", "3:00PM", "6:00PM"] },
-                                                            { date:12, avail:["2:00PM", "4:00PM", "5:00PM"] }]);
-    const [currentReservations, setCurrentReservations] = useState([]);
+    // const [dateFree, setDateFree] = useState([
+    //     { date:8, isFree:true },
+    //     { date:9, isFree:false },
+    //     { date:10, isFree:false },
+    //     { date:11, isFree:true },
+    //     { date:12, isFree:true },
+    //     { date:13, isFree:false }
+    // ]);
+    // const [dateReservations, setDateReservations] = useState([{ date:8, avail:["10:00AM", "1:00PM"] },
+    //                                                         { date:11, avail:["1:00PM", "3:00PM", "6:00PM"] },
+    //                                                         { date:12, avail:["2:00PM", "4:00PM", "5:00PM"] }]);
+    // const [currentReservations, setCurrentReservations] = useState([]);
+
+
 
     const handleSuccessOpen = () => {
         successOpen(true);
@@ -41,7 +43,7 @@ function Reservations() {
       };
 
     const willDisableDay = (day) => {
-        const parseDay = day.getDate();
+        const parseDay = day.getDate(); // this will instead parse through dateReservations and check current date against dateReservations if match day (ignore time)
         for(var i = 0; i < dateFree.length; i++)
         {
             if(dateFree[i].date === parseDay)
@@ -78,6 +80,13 @@ function Reservations() {
         </Grid>
         )
     }
+
+    useEffect(() => { //componentDidMount equivalent hook?
+        // call on getReservationWindow
+        // if results arent empty
+        // setDateReservations = results
+        // 
+      }, []);
 
     return(
         <ThemeProvider theme={theme}>
@@ -168,4 +177,10 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-export default Reservations;
+const mapDispatchToProps = (dispatch) => { // dispatch
+    return {
+        getReservationWindow: (trainerId) => dispatch (getReservationWindow(trainerId))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Reservations);
