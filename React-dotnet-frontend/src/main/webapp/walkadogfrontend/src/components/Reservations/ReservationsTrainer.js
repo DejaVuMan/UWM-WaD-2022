@@ -1,16 +1,14 @@
 import React from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 
 import {TextField, Grid, styled} from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import { Link } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
-import { Button } from '@mui/material';
 import { addReservationWindow } from '../../services/index';
 
 function ReservationsTrainer(props) {
@@ -18,7 +16,8 @@ function ReservationsTrainer(props) {
     const [value, setValue] = React.useState(new Date());
     const today = new Date();
 
-    const [open, successOpen, failOpen] = React.useState(false);
+    const [open, successOpen] = React.useState(false);
+    const [openF, failOpen] = React.useState(false);
 
     const handleSuccessOpen = () => {
         successOpen(true);
@@ -42,22 +41,8 @@ function ReservationsTrainer(props) {
         failOpen(false);
       };
 
-    // const saveReservation = (value) => {
-    //     console.log(value);
-    //     addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))
-    //         .then((response) => {
-    //             console.log(response.data)
-    //             handleSuccessOpen()
-    //         })
-    //         .catch((error) => {
-    //             console.log(error.message)
-    //             handleFailOpen()
-    //         })
-    // }
-
     const SaveReservation = (value, props) => {
         console.log(value);
-        console.log(props);
         props.addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))
             .then((response) => {
                 console.log(response.data)
@@ -113,7 +98,7 @@ function ReservationsTrainer(props) {
                     The time slot has been succesfully reserved.
                 </Alert>
             </Snackbar>
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleFailClose}>
+            <Snackbar open={openF} autoHideDuration={6000} onClose={handleFailClose}>
                 <Alert onClose={handleFailClose} severity="error" sx={{ width: '100%' }}>
                     "Your data ran away! Please try again."
                 </Alert>
