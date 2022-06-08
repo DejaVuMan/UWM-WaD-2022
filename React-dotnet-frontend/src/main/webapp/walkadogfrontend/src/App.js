@@ -15,12 +15,12 @@ import DogRegister from "./components/Dog/DogRegister";
 import DogList from "./components/Dog/DogList";
 import Home from "./components/Home";
 import ReservationsUser from "./components/Reservations/ReservationsUser";
+import ReservationsTrainer from "./components/Reservations/ReservationsTrainer";
 
 //import AuthProvider from "../src/services/user/auth/authContext.js";
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import DogProfile from "./components/Dog/DogProfile";
-
 const App = () => {
   window.onbeforeunload = (event) => {
     const e = event || window.event;
@@ -50,6 +50,7 @@ const App = () => {
                   <Route path="/dogs" exact component={DogList}/>
                   <Route exact path="/dogs/register" component={DogRegister}/>
                   <Route exact path="/dogs/:id" component={DogProfile}/>
+                  <Route exact path ="/reservations/add" component={ReservationsTrainer}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>
               </Col>

@@ -30,6 +30,8 @@ public class ReservationService : IReservationService
 
        public void Create(NewReservation model)
     {
+
+        Console.WriteLine(model.startWindow);
         var timeUniqueness = _context.ReservationData.Where(x => x.startWindow == model.startWindow);
 
         if(timeUniqueness.Any())

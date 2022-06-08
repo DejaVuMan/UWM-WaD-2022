@@ -200,6 +200,22 @@ export const removeDogById = (userId) => {
     }
 }
 
+export const addReservationWindow = (startWindow, reservationLength, trainerId) => {
+    return dispatch => { // TODO: should we make all new creations async?
+        dispatch(userRequest())
+        axios.post("http://localhost:4000/reservation/create", {
+            startWindow: startWindow,
+            reservationLength: reservationLength,
+            trainerId: trainerId
+        }, localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })  
+    }
+}
 
 const userRequest = () => {
     return {
