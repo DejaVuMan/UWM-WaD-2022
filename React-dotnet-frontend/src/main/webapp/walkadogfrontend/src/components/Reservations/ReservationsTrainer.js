@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import {TextField, Grid, styled} from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -13,7 +13,7 @@ import { Snackbar, Alert } from '@mui/material';
 import { Button } from '@mui/material';
 import { addReservationWindow } from '../../services/index';
 
-function ReservationsTrainer() {
+function ReservationsTrainer(props) {
 
     const [value, setValue] = React.useState(new Date());
     const today = new Date();
@@ -42,9 +42,28 @@ function ReservationsTrainer() {
         failOpen(false);
       };
 
-    const saveReservation = (value) => {
+    // const saveReservation = (value) => {
+    //     console.log(value);
+    //     addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))
+    //         .then((response) => {
+    //             console.log(response.data)
+    //             handleSuccessOpen()
+    //         })
+    //         .catch((error) => {
+    //             console.log(error.message)
+    //             handleFailOpen()
+    //         })
+    // }
+
+    const SaveReservation = (value, props) => {
         console.log(value);
-        addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))
+        console.log(props);
+
+        if(!props.addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))) {
+            console.log("null");
+            return null;
+        }
+        props.addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))
             .then((response) => {
                 console.log(response.data)
                 handleSuccessOpen()
@@ -54,6 +73,7 @@ function ReservationsTrainer() {
                 handleFailOpen()
             })
     }
+
 
     return(
         <ThemeProvider theme={theme}>
@@ -77,7 +97,7 @@ function ReservationsTrainer() {
                         }}
                         onAccept={() => {
                             console.log("OK is clicked")
-                            saveReservation(value)
+                            SaveReservation(value, props)
                         }}
                         onChange={(newValue) => {
                         setValue(newValue);
