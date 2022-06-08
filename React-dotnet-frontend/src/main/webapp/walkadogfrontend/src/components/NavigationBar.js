@@ -31,24 +31,14 @@ const NavigationBar = () => {
         console.log("Logged out.")
         dispatch(logoutUser())
     }
-    // <Link to={"login"}, {"/add"}, {"list"}, {"users"}, {"logout"}, {auth.isLoggedIn ? "home" : ""} + {auth.isLoggedIn ? userLinks : guestLinks}
 
-    // const guestLinks = (
-    //     <>
-    //         <div className={"mr-auto"}></div>
-    //         <Nav className={"navbar-right"}>
-    //             <Link to={"login"} className="nav-link" style={{color: "white"}}><FontAwesomeIcon icon={faSignInAlt}/> Zaloguj się!</Link>
-    //         </Nav>
-    //     </>
-    // );
+    const authedUserItems = {'Show Dogs':"/dogs", 'List Trainers':"users/trainers"};
+    const authedTrainerItems = {'List Users':"users", 'Add Reservations':"/reservations/add"}; // Show Current Reservations?
 
-    const authedItems = {'Show Dogs':"/dogs", 'List Trainers':"users"};
     const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"/logout"};
 
     const unAuthedItems = {'Login':"login"};
     const unAuthedSettings = {'Login':"login"};
-
-
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -65,8 +55,55 @@ const NavigationBar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    const renderUserTrainerButtons = () => {
+      if(auth.isLoggedIn)
+      {
+        if(auth.isTrainer)
+        {
+          return(
+            Object.entries(authedTrainerItems).map(([idx, value]) => (
+              <Link to={value} key={idx}>
+                  <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                      {idx}
+                  </Button>
+              </Link>
+          ))
+          )
+        }
+        return(
+          Object.entries(authedUserItems).map(([idx, value]) => (
+            <Link to={value} key={idx}>
+                <Button
+                    onClick={handleCloseNavMenu}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                    {idx}
+                </Button>
+            </Link>
+        ))
+        )
+      }
+      return(
+        Object.entries(unAuthedItems).map(([idx, value]) => (
+          <Link to={value} key={idx}>
+              <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                  {idx}
+              </Button>
+          </Link>
+      ))
+      )
+    }
+
     console.log("Logging Auth value(s) from NavBar")
     console.log(auth)
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -119,7 +156,7 @@ const NavigationBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([idx, value]) => (
+              {Object.entries(auth.isLoggedIn ? authedUserItems : unAuthedItems).map(([idx, value]) => (
                 <Link to={value} key={idx}>
                   <MenuItem key={idx} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{idx}</Typography>
@@ -148,19 +185,8 @@ const NavigationBar = () => {
             Walk-A-Dog
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}> 
-          
-            {Object.entries(auth.isLoggedIn ? authedItems : unAuthedItems).map(([idx, value]) => (
-                <Link to={value} key={idx}>
-                    <Button
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
-                    >
-                        {idx}
-                    </Button>
-                </Link>
-            ))}
+            {renderUserTrainerButtons()}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open authedSettings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

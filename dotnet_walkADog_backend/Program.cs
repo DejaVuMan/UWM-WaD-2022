@@ -30,6 +30,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<IDogService, DogService>();
+    services.AddScoped<IReservationService, ReservationService>();
 }
 
 var app = builder.Build();

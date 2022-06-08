@@ -189,7 +189,7 @@ const mapStateToProps = (state) => { // state
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {
         fetchDogById: (id) => dispatch (fetchDogById(id)),
-        dogUpdate: (Name, breed, ObedienceLevel, userId, id) => dispatch (dogUpdate(Name, breed, ObedienceLevel, userId, id)),
+        dogUpdate: (Name, breed, ObedienceLevel, userId, id) => dispatch(dogUpdate(Name, breed, ObedienceLevel, userId, id)),
         removeDogById: (userId) => dispatch(removeDogById(userId))
     }
 }

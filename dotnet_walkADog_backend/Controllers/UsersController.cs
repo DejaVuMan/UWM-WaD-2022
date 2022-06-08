@@ -53,6 +53,14 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
+     // GET http://localhost:4000/users/users
+    [HttpGet("users")]
+    public IActionResult GetAllUsers()
+    {
+        var users = _userService.GetAllUsers();
+        return Ok(users);
+    }
+
     // GET http://localhost:4000/users/trainers
     [HttpGet("trainers")]
     public IActionResult GetAllTrainers()

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchUsersAndData} from "../../services/index";
+import {fetchTrainersAndData} from "../../services/index";
 import {Link} from 'react-router-dom';
 import "../../assets/css/Style.css";
 //fetchTrainers, fetchTrainerData
@@ -14,10 +14,17 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 
-class UserList extends Component {
+class TrainerList extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            users: [],
+        };
+    }
 
     componentDidMount() {
-        this.props.fetchUsersAndData();
+        this.props.fetchTrainersAndData();
     }
 
     // findAllRandomUsers() {
@@ -46,13 +53,13 @@ class UserList extends Component {
               }
           });
 
-        const usersAll = this.props.users;
-        const usersInd = usersAll.users;
+        const trainersAll = this.props.trainers;
+        const trainersInd = trainersAll.users;
 
-        //const trainersDataInd = usersAll.trainerdata;
+        const trainersDataInd = trainersAll.trainerdata;
         console.log("Displaying array data")
-        console.log(usersInd)
-        //console.log(trainersDataInd)
+        console.log(trainersInd)
+        console.log(trainersDataInd)
 
         const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -65,10 +72,11 @@ class UserList extends Component {
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2} columns={16}>
-                    {usersInd.map((user, index) =>
+                    {trainersInd.map((user, index) =>
                         <Grid item xs={8} key={index}> {/* Index here related to the index of the element from mapping, NOT index of user.*/}
-                        <Link to={"/users/"+user.id}>
+                        <Link to={"/trainers/"+user.id}>
                             <Item>Name: {user.firstName} {user.lastName}</Item>
+                            {TrainerRating(trainersDataInd, user.id, Item)}
                         </Link>
                         </Grid>
                     )}
@@ -79,17 +87,47 @@ class UserList extends Component {
     }
 }
 
+function TrainerRating(trainersDataInd, id, Item) {
+    for(var i = 0; i < trainersDataInd.length; i++)
+    {
+        if(trainersDataInd[i].userId === id)
+        {
+            if(trainersDataInd[i].ratingCount < 1)
+            {
+                return(
+                    <Item>
+                        <Typography component="legend" color="primary.secondary">This trainer doesn't have any reviews yet!</Typography>
+                        <Rating name="read-only" value={0} readOnly />
+                    </Item>
+                )  
+            }
+            return(
+                <Item>
+                    <Typography component="legend" color="primary.secondary">Rating based on {trainersDataInd[i].ratingCount} reviews:</Typography>
+                    <Rating name="read-only" value={trainersDataInd[i].currentRating} precision={0.5} readOnly />
+                </Item>
+            )
+        }
+    }
+    return(
+        <Item>
+            <Typography component="legend" color="primary.secondary">This trainer doesn't have any reviews yet!</Typography>
+            <Rating name="read-only" value={0} readOnly />
+        </Item>
+    )
+}
+
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        users: state.user,
+        trainers: state.user,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUsersAndData: () => dispatch (fetchUsersAndData())
+        fetchTrainersAndData: () => dispatch (fetchTrainersAndData())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserList);
+export default connect(mapStateToProps, mapDispatchToProps)(TrainerList);

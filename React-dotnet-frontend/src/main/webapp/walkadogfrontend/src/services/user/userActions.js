@@ -59,6 +59,19 @@ export const fetchTrainersAndDataById = trainerId => {
     }
 }
 
+export const fetchUsersAndDataById = userId => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/users/"+userId, localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })     
+    }
+}
+
 export const openfetchTrainersAndDataById = trainerId => {
     return dispatch => {
         dispatch(userRequest())
@@ -87,6 +100,19 @@ export const fetchTrainersAndData = () => {
         )
         .catch(errors => {
             dispatch(userFailure(errors.message))
+        })
+    }
+}
+
+export const fetchUsersAndData = () => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/users/users", localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(userSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.essage))
         })
     }
 }
@@ -200,6 +226,23 @@ export const removeDogById = (userId) => {
     }
 }
 
+export const addReservationWindow = (startWindow, reservationLength, trainerId) => async (dispatch) => {
+    dispatch(userRequest())
+    try {
+        const response = await axios.post("http://localhost:4000/reservation/create", {
+            startWindow: startWindow,
+            reservationLength: reservationLength,
+            trainerId: trainerId
+        }, localStorage.getItem('jwtToken'));
+        dispatch(userSuccess(response.data))
+        console.log(response.data)
+        return Promise.resolve(response.data)
+    } catch(error) {
+        console.log(error)
+        dispatch(userFailure(error.message))
+        return Promise.reject(error)
+    }
+}
 
 const userRequest = () => {
     return {
