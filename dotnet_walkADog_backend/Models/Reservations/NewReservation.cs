@@ -9,9 +9,7 @@ public class NewReservation
 
     [Required]
     public int reservationLength { get; set; }
-
-    public int userId { get; set; }
-
+    
     [Required]
     public int trainerId { get; set; }
 }

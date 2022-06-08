@@ -58,11 +58,6 @@ function ReservationsTrainer(props) {
     const SaveReservation = (value, props) => {
         console.log(value);
         console.log(props);
-
-        if(!props.addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))) {
-            console.log("null");
-            return null;
-        }
         props.addReservationWindow(value, 60 ,localStorage.getItem('loggedId'))
             .then((response) => {
                 console.log(response.data)
@@ -73,7 +68,6 @@ function ReservationsTrainer(props) {
                 handleFailOpen()
             })
     }
-
 
     return(
         <ThemeProvider theme={theme}>

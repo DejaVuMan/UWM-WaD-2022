@@ -30,26 +30,32 @@ public class ReservationService : IReservationService
 
        public void Create(NewReservation model)
     {
-
-        Console.WriteLine(model.startWindow);
-        var timeUniqueness = _context.ReservationData.Where(x => x.startWindow == model.startWindow);
-
-        if(timeUniqueness.Any())
+        try
         {
-            foreach(var elem in timeUniqueness)
+            Console.WriteLine(model.startWindow);
+            var timeUniqueness = _context.ReservationData.Where(x => x.startWindow == model.startWindow);
+
+            if(timeUniqueness.Any())
             {
-                if(elem.startWindow == model.startWindow)
-                    throw new AppException("You already added a reservation window for " + model.startWindow);
+                foreach(var elem in timeUniqueness)
+                {
+                    if(elem.startWindow == model.startWindow)
+                        throw new AppException("You already added a reservation window for " + model.startWindow);
+                }
             }
+
+            // map model to new dog object
+            var resWindow = _mapper.Map<ReservationData>(model);
+
+            // save dog
+            _context.ReservationData.Add(resWindow);
+
+            _context.SaveChanges();
+            Console.WriteLine("Saved Reservation Window for TrainerId " + model.trainerId + " for date " + model.startWindow);
+        } 
+        catch(Exception e) 
+        {
+            Console.WriteLine(e);
         }
-
-        // map model to new dog object
-        var resWindow = _mapper.Map<ReservationData>(model);
-
-        // save dog
-        _context.ReservationData.Add(resWindow);
-
-        _context.SaveChanges();
-        Console.WriteLine("Saved Reservation Window for TrainerId " + model.trainerId + " for date " + model.startWindow);
     }
 }
