@@ -70,18 +70,18 @@ public class ReservationService : IReservationService
 
     public void ReserveReservation(ReserveReservation model)
     {
-        Console.WriteLine("Entered GetReservationsById method = reservation ID: " + model.reservationId);
+        Console.WriteLine("Entered ReserveReservation method = reservation ID: " + model.reservationId);
 
         var reservation = getReservation(model.reservationId);
-
         if(reservation.isReserved)
         {
             throw new AppException("This reservation is already reserved!");
         }
-
         _mapper.Map(model, reservation);
         _context.ReservationData.Update(reservation);
         _context.SaveChanges();
+
+        Console.WriteLine("Changes saved");
     }
 
     // Internal funcs

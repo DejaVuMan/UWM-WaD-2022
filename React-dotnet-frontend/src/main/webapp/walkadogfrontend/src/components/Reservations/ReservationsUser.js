@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper'
 import { Snackbar, Alert } from '@mui/material';
 import { Button } from '@mui/material';
 
-import {getReservationWindows} from "../../services/index";
+import {getReservationWindows, reserveReservation} from "../../services/index";
 
 function Reservations(props) {
     const [value, setValue] = React.useState(new Date());
@@ -20,8 +20,6 @@ function Reservations(props) {
     const [open, successOpen] = React.useState(false);
     const [currentReservations, setCurrentReservations] = useState([]);
     const [activeChoice, setActiveChoice] = useState(null);
-
-
 
     const handleSuccessOpen = () => {
         successOpen(true);
@@ -72,7 +70,7 @@ function Reservations(props) {
         return(
         <Grid item>
             <Stack direction="row">
-                {currentReservations.map((obj) => <Button key = {obj.idx} variant="contained" sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>
+                {currentReservations.map((obj) => <Button key = {obj.idx} variant="contained" value = {obj.idx} onClick={e => updateFunc(e.target.value)} sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>
                         {obj.kDay}
                 </Button>)}
             </Stack>
@@ -87,6 +85,24 @@ function Reservations(props) {
     useEffect(() => {
         console.log('Do something', currentReservations);
     }, [currentReservations])
+
+    const updateFunc = (key) => {
+        console.log(key);
+        setActiveChoice(key);
+    }
+
+    const reserveRequest = (props) => {
+        console.log(activeChoice);
+        props.reserveReservation(props.match.params.id, activeChoice)
+            .then((response) => {
+                console.log(response.data)
+                handleSuccessOpen()
+            })
+            .catch((error) => {
+                console.log(error.message)
+                //handleFailOpen()
+            })
+    }
 
     return(
         <ThemeProvider theme={theme}>
@@ -107,13 +123,13 @@ function Reservations(props) {
                         value={value}
                         shouldDisableDate={willDisableDay}
                         onDismiss={() => {
-                            console.log("Cancel is clicked")
+                            console.log("Cancel is clicked");
                         }}
                         onAccept={() => {
                             console.log("OK is clicked")
                             console.log(props.reservations)
                             console.log(props.reservations[0].startWindow)
-                            handleSuccessOpen()
+                            reserveRequest(props)
                         }}
                         onChange={(newValue) => {
                             reservationList(newValue);
@@ -187,7 +203,8 @@ const mapStateToProps = (state) => { // ~3 calls per window load on average
 
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {
-        getReservationWindows: (trainerId) => dispatch (getReservationWindows(trainerId))
+        getReservationWindows: (trainerId) => dispatch (getReservationWindows(trainerId)),
+        reserveReservation: (userId, reservationId) => dispatch (reserveReservation(userId, reservationId))
     }
 }
 

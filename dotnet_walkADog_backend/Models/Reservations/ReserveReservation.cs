@@ -8,4 +8,6 @@ public class ReserveReservation
     public int userId { get; set; }
     [Required]
     public int reservationId{ get; set; }
+    [Required]
+    public bool isReserved { get; set; }
 }
