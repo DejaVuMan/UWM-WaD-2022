@@ -1,4 +1,7 @@
-import React, {useState, setState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {connect} from "react-redux";
+import { Link } from 'react-router-dom';
+
 import {TextField, Grid, styled} from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -6,9 +9,10 @@ import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
-import { Link } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
 import { Button } from '@mui/material';
+
+import {getReservationWindows} from "../../services/index";
 
 function Reservations(props) {
     const [value, setValue] = React.useState(new Date());
@@ -16,18 +20,18 @@ function Reservations(props) {
 
     const [open, successOpen] = React.useState(false);
 
-    // const [dateFree, setDateFree] = useState([
-    //     { date:8, isFree:true },
-    //     { date:9, isFree:false },
-    //     { date:10, isFree:false },
-    //     { date:11, isFree:true },
-    //     { date:12, isFree:true },
-    //     { date:13, isFree:false }
-    // ]);
-    // const [dateReservations, setDateReservations] = useState([{ date:8, avail:["10:00AM", "1:00PM"] },
-    //                                                         { date:11, avail:["1:00PM", "3:00PM", "6:00PM"] },
-    //                                                         { date:12, avail:["2:00PM", "4:00PM", "5:00PM"] }]);
-    // const [currentReservations, setCurrentReservations] = useState([]);
+    const [dateFree, setDateFree] = useState([
+        { date:8, isFree:true },
+        { date:9, isFree:false },
+        { date:10, isFree:false },
+        { date:11, isFree:true },
+        { date:12, isFree:true },
+        { date:13, isFree:false }
+    ]);
+    const [dateReservations, setDateReservations] = useState([{ date:8, avail:["10:00AM", "1:00PM"] },
+                                                            { date:11, avail:["1:00PM", "3:00PM", "6:00PM"] },
+                                                            { date:12, avail:["2:00PM", "4:00PM", "5:00PM"] }]);
+    const [currentReservations, setCurrentReservations] = useState([]);
 
 
 
@@ -81,12 +85,9 @@ function Reservations(props) {
         )
     }
 
-    useEffect(() => { //componentDidMount equivalent hook?
-        // call on getReservationWindow
-        // if results arent empty
-        // setDateReservations = results
-        // 
-      }, []);
+    useEffect(() => { // missing dependency: "props" - include or remove dependency array and destructure props outside of useffect
+        props.getReservationWindows(props.match.params.id)
+      }, [props.getReservationWindows]);
 
     return(
         <ThemeProvider theme={theme}>
@@ -111,6 +112,8 @@ function Reservations(props) {
                         }}
                         onAccept={() => {
                             console.log("OK is clicked")
+                            console.log(props.reservations)
+                            console.log(props.reservations[0].startWindow)
                             handleSuccessOpen()
                         }}
                         onChange={(newValue) => {
@@ -177,10 +180,17 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const mapDispatchToProps = (dispatch) => { // dispatch
+const mapStateToProps = (state) => {
+    console.log("mapstate call")
     return {
-        getReservationWindow: (trainerId) => dispatch (getReservationWindow(trainerId))
+        reservations: state.user.reswindows
     }
 }
 
-export default connect(null, mapDispatchToProps)(Reservations);
+const mapDispatchToProps = (dispatch) => { // dispatch
+    return {
+        getReservationWindows: (trainerId) => dispatch (getReservationWindows(trainerId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Reservations);

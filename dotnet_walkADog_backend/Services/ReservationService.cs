@@ -10,6 +10,7 @@ using WebApi.Models.Reservations;
 public interface IReservationService
 {
     public void Create(NewReservation model);
+    public IEnumerable<ReservationData> GetReservationsById(int id);
 }
 
 public class ReservationService : IReservationService
@@ -28,7 +29,7 @@ public class ReservationService : IReservationService
         _mapper = mapper;
     }
 
-       public void Create(NewReservation model)
+    public void Create(NewReservation model)
     {
         try
         {
@@ -57,5 +58,11 @@ public class ReservationService : IReservationService
         {
             Console.WriteLine(e);
         }
+    }
+
+    public IEnumerable<ReservationData> GetReservationsById(int id)
+    {
+        Console.WriteLine("Entered GetReservationsById method = ID: " + id);
+        return _context.ReservationData.Where(elem => elem.trainerId == id);
     }
 }

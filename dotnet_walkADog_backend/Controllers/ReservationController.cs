@@ -36,4 +36,13 @@ public class ReservationController : ControllerBase
         return Ok(new { message = "Reservation successfully added" });
     }
 
+        // GET http://localhost:4000/reservation/{id}
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public IActionResult GetReservationsById(int id)
+    {
+        var result = _reservationService.GetReservationsById(id);
+        return Ok(result);
+    }
+
 }

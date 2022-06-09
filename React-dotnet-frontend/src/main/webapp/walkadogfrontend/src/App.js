@@ -54,6 +54,7 @@ const App = () => {
                   <Route exact path="/dogs/register" component={DogRegister}/>
                   <Route exact path="/dogs/:id" component={DogProfile}/>
                   <Route exact path ="/reservations/add" component={ReservationsTrainer}/>
+                  <Route exact path="/reservations/:id" component={ReservationsUser}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>
               </Col>
