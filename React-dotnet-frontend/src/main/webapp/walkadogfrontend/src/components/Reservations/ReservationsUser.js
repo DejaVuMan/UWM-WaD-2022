@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
-import { Link } from 'react-router-dom';
 
 import {TextField, Grid, styled} from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -20,6 +19,7 @@ function Reservations(props) {
 
     const [open, successOpen] = React.useState(false);
     const [currentReservations, setCurrentReservations] = useState([]);
+    const [activeChoice, setActiveChoice] = useState(null);
 
 
 
@@ -56,27 +56,24 @@ function Reservations(props) {
         setCurrentReservations([]);
         const parseDay = day.getDate();
         const parseMonth = day.getMonth();
-        var entry = false;
         if(props.reservations === undefined) return;
         for(var i = 0; i < props.reservations.length; i++)
         {
-            var date = new Date(props.reservations[i].startWindow);
+            const date = new Date(props.reservations[i].startWindow);
+            const idx = props.reservations[i].id;
             if(date.getDate() === parseDay && date.getMonth() === parseMonth)
             {
-                console.log(i);
-                console.log(date);
-                setCurrentReservations(oldArray => [...oldArray, date.toLocaleTimeString('en-US')]); // 'en-US' for now
+                setCurrentReservations(oldArray => [...oldArray, { kDay: date.toLocaleTimeString('en-US'), idx: idx}]); // 'en-US' for now - why does this get the last index to update every time?
             }
         }
     }
 
     const DisplayList = () => {
-        console.log(currentReservations);
         return(
         <Grid item>
             <Stack direction="row">
-                {currentReservations.map((availDates, x) => <Button key = {x} variant="contained" sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>
-                        {availDates}
+                {currentReservations.map((obj) => <Button key = {obj.idx} variant="contained" sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>
+                        {obj.kDay}
                 </Button>)}
             </Stack>
         </Grid>
@@ -86,6 +83,10 @@ function Reservations(props) {
     useEffect(() => { // missing dependency: "props" - include or remove dependency array and destructure props outside of useffect
         props.getReservationWindows(props.match.params.id)
       }, [props.getReservationWindows]);
+
+    useEffect(() => {
+        console.log('Do something', currentReservations);
+    }, [currentReservations])
 
     return(
         <ThemeProvider theme={theme}>
