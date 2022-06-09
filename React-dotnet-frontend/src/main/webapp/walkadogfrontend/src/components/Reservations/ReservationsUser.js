@@ -19,18 +19,6 @@ function Reservations(props) {
     const today = new Date();
 
     const [open, successOpen] = React.useState(false);
-
-    const [dateFree, setDateFree] = useState([
-        { date:8, isFree:true },
-        { date:9, isFree:false },
-        { date:10, isFree:false },
-        { date:11, isFree:true },
-        { date:12, isFree:true },
-        { date:13, isFree:false }
-    ]);
-    const [dateReservations, setDateReservations] = useState([{ date:8, avail:["10:00AM", "1:00PM"] },
-                                                            { date:11, avail:["1:00PM", "3:00PM", "6:00PM"] },
-                                                            { date:12, avail:["2:00PM", "4:00PM", "5:00PM"] }]);
     const [currentReservations, setCurrentReservations] = useState([]);
 
 
@@ -47,12 +35,15 @@ function Reservations(props) {
       };
 
     const willDisableDay = (day) => {
-        const parseDay = day.getDate(); // this will instead parse through dateReservations and check current date against dateReservations if match day (ignore time)
-        for(var i = 0; i < dateFree.length; i++)
+        const parseDay = day.getDate();
+        const parseMonth = day.getMonth();
+        if(props.reservations === undefined) return false; // check if is defined, will be undefined until async get returns result to state
+        for(var i = 0; i < props.reservations.length; i++)
         {
-            if(dateFree[i].date === parseDay)
+            var date = new Date(props.reservations[i].startWindow); // is this really the most efficient way to do this???
+            if(date.getDate() === parseDay && date.getMonth() === parseMonth)
             {
-                if(dateFree[i].isFree)
+                if(!props.reservations[i].isReserved)
                 {
                     return false;
                 }
@@ -63,17 +54,21 @@ function Reservations(props) {
 
     const reservationList = (day) => {
         const parseDay = day.getDate();
-        for(var i = 0; i < dateReservations.length; i++)
+        const parseMonth = day.getMonth();
+        if(props.reservations === undefined) return;
+        for(var i = 0; i < props.reservations.length; i++)
         {
-            if(dateReservations[i].date === parseDay)
+            var date = new Date(props.reservations[i].startWindow);
+            if(date.getDate() === parseDay && date.getMonth() === parseMonth)
             {
-                setCurrentReservations(dateReservations[i].avail);
+                setCurrentReservations(oldArray => [...oldArray, date.toLocaleTimeString('en-US')]); // 'en-US' for now
                 return;
             }
         }
     }
 
     const DisplayList = () => {
+        console.log(currentReservations);
         return(
         <Grid item>
             <Stack direction="row">
@@ -180,8 +175,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const mapStateToProps = (state) => {
-    console.log("mapstate call")
+const mapStateToProps = (state) => { // ~3 calls per window load on average
     return {
         reservations: state.user.reswindows
     }
