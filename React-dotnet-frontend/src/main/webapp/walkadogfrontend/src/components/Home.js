@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector} from "react-redux";
+import React, {useState, useEffect} from 'react';
+import {connect, useSelector} from "react-redux";
 import authToken from "../utils/authToken";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -9,12 +9,18 @@ import Divider from '@mui/material/Divider';
 import { Box } from "@mui/system";
 import { Stack } from "@mui/material";
 
-function Home(){
+import { getReservationWindowsByUser } from "../services/index";
+
+function Home(props){
     if(localStorage.jwtToken) {
         authToken(localStorage.jwtToken);
     }
 
     const auth = useSelector((state) => state.auth);
+
+    useEffect(() => { // missing dependency: "props" - include or remove dependency array and destructure props outside of useffect
+        props.getReservationWindowsByUser(1)
+      }, [props.getReservationWindowsByUser]);
 
     return(
         <ThemeProvider theme={theme}>
@@ -105,4 +111,16 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-export default Home;
+const mapStateToProps = (state) => { // ~3 calls per window load on average
+    return {
+        reservations: state.user.reswindows
+    }
+}
+
+const mapDispatchToProps = (dispatch) => { // dispatch
+    return {
+        getReservationWindowsByUser: (userId) => dispatch (getReservationWindowsByUser(userId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, setState} from "react";
 import {connect} from "react-redux";
 import {fetchDogs} from "../../services/index";
 import {Link} from 'react-router-dom';
@@ -18,6 +18,8 @@ class DogList extends Component {
         super(props);
         this.state = {
             users: [],
+            dogsAll: null,
+            dogsInd: [{name:"bruno"}, {name:"mars"}]
         };
     }
 
@@ -25,16 +27,8 @@ class DogList extends Component {
         this.props.fetchDogs(localStorage.getItem('loggedId'));
     }
 
-    // findAllRandomUsers() {
-    //     axios.get("https://randomapi.com/api/6de6abfedb24f889e0b5f675edc50deb?fmt=raw&sole")
-    //         .then(response => response.data)
-    //         .then((data) => {
-    //             this.setState({users: data});
-    //         });
-    // };
-
     render() {
-        console.log("display from doglist")
+        console.log("display from doglist");
 
         const theme = createTheme({
             palette: {
@@ -52,12 +46,16 @@ class DogList extends Component {
               }
           });
 
-        const dogsAll = this.props.dogs;
-        const dogsInd = dogsAll.users;
+        //const dogsAll = this.props.dogs;
+        //const dogsInd = dogsAll.users; // why is this undefined on leave and return to it?
 
-        console.log("Displaying array data")
-        console.log(dogsAll)
-        console.log(dogsInd)
+        const dogsAll = this.props.dogs;
+        var dogsInd = [{name:"temp"}, {name:"value"}];
+        if(dogsAll.users !== undefined)
+        {
+            dogsInd = dogsAll.users;
+
+        }
 
         const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

@@ -257,6 +257,19 @@ export const getReservationWindows = (trainerId) => {
     }
 }
 
+export const getReservationWindowsByUser = (userId) => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/reservation/user/" + userId, localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(resWindowSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })  
+    }
+}
+
 export const reserveReservation = (userId, reservationId) => async(dispatch) => {
     dispatch(userRequest())
     try {

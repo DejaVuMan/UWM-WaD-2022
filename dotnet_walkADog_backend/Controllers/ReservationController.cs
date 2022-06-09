@@ -37,9 +37,16 @@ public class ReservationController : ControllerBase
 
     // GET http://localhost:4000/reservation/{id}
     [HttpGet("{id}")]
-    public IActionResult GetReservationsById(int id)
+    public IActionResult GetReservationsByTrainerId(int id)
     {
-        var result = _reservationService.GetReservationsById(id);
+        var result = _reservationService.GetReservationsByTrainerId(id);
+        return Ok(result);
+    }
+    // GET http://localhost:4000/reservation/user/{id}
+    [HttpGet("user/{id}")]
+    public IActionResult GetReservationsByUserId(int id)
+    {
+        var result = _reservationService.GetReservationsByUserId(id);
         return Ok(result);
     }
 
