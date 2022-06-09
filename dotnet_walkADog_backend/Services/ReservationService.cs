@@ -76,7 +76,7 @@ public class ReservationService : IReservationService
 
     public void ReserveReservation(ReserveReservation model)
     {
-        Console.WriteLine("Entered ReserveReservation method = reservation ID: " + model.reservationId);
+        Console.WriteLine("Entered ReserveReservation method = reservation ID: " + model.reservationId + " user ID: " + model.userId);
 
         var reservation = getReservation(model.reservationId);
         if(reservation.isReserved)

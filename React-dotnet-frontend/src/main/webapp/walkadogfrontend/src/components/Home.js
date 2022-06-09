@@ -9,18 +9,35 @@ import Divider from '@mui/material/Divider';
 import { Box } from "@mui/system";
 import { Stack } from "@mui/material";
 
-import { getReservationWindowsByUser } from "../services/index";
+import { getReservationWindowsByUser, getReservationWindows } from "../services/index";
 
 function Home(props){
     if(localStorage.jwtToken) {
         authToken(localStorage.jwtToken);
     }
 
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector((state) => state.auth); 
+
+    const DisplayList = () => { // onClick={e => updateFunc(e.target.value)} variant="contained" value = {obj.idx}
+        console.log(props.reservations)
+        if(props.reservations === undefined)
+        {
+            return(null)
+        }
+        return(
+        <Grid item>
+            <Stack direction="column">
+                {props.reservations.map((obj) => <Item key = {obj.id} sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>
+                        {new Date(obj.startWindow).toLocaleDateString('pl-PL')} at {new Date(obj.startWindow).toLocaleTimeString('pl-PL')}
+                </Item>)}
+            </Stack>
+        </Grid>
+        )
+    }
 
     useEffect(() => { // missing dependency: "props" - include or remove dependency array and destructure props outside of useffect
-        props.getReservationWindowsByUser(1)
-      }, [props.getReservationWindowsByUser]);
+        auth.isTrainer? props.getReservationWindows(localStorage.getItem('loggedId')) : props.getReservationWindowsByUser(localStorage.getItem('loggedId'))
+      }, [props.getReservationWindowsByUser, props.getReservationWindows]);
 
     return(
         <ThemeProvider theme={theme}>
@@ -53,8 +70,7 @@ function Home(props){
                                 Upcoming walks
                             </Typography>
                             <Stack direction="column" spacing={2}>
-                                <Item>Walk 1</Item>
-                                <Item>Walk 2</Item>
+                                <DisplayList/>
                             </Stack>
                         </Box>
                         <Box sx={{ ml: 8, display: 'flex', alignItems: 'center', flexDirection:'column'}}> 
@@ -62,8 +78,7 @@ function Home(props){
                                 Current walks
                             </Typography>
                             <Stack direction="column" spacing={2}>
-                                <Item>Walk 3</Item>
-                                <Item>Walk 4</Item>
+                                <Item sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>{auth.isTrainer? "Walking Nik's dog" : "10.06.2022 at 13:50"}</Item>
                             </Stack>
                         </Box>
                     </Box>
@@ -119,7 +134,8 @@ const mapStateToProps = (state) => { // ~3 calls per window load on average
 
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {
-        getReservationWindowsByUser: (userId) => dispatch (getReservationWindowsByUser(userId))
+        getReservationWindowsByUser: (userId) => dispatch (getReservationWindowsByUser(userId)),
+        getReservationWindows: (trainerId) => dispatch (getReservationWindows(trainerId))
     }
 }
 
