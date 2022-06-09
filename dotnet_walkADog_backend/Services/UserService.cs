@@ -177,12 +177,12 @@ public class UserService : IUserService
         }
         else
         {
-            trainerData.currentRating = (trainerData.currentRating + model.currentRating) / 2;
+            trainerData.currentRating = (trainerData.currentRating + model.currentRating) / 2; // this really isnt a good formula for rating...
         }
         trainerData.ratingCount += 1;
          _context.TrainerData.Update(trainerData);
          _context.SaveChanges();
-        Console.WriteLine("Changes Added!");
+        Console.WriteLine("Changes Added! New user rating is " + trainerData.currentRating);
     }
 
     public void Delete(int id)

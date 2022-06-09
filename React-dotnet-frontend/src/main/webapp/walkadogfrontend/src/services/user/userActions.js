@@ -107,14 +107,15 @@ export const fetchTrainersAndData = () => {
 export const trainerRatingUpdate = (userId, currentRating) => async(dispatch) =>{
     dispatch(userRequest())
     try {
-        axios.put("http://localhost:4000/users/ratingsend", {
+        const response = await axios.put("http://localhost:4000/users/ratingsend", {
                 userId: userId,
                 currentRating: currentRating
-            }, localStorage.getItem('jwtToken'))
-            .then(response => {
-            console.log(response)})
+            }, localStorage.getItem('jwtToken'));
+            dispatch(userSuccess(response.data))
+            return Promise.resolve(response.data)
         } catch(error) {
-            console.log(error.message)
+            dispatch(userFailure(error.message))
+            return Promise.reject(error)
         }
 }
 
