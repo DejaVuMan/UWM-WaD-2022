@@ -165,6 +165,26 @@ public class UserService : IUserService
         Console.WriteLine("Changes Added!");
     }
 
+    public void UpdateTrainerTable(UpdateTrainerTable model)
+    {
+        Console.WriteLine("Updating Trainer with new rating: " + model.currentRating);
+        var trainerData = getTrainerData(model.userId);
+        if(trainerData.ratingCount < 1)
+        {
+            Console.WriteLine(trainerData.currentRating);
+            trainerData.currentRating = (float) model.currentRating; // add rating
+            Console.WriteLine(trainerData.currentRating);
+        }
+        else
+        {
+            trainerData.currentRating = (trainerData.currentRating + model.currentRating) / 2;
+        }
+        trainerData.ratingCount += 1;
+         _context.TrainerData.Update(trainerData);
+         _context.SaveChanges();
+        Console.WriteLine("Changes Added!");
+    }
+
     public void Delete(int id)
     {
         var user = getUser(id);
