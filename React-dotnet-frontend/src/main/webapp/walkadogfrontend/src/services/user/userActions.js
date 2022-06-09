@@ -104,6 +104,20 @@ export const fetchTrainersAndData = () => {
     }
 }
 
+export const trainerRatingUpdate = (userId, currentRating) => async(dispatch) =>{
+    dispatch(userRequest())
+    try {
+        axios.put("http://localhost:4000/users/ratingsend", {
+                userId: userId,
+                currentRating: currentRating
+            }, localStorage.getItem('jwtToken'))
+            .then(response => {
+            console.log(response)})
+        } catch(error) {
+            console.log(error.message)
+        }
+}
+
 export const fetchUsersAndData = () => {
     return dispatch => {
         dispatch(userRequest())

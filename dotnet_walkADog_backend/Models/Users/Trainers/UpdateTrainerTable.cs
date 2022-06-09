@@ -6,6 +6,6 @@ public class UpdateTrainerTable
 {
     [Required]
     public int userId{ get; set; }
+    [Required]
     public float currentRating{ get; set; }
-    public int ratingCount { get; set; }
 }
