@@ -244,6 +244,37 @@ export const addReservationWindow = (startWindow, reservationLength, trainerId) 
     }
 }
 
+export const getReservationWindows = (trainerId) => {
+    return dispatch => {
+        dispatch(userRequest())
+        axios.get("http://localhost:4000/reservation/" + trainerId, localStorage.getItem('jwtToken'))
+        .then(response => {
+            dispatch(resWindowSuccess(response.data))
+        })
+        .catch(error => {
+            dispatch(userFailure(error.message))
+        })  
+    }
+}
+
+export const reserveReservation = (userId, reservationId) => async(dispatch) => {
+    dispatch(userRequest())
+    try {
+        const response = await axios.put("http://localhost:4000/reservation", {
+            userId: userId,
+            reservationId: reservationId,
+            isReserved: true
+            }, localStorage.getItem('jwtToken'));
+            console.log(response)
+            dispatch(userSuccess(response.data))
+            return Promise.resolve(response.data)
+        } catch(error) {
+            console.log(error)
+            dispatch(userFailure(error.message))
+            return Promise.reject(error)
+        }
+}
+
 const userRequest = () => {
     return {
         type: UT.USER_REQUEST
@@ -278,19 +309,12 @@ const userSuccess = users => {
     }
 }
 
-// const updateSuccess = (users, traindat) => { // return copy of new record after PUT
-//     return {
-//         type: UT.UPDATE_SUCCESS,
-//         payload: users, traindat // if user is not trainer, traindat remains empty
-//     }
-// }
-
-// const updateFailure = (error) => {
-//     return {
-//         type: UT.UPDATE_FAILURE,
-//         payload: error
-//     }
-// }
+const resWindowSuccess = reswindows => {
+    return {
+        type: UT.RESWINDOW_SUCCESS,
+        payload: reswindows
+    }
+}
 
 const trainerSuccess = (users, traindat) => {
     return {

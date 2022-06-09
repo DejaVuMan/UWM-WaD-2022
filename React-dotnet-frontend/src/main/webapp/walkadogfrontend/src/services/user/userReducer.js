@@ -38,6 +38,11 @@ const reducer = (state = initialState, action) => {
                 trainerdata: action.traindat,
                 error: ''
             }
+        case UT.RESWINDOW_SUCCESS:
+            return {
+                reswindows: action.payload,
+                error: ''
+            }
         case UT.UPDATE_FAILURE:
             return {
                 error: action.payload

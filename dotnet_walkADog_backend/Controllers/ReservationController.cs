@@ -28,7 +28,6 @@ public class ReservationController : ControllerBase
     }
 
     // POST http://localhost:4000/reservation/create
-    [AllowAnonymous]
     [HttpPost("create")]
     public IActionResult Create(NewReservation model)
     {
@@ -36,4 +35,19 @@ public class ReservationController : ControllerBase
         return Ok(new { message = "Reservation successfully added" });
     }
 
+    // GET http://localhost:4000/reservation/{id}
+    [HttpGet("{id}")]
+    public IActionResult GetReservationsById(int id)
+    {
+        var result = _reservationService.GetReservationsById(id);
+        return Ok(result);
+    }
+
+    // PUT http://localhost:4000/reservation
+    [HttpPut]
+    public IActionResult ReserveReservation(ReserveReservation model)
+    {
+        _reservationService.ReserveReservation(model);
+        return Ok(new { message = "Reservation successfully added" });
+    }
 }

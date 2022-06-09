@@ -10,6 +10,9 @@ using WebApi.Models.Reservations;
 public interface IReservationService
 {
     public void Create(NewReservation model);
+    public IEnumerable<ReservationData> GetReservationsById(int id);
+
+    public void ReserveReservation(ReserveReservation model);
 }
 
 public class ReservationService : IReservationService
@@ -28,7 +31,7 @@ public class ReservationService : IReservationService
         _mapper = mapper;
     }
 
-       public void Create(NewReservation model)
+    public void Create(NewReservation model)
     {
         try
         {
@@ -58,4 +61,36 @@ public class ReservationService : IReservationService
             Console.WriteLine(e);
         }
     }
+
+    public IEnumerable<ReservationData> GetReservationsById(int id)
+    {
+        Console.WriteLine("Entered GetReservationsById method = ID: " + id);
+        return _context.ReservationData.Where(elem => elem.trainerId == id);
+    }
+
+    public void ReserveReservation(ReserveReservation model)
+    {
+        Console.WriteLine("Entered ReserveReservation method = reservation ID: " + model.reservationId);
+
+        var reservation = getReservation(model.reservationId);
+        if(reservation.isReserved)
+        {
+            throw new AppException("This reservation is already reserved!");
+        }
+        _mapper.Map(model, reservation);
+        _context.ReservationData.Update(reservation);
+        _context.SaveChanges();
+
+        Console.WriteLine("Changes saved");
+    }
+
+    // Internal funcs
+
+    private ReservationData getReservation(int id)
+    {
+        var reservation = _context.ReservationData.Find(id);
+        if (reservation == null) throw new KeyNotFoundException("Reservation not found");
+        return reservation;
+    }
+
 }
