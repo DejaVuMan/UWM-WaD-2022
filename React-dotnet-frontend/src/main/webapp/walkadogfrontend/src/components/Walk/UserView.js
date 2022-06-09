@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {fetchDogById, dogUpdate, removeDogById} from "../../services/index";
+import {trainerRatingUpdate} from "../../services/index";
 
 import { Grid, Typography, styled, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -10,7 +10,6 @@ import Button from '@mui/material/Button'
 import { Rating } from "@mui/material";
 import { Stack } from "@mui/material";
 import { Dialog, DialogActions } from "@mui/material";
-
 import Image from 'mui-image'
 
 function UserView(props){
@@ -25,6 +24,18 @@ function UserView(props){
     const handleClose = () => {
         setOpen(false);
     };
+
+    const sendUpdate = (props) => {
+        handleClose()
+        props.trainerRatingUpdate(9, userRating)
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log(error.message)
+            //handleFailOpen()
+        })
+    }
 
     return(
         <ThemeProvider theme={theme}>
@@ -87,7 +98,7 @@ function UserView(props){
                     <Rating name="trainer-rating" defaultValue={3} precision={0.5} onChange={(event, newValue) => setUserRating(newValue)}/>
                 </DialogContent>
                 <DialogActions>
-                    <Button variant="contained" onClick={handleClose}>Submit Rating</Button> 
+                    <Button variant="contained" onClick={() => sendUpdate(props)}>Submit Rating</Button> 
                 </DialogActions>
             </Dialog>
         </ThemeProvider>
@@ -132,4 +143,10 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-export default UserView;
+const mapDispatchToProps = (dispatch) => { // dispatch
+    return {
+        trainerRatingUpdate: (userId, currentRating) => dispatch (trainerRatingUpdate(userId, currentRating))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(UserView);
