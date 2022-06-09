@@ -113,6 +113,14 @@ public class UsersController : ControllerBase
         return Ok(new { message = "User updated successfully" });
     }
 
+    // PUT http://localhost:4000/users/ratingsend
+    [HttpPut("ratingsend")]
+    public IActionResult UpdateTrainerTable(UpdateTrainerTable model)
+    {
+        _userService.UpdateTrainerTable(model);
+        return Ok(new { message = "Trainer rating updated successfully" });
+    }
+
     // DELETE http://localhost:4000/user/id
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)

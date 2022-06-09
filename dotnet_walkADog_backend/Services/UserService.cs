@@ -25,7 +25,7 @@ public interface IUserService
 
     TrainerData OpenGetTrainerDataById(int id);
 
-    //void InsertTrainerTable(int id);
+    public void UpdateTrainerTable(UpdateTrainerTable model);
 }
 
 public class UserService : IUserService
