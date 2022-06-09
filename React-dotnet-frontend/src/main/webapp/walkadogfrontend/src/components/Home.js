@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {connect, useSelector} from "react-redux";
 import authToken from "../utils/authToken";
+import { Link } from "react-router-dom";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Grid, Typography, styled } from "@mui/material";
@@ -78,7 +79,9 @@ function Home(props){
                                 Current walks
                             </Typography>
                             <Stack direction="column" spacing={2}>
-                                <Item sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>{auth.isTrainer? "Walking Nik's dog" : "10.06.2022 at 13:50"}</Item>
+                                <Link to={"/useractive/" + 1}>
+                                    <Item sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>{auth.isTrainer? "Walking Nik's dog" : "10.06.2022 at 13:50"}</Item>
+                                </Link>
                             </Stack>
                         </Box>
                     </Box>
