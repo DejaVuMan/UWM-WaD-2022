@@ -45,4 +45,9 @@ public class ReservationController : ControllerBase
         return Ok(result);
     }
 
+    public IActionResult ReserveReservation(ReserveReservation model)
+    {
+        _reservationService.ReserveReservation(model);
+        return Ok(new { message = "Reservation successfully added" });
+    }
 }

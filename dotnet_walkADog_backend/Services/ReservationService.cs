@@ -11,6 +11,8 @@ public interface IReservationService
 {
     public void Create(NewReservation model);
     public IEnumerable<ReservationData> GetReservationsById(int id);
+
+    public void ReserveReservation(ReserveReservation model);
 }
 
 public class ReservationService : IReservationService
@@ -65,4 +67,30 @@ public class ReservationService : IReservationService
         Console.WriteLine("Entered GetReservationsById method = ID: " + id);
         return _context.ReservationData.Where(elem => elem.trainerId == id);
     }
+
+    public void ReserveReservation(ReserveReservation model)
+    {
+        Console.WriteLine("Entered GetReservationsById method = reservation ID: " + model.reservationId);
+
+        var reservation = getReservation(model.reservationId);
+
+        if(reservation.isReserved)
+        {
+            throw new AppException("This reservation is already reserved!");
+        }
+
+        _mapper.Map(model, reservation);
+        _context.ReservationData.Update(reservation);
+        _context.SaveChanges();
+    }
+
+    // Internal funcs
+
+    private ReservationData getReservation(int id)
+    {
+        var reservation = _context.ReservationData.Find(id);
+        if (reservation == null) throw new KeyNotFoundException("Reservation not found");
+        return reservation;
+    }
+
 }
