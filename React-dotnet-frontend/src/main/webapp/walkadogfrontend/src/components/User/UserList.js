@@ -46,8 +46,14 @@ class UserList extends Component {
               }
           });
 
+
         const usersAll = this.props.users;
-        const usersInd = usersAll.users;
+        var usersInd = [{firstName:"temp", lastName:"temp", id:1}, {firstName:"temp", lastName:"temp", id:2}];
+        if(usersAll.users !== undefined)
+        {
+            usersInd = usersAll.users;
+
+        }
 
         //const trainersDataInd = usersAll.trainerdata;
         console.log("Displaying array data")

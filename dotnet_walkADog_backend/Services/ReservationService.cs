@@ -10,8 +10,8 @@ using WebApi.Models.Reservations;
 public interface IReservationService
 {
     public void Create(NewReservation model);
-    public IEnumerable<ReservationData> GetReservationsById(int id);
-
+    public IEnumerable<ReservationData> GetReservationsByTrainerId(int id);
+    public IEnumerable<ReservationData> GetReservationsByUserId(int id);
     public void ReserveReservation(ReserveReservation model);
 }
 
@@ -62,15 +62,21 @@ public class ReservationService : IReservationService
         }
     }
 
-    public IEnumerable<ReservationData> GetReservationsById(int id)
+    public IEnumerable<ReservationData> GetReservationsByTrainerId(int id)
     {
         Console.WriteLine("Entered GetReservationsById method = ID: " + id);
         return _context.ReservationData.Where(elem => elem.trainerId == id);
     }
 
+    public IEnumerable<ReservationData> GetReservationsByUserId(int id)
+    {
+        Console.WriteLine("Entered GetReservationsByUserId method = ID: " + id);
+        return _context.ReservationData.Where(elem => elem.userId == id);
+    }
+
     public void ReserveReservation(ReserveReservation model)
     {
-        Console.WriteLine("Entered ReserveReservation method = reservation ID: " + model.reservationId);
+        Console.WriteLine("Entered ReserveReservation method = reservation ID: " + model.reservationId + " user ID: " + model.userId);
 
         var reservation = getReservation(model.reservationId);
         if(reservation.isReserved)

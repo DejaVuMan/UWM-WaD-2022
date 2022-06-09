@@ -8,11 +8,11 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Rating } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider'
-import Stack from '@mui/material/Stack'
-import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
-import trainerIcon from '../../assets/trainer.png'
+import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import trainerIcon from '../../assets/trainer.png';
 
 class TrainerProfile extends Component {
     constructor(props) {

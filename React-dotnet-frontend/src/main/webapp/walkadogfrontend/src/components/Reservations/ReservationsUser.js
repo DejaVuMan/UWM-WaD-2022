@@ -93,7 +93,7 @@ function Reservations(props) {
 
     const reserveRequest = (props) => {
         console.log(activeChoice);
-        props.reserveReservation(props.match.params.id, activeChoice)
+        props.reserveReservation(localStorage.getItem('loggedId'), activeChoice)
             .then((response) => {
                 console.log(response.data)
                 handleSuccessOpen()

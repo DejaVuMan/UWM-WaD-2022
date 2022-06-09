@@ -53,13 +53,19 @@ class TrainerList extends Component {
               }
           });
 
-        const trainersAll = this.props.trainers;
-        const trainersInd = trainersAll.users;
-
-        const trainersDataInd = trainersAll.trainerdata;
         console.log("Displaying array data")
         console.log(trainersInd)
         console.log(trainersDataInd)
+
+        const trainersAll = this.props.trainers;
+        var trainersInd = [{firstName:"temp", lastName:"temp", id:1, ratingCount:0}, {firstName:"temp", lastName:"temp", id:2, ratingCount:0}];
+        var trainersDataInd = [{id:1, ratingCount:0}, {id:2, ratingCount:0}];
+        if(trainersAll.users !== undefined)
+        {
+            trainersInd = trainersAll.users;
+            trainersDataInd = trainersAll.trainerdata;
+
+        }
 
         const Item = styled(Paper)(({ theme }) => ({
             backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
