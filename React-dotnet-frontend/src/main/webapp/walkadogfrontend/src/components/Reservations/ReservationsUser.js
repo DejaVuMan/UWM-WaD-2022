@@ -53,16 +53,19 @@ function Reservations(props) {
     }
 
     const reservationList = (day) => {
+        setCurrentReservations([]);
         const parseDay = day.getDate();
         const parseMonth = day.getMonth();
+        var entry = false;
         if(props.reservations === undefined) return;
         for(var i = 0; i < props.reservations.length; i++)
         {
             var date = new Date(props.reservations[i].startWindow);
             if(date.getDate() === parseDay && date.getMonth() === parseMonth)
             {
+                console.log(i);
+                console.log(date);
                 setCurrentReservations(oldArray => [...oldArray, date.toLocaleTimeString('en-US')]); // 'en-US' for now
-                return;
             }
         }
     }
@@ -112,8 +115,8 @@ function Reservations(props) {
                             handleSuccessOpen()
                         }}
                         onChange={(newValue) => {
-                        reservationList(newValue);
-                        setValue(newValue);
+                            reservationList(newValue);
+                            setValue(newValue);
                         }}
                         renderInput={(params) => 
                         <TextField {...params} 
