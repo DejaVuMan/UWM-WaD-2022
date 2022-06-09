@@ -2,20 +2,30 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {fetchDogById, dogUpdate, removeDogById} from "../../services/index";
 
-import { Grid, Typography, styled } from "@mui/material";
+import { Grid, Typography, styled, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
-import { TextField } from "@mui/material";
-import { IconButton } from "@mui/material";
-import PhotoCamera from "@mui/icons-material/PhotoCamera"
-import { Divider } from "@mui/material";
+import { Rating } from "@mui/material";
 import { Stack } from "@mui/material";
+import { Dialog, DialogActions } from "@mui/material";
 
 import Image from 'mui-image'
 
 function UserView(props){
+
+    const [open, setOpen] = React.useState(false);
+    const [userRating, setUserRating] = React.useState(3);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return(
         <ThemeProvider theme={theme}>
             <Grid
@@ -23,12 +33,12 @@ function UserView(props){
                 //justifyContent = "center"
                 alignItems = "center"
                 direction = "column"
-                style={{ minHeight: "100vh" }}
+                //style={{ minHeight: "100vh" }}
                 rowSpacing={3}
             >
                 <Grid item>
                     <Typography variant="title">
-                        Taking a walk...
+                        Benny is on a walk with Andrzej
                     </Typography>
                 </Grid>
                 <Grid item>
@@ -38,7 +48,48 @@ function UserView(props){
                     // use vh for good enough size on desktop and near ideal size on mobile
                     />
                 </Grid>
+                <Grid item>
+                    <Box
+                        sx={{
+                            width: '40wh',
+                            display: 'flex',
+                            //alignItems: 'center',
+                            flexDirection: 'row'
+                        }}
+                    >
+                        <Box sx={{ mr: 8, display: 'flex', alignItems: 'center', flexDirection:'column'}}> 
+                            <Typography variant="primarypart">
+                                Reports from Andzrej
+                            </Typography>
+                        </Box>
+                        <Box sx={{ ml: 8, display: 'flex', alignItems: 'center', flexDirection:'column'}}> 
+                            <Typography variant="primarypart">
+                                Actions
+                            </Typography>
+                            <Stack direction="column" spacing={2}>
+                                <Button fullWidth variant="contained" onClick={handleClickOpen} sx={{ mt: 3, mb: 2 }}>
+                                    Review...
+                                </Button>
+                                <Button fullWidth variant="contained" color="error" sx={{ mt: 3, mb: 2 }}>
+                                    Report
+                                </Button>
+                            </Stack>
+                        </Box>
+                    </Box>
+                </Grid>
             </Grid>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>How did Andzrej do?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        How would you rate Andzrej on a scale of 1 to 5?
+                    </DialogContentText>
+                    <Rating name="trainer-rating" defaultValue={3} precision={0.5} onChange={(event, newValue) => setUserRating(newValue)}/>
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" onClick={handleClose}>Submit Rating</Button> 
+                </DialogActions>
+            </Dialog>
         </ThemeProvider>
     )
 }
