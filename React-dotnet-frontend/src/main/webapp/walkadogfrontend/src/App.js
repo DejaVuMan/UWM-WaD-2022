@@ -4,8 +4,6 @@ import NavigationBar from "./components/NavigationBar";
 import {Container, Row, Col} from "react-bootstrap";
 import Welcome from "./components/Welcome";
 //import Footer from "./components/Footer";
-import Task from "./components/Task/Task";
-import TaskList from "./components/Task/TaskList";
 import UserList from "./components/User/UserList";
 import Login from "./components/User/Login";
 import Register from "./components/User/Register";
@@ -21,6 +19,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import DogProfile from "./components/Dog/DogProfile";
 import TrainerList from "./components/User/TrainerList";
 import UserProfile from "./components/User/UserProfile";
+import UserView from "./components/Walk/UserView";
 
 const App = () => {
   window.onbeforeunload = (event) => {
@@ -40,9 +39,7 @@ const App = () => {
                 <Switch>
                   <Route path="/" exact component={Welcome}/>
                   <Route path="/home" exact component={Home}/>
-                  <Route path="/add" exact component={Task}/>
                   <Route path="/edit/:id" exact component={UpdateProfile}/>
-                  <Route path="/list" exact component={TaskList}/>
                   <Route path="/users" exact component={UserList}/>
                   <Route path="/users/trainers" exact component={TrainerList}/>
                   <Route path="/trainers/:id" exact component={TrainerProfile}/>
@@ -55,6 +52,7 @@ const App = () => {
                   <Route exact path="/dogs/:id" component={DogProfile}/>
                   <Route exact path ="/reservations/add" component={ReservationsTrainer}/>
                   <Route exact path="/reservations/:id" component={ReservationsUser}/>
+                  <Route exact path="/useractive/:id" component={UserView}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>
               </Col>
