@@ -17,9 +17,7 @@ class DogList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
-            dogsAll: null,
-            dogsInd: [{name:"bruno"}, {name:"mars"}]
+            users: []
         };
     }
 
