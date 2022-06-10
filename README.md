@@ -1,4 +1,4 @@
-# Walk-a-Dog project for UWM, intended for Billenium. 2022
+# Walk-a-Dog project for <a href="http://www.uwm.edu.pl/"><img src="https://m.wm.pl/2017/12/n/uwm4-kopiowanie-431949.jpg" width="80" align="center"></a> / <a href="https://billennium.com/"><img src="https://media-exp1.licdn.com/dms/image/C4D0BAQEEDtthyWg0Bg/company-logo_200_200/0/1547048066097?e=2147483647&v=beta&t=8LzSE0-BWU04_Zh3DOLoD25dyx-iLcKgKtk2tGXlLKs" width="80" align="center"></a>, 2022
 
 ## About this project
 
