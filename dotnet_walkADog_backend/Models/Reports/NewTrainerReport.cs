@@ -2,7 +2,7 @@ namespace WebApi.Models.Reports;
 
 using System.ComponentModel.DataAnnotations;
 
-public class NewReservation
+public class NewTrainerReport
 {
     [Required]
     public int userId { get; set; }
