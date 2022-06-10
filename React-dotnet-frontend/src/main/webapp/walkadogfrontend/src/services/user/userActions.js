@@ -135,11 +135,12 @@ export const sendTrainerReport = (userId, trainerId, report) => async(dispatch) 
         }
 }
 
-export const getTrainerReport = (trainerId, userId) => async(dispatch) => {
+export const getTrainerReport = (userId, trainerId) => async(dispatch) => {
     dispatch(userRequest())
     try {
-        const response = await axios.post("http://localhost:4000/report/"+trainerId, {
-            userId: userId
+        const response = await axios.post("http://localhost:4000/report", {
+            userId: userId,
+            trainerId: trainerId
         }, localStorage.getItem('jwtToken'));
             dispatch(userSuccess(response.data))
             return Promise.resolve(response.data)

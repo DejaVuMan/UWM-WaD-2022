@@ -34,4 +34,13 @@ public class ReportController : ControllerBase
         _reportService.Create(model);
         return Ok(new { message = "Reservation successfully added" });
     }
+
+        // Get http://localhost:4000/report
+    [HttpPost]
+    public IActionResult Get(GetTrainerReport model)
+    {
+        var trainerReport = _reportService.Get(model);
+        Console.WriteLine(trainerReport);
+        return Ok(trainerReport);
+    }
 }

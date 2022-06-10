@@ -33,7 +33,7 @@ function UserView(props){
         handleClose()
         props.trainerRatingUpdate(9, userRating)
         .then((response) => {
-            console.log(response.data)
+            console.log(response)
         })
         .catch((error) => {
             console.log(error.message)
@@ -44,7 +44,7 @@ function UserView(props){
     // TODO const getUpdates
 
     const getUpdates = (props => {
-        props.getTrainerReport(9, localStorage.getItem('loggedId'))
+        props.getTrainerReport(1, 9)
         .then((response) => {
             console.log(response.data)
         })
@@ -54,10 +54,11 @@ function UserView(props){
     })
 
     const DisplayList = () => { // props.reports
+        console.log("call from displaylist");
         return(
         <Stack direction="row">
             <Card sx={{ minWidth: 275 }}>
-                { undefined === undefined?
+                { props.reports === undefined?
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Andzrej hasn't sent any reports yet.
@@ -69,7 +70,9 @@ function UserView(props){
                         Report #1
                     </Typography>
                     <Typography variant="body2">
-                        Haha dog go brrrr!
+                        {props.reports.map((report, index) => 
+                            report.report
+                        )}
                     </Typography>
                 </CardContent>
                 }
@@ -191,14 +194,14 @@ const Item = styled(Paper)(({ theme }) => ({
 const mapStateToProps = (state) => {
     console.log(state)
     return {
-        reports: state.user,
+        reports: state.user.users,
     }
 }
 
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {
         trainerRatingUpdate: (userId, currentRating) => dispatch (trainerRatingUpdate(userId, currentRating)),
-        getTrainerReport: (trainerId, userId) => dispatch (getTrainerReport(trainerId, userId))
+        getTrainerReport: (userId, trainerId) => dispatch (getTrainerReport(userId, trainerId))
     }
 }
 
