@@ -17,6 +17,7 @@ class DogList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dogs: [],
             users: []
         };
     }
@@ -49,9 +50,9 @@ class DogList extends Component {
 
         const dogsAll = this.props.dogs;
         var dogsInd = [{name:"temp"}, {name:"value"}];
-        if(dogsAll.users !== undefined)
+        if(dogsAll.dogs !== undefined)
         {
-            dogsInd = dogsAll.users;
+            dogsInd = dogsAll.dogs;
 
         }
 

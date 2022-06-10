@@ -47,6 +47,10 @@ const reducer = (state = initialState, action) => {
             return {
                 error: action.payload
             }
+        case UT.DOG_SUCCESS:
+            return {
+                dogs: action.payload
+            }
         default:
             return state;
     }

@@ -72,7 +72,13 @@ class UpdateProfile extends Component {
         }
 
         const userSum = this.props.trainersind;
-        const userIndividual = userSum.users;
+        var userIndividual = {firstName: "temp", lastName: "temp", isTrainer: false};
+
+        if(userSum.users !== undefined)
+        {
+            userIndividual = userSum.users
+        }
+
         const userDataInd = userSum.trainerdata;
 
         console.log(userIndividual)
