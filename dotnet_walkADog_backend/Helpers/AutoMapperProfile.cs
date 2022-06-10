@@ -5,6 +5,7 @@ using WebApi.Entities;
 using WebApi.Models.Users;
 using WebApi.Models.Dogs;
 using WebApi.Models.Reservations;
+using WebApi.Models.Reports;
 
 public class AutoMapperProfile : Profile
 {
@@ -77,5 +78,8 @@ public class AutoMapperProfile : Profile
                     return true;
                 }
             ));
+
+        // NewTrainerReport -> TrainerReport
+        CreateMap<NewTrainerReport, TrainerReport>();
     }
 }
