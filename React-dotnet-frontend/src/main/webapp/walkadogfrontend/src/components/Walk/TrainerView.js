@@ -27,7 +27,7 @@ function TrainerView(props){
     };
 
     const trainerReport = (props) => {
-        props.trainerRatingUpdate(1, localStorage.getItem('loggedId'), report)
+        props.trainerReport(1, localStorage.getItem('loggedId'), report)
         .then((response) => {
             console.log(response.data)
         })
@@ -85,7 +85,7 @@ function TrainerView(props){
                                 rows={4}
                                 onChange={evt => updateInputValue(evt)}
                             />
-                            <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <Button variant="contained" onClick={() => trainerReport(props)}sx={{ mt: 3, mb: 2 }}>
                                     Submit...
                             </Button>
                         </Box>

@@ -31,6 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IUserService, UserService>();
     services.AddScoped<IDogService, DogService>();
     services.AddScoped<IReservationService, ReservationService>();
+    services.AddScoped<IReportService, ReportService>();
 }
 
 var app = builder.Build();
