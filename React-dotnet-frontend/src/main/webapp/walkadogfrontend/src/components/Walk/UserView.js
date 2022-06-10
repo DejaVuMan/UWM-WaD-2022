@@ -1,11 +1,10 @@
-import React, {Component} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {trainerRatingUpdate, getTrainerReport} from "../../services/index";
 
-import { Grid, Typography, styled, DialogTitle, DialogContent, DialogContentText, CardContent } from "@mui/material";
+import { Grid, Typography, DialogTitle, DialogContent, DialogContentText, CardContent } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import {IconButton} from "@mui/material";
 import { Rating } from "@mui/material";
@@ -184,14 +183,6 @@ const theme = createTheme({
         }
       },
   });
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 
 const mapStateToProps = (state) => {
     console.log(state)

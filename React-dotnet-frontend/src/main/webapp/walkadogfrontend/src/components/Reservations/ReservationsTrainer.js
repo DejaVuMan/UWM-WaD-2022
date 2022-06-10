@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {TextField, Grid, styled} from '@mui/material';
+import {TextField, Grid} from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDateTimePicker } from '@mui/x-date-pickers/StaticDateTimePicker';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Paper from '@mui/material/Paper'
-import { Link } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
 import {Typography} from '@mui/material';
 import { addReservationWindow } from '../../services/index';
@@ -144,14 +142,6 @@ const theme = createTheme({
         }
       },
   });
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {

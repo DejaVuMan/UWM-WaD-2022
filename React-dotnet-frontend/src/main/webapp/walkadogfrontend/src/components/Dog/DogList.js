@@ -1,4 +1,4 @@
-import React, {Component, setState} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
 import {fetchDogs} from "../../services/index";
 import {Link} from 'react-router-dom';

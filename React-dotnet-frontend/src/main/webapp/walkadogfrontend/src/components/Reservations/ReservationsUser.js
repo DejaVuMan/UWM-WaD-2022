@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {connect} from "react-redux";
 
-import {TextField, Grid, styled} from '@mui/material';
+import {TextField, Grid} from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Stack from '@mui/material/Stack'
-import Paper from '@mui/material/Paper'
 import { Snackbar, Alert } from '@mui/material';
 import { Button } from '@mui/material';
 import { Typography } from '@mui/material';
@@ -194,14 +193,6 @@ const theme = createTheme({
         }
       },
   });
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 
 const mapStateToProps = (state) => { // ~3 calls per window load on average
     return {

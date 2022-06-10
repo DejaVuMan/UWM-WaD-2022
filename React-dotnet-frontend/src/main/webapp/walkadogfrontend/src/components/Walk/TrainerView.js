@@ -2,10 +2,9 @@ import React from "react";
 import {connect} from "react-redux";
 import {sendTrainerReport} from "../../services/index";
 
-import { Grid, Typography, styled, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
+import { Grid, Typography, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { Rating } from "@mui/material";
 import { Stack } from "@mui/material";
@@ -153,14 +152,6 @@ const theme = createTheme({
         }
       },
   });
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
 
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {

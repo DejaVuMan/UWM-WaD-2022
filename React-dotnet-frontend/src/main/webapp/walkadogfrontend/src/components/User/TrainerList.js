@@ -53,10 +53,6 @@ class TrainerList extends Component {
               }
           });
 
-        console.log("Displaying array data")
-        console.log(trainersInd)
-        console.log(trainersDataInd)
-
         const trainersAll = this.props.trainers;
         var trainersInd = [{firstName:"temp", lastName:"temp", id:1, ratingCount:0}, {firstName:"temp", lastName:"temp", id:2, ratingCount:0}];
         var trainersDataInd = [{id:1, ratingCount:0}, {id:2, ratingCount:0}];

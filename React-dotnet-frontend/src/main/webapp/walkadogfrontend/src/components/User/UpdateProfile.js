@@ -1,12 +1,10 @@
-import React, {Component, useState} from "react";
-import {connect, useDispatch} from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 //import {useParams} from 'react-router-dom';
 import {openfetchTrainersAndDataById, userUpdate} from "../../services/index";
 
 import { Grid, Typography, styled } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Rating } from "@mui/material";
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack'
@@ -79,7 +77,7 @@ class UpdateProfile extends Component {
             userIndividual = userSum.users
         }
 
-        const userDataInd = userSum.trainerdata;
+        //const userDataInd = userSum.trainerdata;
 
         console.log(userIndividual)
 
