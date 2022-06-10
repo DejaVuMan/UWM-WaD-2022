@@ -119,7 +119,7 @@ export const trainerRatingUpdate = (userId, currentRating) => async(dispatch) =>
         }
 }
 
-export const trainerReport = (userId, trainerId, report) => async(dispatch) => {
+export const sendTrainerReport = (userId, trainerId, report) => async(dispatch) => {
     dispatch(userRequest())
     try {
         const response = await axios.post("http://localhost:4000/report/create", {
@@ -127,6 +127,20 @@ export const trainerReport = (userId, trainerId, report) => async(dispatch) => {
                 trainerId: trainerId,
                 report: report
             }, localStorage.getItem('jwtToken'));
+            dispatch(userSuccess(response.data))
+            return Promise.resolve(response.data)
+        } catch(error) {
+            dispatch(userFailure(error.message))
+            return Promise.reject(error)
+        }
+}
+
+export const getTrainerReport = (trainerId, userId) => async(dispatch) => {
+    dispatch(userRequest())
+    try {
+        const response = await axios.post("http://localhost:4000/report/"+trainerId, {
+            userId: userId
+        }, localStorage.getItem('jwtToken'));
             dispatch(userSuccess(response.data))
             return Promise.resolve(response.data)
         } catch(error) {

@@ -90,7 +90,7 @@ class DogList extends Component {
                 </Grid>
                 <Link to={"/dogs/register"}>
                     <Button variant="contained" sx={{ mt: 3, mb: 2, borderRadius: 8 }}>
-                        Edit...
+                        Add a new dog
                     </Button>
                 </Link>
             </Box>

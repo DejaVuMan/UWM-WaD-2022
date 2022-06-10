@@ -1,15 +1,19 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {trainerRatingUpdate} from "../../services/index";
+import {trainerRatingUpdate, getTrainerReport} from "../../services/index";
 
-import { Grid, Typography, styled, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
+import { Grid, Typography, styled, DialogTitle, DialogContent, DialogContentText, CardContent } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import {IconButton} from "@mui/material";
 import { Rating } from "@mui/material";
 import { Stack } from "@mui/material";
 import { Dialog, DialogActions } from "@mui/material";
+import {Card} from "@mui/material";
+import RefreshIcon from '@mui/icons-material/Refresh';
+
 import Image from 'mui-image'
 
 function UserView(props){
@@ -35,6 +39,43 @@ function UserView(props){
             console.log(error.message)
             //handleFailOpen()
         })
+    }
+
+    // TODO const getUpdates
+
+    const getUpdates = (props => {
+        props.getTrainerReport(9, localStorage.getItem('loggedId'))
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch((error) => {
+            console.log(error.message)
+        })
+    })
+
+    const DisplayList = () => { // props.reports
+        return(
+        <Stack direction="row">
+            <Card sx={{ minWidth: 275 }}>
+                { undefined === undefined?
+                <CardContent>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                        Andzrej hasn't sent any reports yet.
+                    </Typography>
+                </CardContent> 
+                :
+                <CardContent>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                        Report #1
+                    </Typography>
+                    <Typography variant="body2">
+                        Haha dog go brrrr!
+                    </Typography>
+                </CardContent>
+                }
+            </Card>
+        </Stack>
+        )
     }
 
     return(
@@ -72,6 +113,10 @@ function UserView(props){
                             <Typography variant="primarypart">
                                 Reports from Andzrej
                             </Typography>
+                            <DisplayList/>
+                            <IconButton aria-label="refresh" variant="contained" onClick={() => getUpdates(props)} sx={{ mt: 3, mb: 2 }}>
+                                <RefreshIcon />
+                            </IconButton>
                         </Box>
                         <Box sx={{ ml: 8, display: 'flex', alignItems: 'center', flexDirection:'column'}}> 
                             <Typography variant="primarypart">
@@ -143,10 +188,18 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-const mapDispatchToProps = (dispatch) => { // dispatch
+const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        trainerRatingUpdate: (userId, currentRating) => dispatch (trainerRatingUpdate(userId, currentRating))
+        reports: state.user,
     }
 }
 
-export default connect(null, mapDispatchToProps)(UserView);
+const mapDispatchToProps = (dispatch) => { // dispatch
+    return {
+        trainerRatingUpdate: (userId, currentRating) => dispatch (trainerRatingUpdate(userId, currentRating)),
+        getTrainerReport: (trainerId, userId) => dispatch (getTrainerReport(trainerId, userId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserView);
