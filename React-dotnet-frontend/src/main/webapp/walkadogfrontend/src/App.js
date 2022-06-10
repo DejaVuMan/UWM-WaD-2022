@@ -20,6 +20,7 @@ import DogProfile from "./components/Dog/DogProfile";
 import TrainerList from "./components/User/TrainerList";
 import UserProfile from "./components/User/UserProfile";
 import UserView from "./components/Walk/UserView";
+import TrainerView from "./components/Walk/TrainerView";
 
 const App = () => {
   window.onbeforeunload = (event) => {
@@ -53,6 +54,7 @@ const App = () => {
                   <Route exact path ="/reservations/add" component={ReservationsTrainer}/>
                   <Route exact path="/reservations/:id" component={ReservationsUser}/>
                   <Route exact path="/useractive/:id" component={UserView}/>
+                  <Route exact path="/traineractive/:id" component={TrainerView}/>
                   <Route path="/logout" exact component={() => <Login message = "Wylogowano pomyślnie."/>}/>
                 </Switch>
               </Col>
