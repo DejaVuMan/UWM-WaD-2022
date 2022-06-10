@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import { Snackbar, Alert } from '@mui/material';
 import { Button } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import {getReservationWindows, reserveReservation} from "../../services/index";
 
@@ -115,6 +116,13 @@ function Reservations(props) {
                 style={{minHeight: '100vh'}}
             >
                 <Grid item>
+                <Grid item>
+                    <Typography>
+                        <Typography variant="title">
+                            Create a reservation slot
+                        </Typography>
+                    </Typography>
+                </Grid>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <StaticDatePicker
                         minDate={today}

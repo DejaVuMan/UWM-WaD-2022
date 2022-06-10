@@ -9,6 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from '@mui/material/Paper'
 import { Link } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
+import {Typography} from '@mui/material';
 import { addReservationWindow } from '../../services/index';
 
 function ReservationsTrainer(props) {
@@ -64,6 +65,13 @@ function ReservationsTrainer(props) {
                 justifyContent="center"
                 style={{minHeight: '100vh'}}
             >
+                <Grid item>
+                    <Typography>
+                        <Typography variant="title">
+                            Select a reservation slot
+                        </Typography>
+                    </Typography>
+                </Grid>
                 <Grid item>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <StaticDateTimePicker

@@ -35,7 +35,7 @@ const NavigationBar = () => {
     const authedUserItems = {'Show Dogs':"/dogs", 'List Trainers':"/users/trainers"};
     const authedTrainerItems = {'List Users':"users", 'Add Reservations':"/reservations/add"}; // Show Current Reservations?
 
-    const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"/logout"};
+    const authedSettings = {'Profile':"/edit/"+ localStorage.getItem('loggedId'), 'Account':"#", 'Logout':"/logout"};
 
     const unAuthedItems = {'Login':"login"};
     const unAuthedSettings = {'Login':"login"};
