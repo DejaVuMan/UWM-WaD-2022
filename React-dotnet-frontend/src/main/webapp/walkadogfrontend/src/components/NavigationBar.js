@@ -32,7 +32,7 @@ const NavigationBar = () => {
         dispatch(logoutUser())
     }
 
-    const authedUserItems = {'Show Dogs':"/dogs", 'List Trainers':"users/trainers"};
+    const authedUserItems = {'Show Dogs':"/dogs", 'List Trainers':"/users/trainers"};
     const authedTrainerItems = {'List Users':"users", 'Add Reservations':"/reservations/add"}; // Show Current Reservations?
 
     const authedSettings = {'Profile':"/edit/"+ 1, 'Account':"#", 'Logout':"/logout"};

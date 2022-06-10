@@ -1,7 +1,6 @@
 namespace WebApi.Services;
 
 using AutoMapper;
-using BCrypt.Net;
 using WebApi.Authorization;
 using WebApi.Entities;
 using WebApi.Helpers;
@@ -10,6 +9,7 @@ using WebApi.Models.Reports;
 public interface IReportService
 {
     void Create(NewTrainerReport model);
+    public IEnumerable<TrainerReport> Get(GetTrainerReport model);
 }
 
 public class ReportService : IReportService
@@ -39,6 +39,19 @@ public class ReportService : IReportService
 
         _context.SaveChanges();
         Console.WriteLine("Created Trainer Report in db");
+    }
+
+    public IEnumerable<TrainerReport> Get(GetTrainerReport model)
+    {
+        Console.WriteLine("Entered Create for GTR");
+        var trainerReport = _context.TrainerReport.Where(e => e.trainerId == model.trainerId);
+        if(trainerReport == null)
+        {
+            Console.WriteLine("Reports not found.");
+            throw new AppException("Reports couldnt be found!");
+        }
+
+        return trainerReport;
     }
 
 }

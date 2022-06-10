@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {trainerReport} from "../../services/index";
+import {sendTrainerReport} from "../../services/index";
 
 import { Grid, Typography, styled, DialogTitle, DialogContent, DialogContentText } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -164,7 +164,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const mapDispatchToProps = (dispatch) => { // dispatch
     return {
-        trainerReport: (userId, trainerId, report) => dispatch (trainerReport(userId, trainerId, report))
+        trainerReport: (userId, trainerId, report) => dispatch (sendTrainerReport(userId, trainerId, report))
     }
 }
 
