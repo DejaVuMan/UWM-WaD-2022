@@ -60,7 +60,7 @@ class TrainerList extends Component {
         const trainersAll = this.props.trainers;
         var trainersInd = [{firstName:"temp", lastName:"temp", id:1, ratingCount:0}, {firstName:"temp", lastName:"temp", id:2, ratingCount:0}];
         var trainersDataInd = [{id:1, ratingCount:0}, {id:2, ratingCount:0}];
-        if(trainersAll.users !== undefined)
+        if(trainersAll.users !== undefined && Array.isArray(trainersAll.users))
         {
             trainersInd = trainersAll.users;
             trainersDataInd = trainersAll.trainerdata; // TODO: visiting different element where state is same returns list of completely different users!
