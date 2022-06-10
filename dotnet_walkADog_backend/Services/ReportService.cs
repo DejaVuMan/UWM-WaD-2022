@@ -9,7 +9,7 @@ using WebApi.Models.Reports;
 
 public interface IReportService
 {
-    void Create(NewReservation model);
+    void Create(NewTrainerReport model);
 }
 
 public class ReportService : IReportService
@@ -28,7 +28,7 @@ public class ReportService : IReportService
         _mapper = mapper;
     }
 
-    void Create(NewTrainerReport model)
+    public void Create(NewTrainerReport model)
     {
         // map model to new user object
         var report = _mapper.Map<TrainerReport>(model);

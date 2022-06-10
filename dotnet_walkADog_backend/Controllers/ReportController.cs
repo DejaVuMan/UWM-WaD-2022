@@ -29,7 +29,7 @@ public class ReportController : ControllerBase
 
     // POST http://localhost:4000/report/create
     [HttpPost("create")]
-    public IActionResult Create(NewReservation model)
+    public IActionResult Create(NewTrainerReport model)
     {
         _reportService.Create(model);
         return Ok(new { message = "Reservation successfully added" });
