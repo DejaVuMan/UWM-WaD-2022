@@ -79,7 +79,7 @@ function Home(props){
                                 Current walks
                             </Typography>
                             <Stack direction="column" spacing={2}>
-                                <Link to={"/useractive/" + 1}>
+                                <Link to={auth.isTrainer? "/traineractive/"+9 :"/useractive/" + 1}>
                                     <Item sx={{ mt: 3, mb: 2, ml: 2, mr: 2 }}>{auth.isTrainer? "Walking Nik's dog" : "10.06.2022 at 13:50"}</Item>
                                 </Link>
                             </Stack>
