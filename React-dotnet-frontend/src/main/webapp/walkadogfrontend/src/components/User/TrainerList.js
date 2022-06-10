@@ -63,8 +63,7 @@ class TrainerList extends Component {
         if(trainersAll.users !== undefined)
         {
             trainersInd = trainersAll.users;
-            trainersDataInd = trainersAll.trainerdata;
-
+            trainersDataInd = trainersAll.trainerdata; // TODO: visiting different element where state is same returns list of completely different users!
         }
 
         const Item = styled(Paper)(({ theme }) => ({

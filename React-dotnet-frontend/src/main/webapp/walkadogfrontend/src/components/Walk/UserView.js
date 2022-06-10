@@ -66,14 +66,16 @@ function UserView(props){
                 </CardContent> 
                 :
                 <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        Report #1
-                    </Typography>
-                    <Typography variant="body2">
-                        {props.reports.map((report, index) => 
-                            report.report
-                        )}
-                    </Typography>
+                    {props.reports.map((report, index) =>
+                        <React.Fragment key={index}>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                Report #{report.id}
+                            </Typography>
+                            <Typography variant="body2">
+                                {report.report}
+                            </Typography>
+                        </React.Fragment>
+                    )}
                 </CardContent>
                 }
             </Card>
