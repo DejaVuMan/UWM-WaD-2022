@@ -77,9 +77,10 @@ function Reservations(props) {
         </Grid>
         )
     }
-
+    
     useEffect(() => { // missing dependency: "props" - include or remove dependency array and destructure props outside of useffect
         props.getReservationWindows(props.match.params.id)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [props.getReservationWindows]);
 
     useEffect(() => {
