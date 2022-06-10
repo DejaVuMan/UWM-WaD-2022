@@ -220,12 +220,12 @@ export const fetchDogs = (userId) => async (dispatch) => {
         const response = await axios.post("http://localhost:4000/dogs",{
             userId: userId
         },  localStorage.getItem('jwtToken'));
-        dispatch(userSuccess(response.data))
+        dispatch(dogSuccess(response.data))
         console.log(response.data)
         return Promise.resolve(response.data)
     } catch(error) {
         console.log(error)
-        dispatch(userFailure(error.message))
+        dispatch(dogFailure(error.message))
         return Promise.reject(error)
     }
 }
@@ -350,6 +350,13 @@ const userSavedSuccess = (user) => {
 const dogSavedSuccess = (dog) => {
     return {
         type: UT.DOG_SAVED_SUCCESS,
+        payload: dog
+    }
+}
+
+const dogSuccess = (dog) => {
+    return {
+        type: UT.DOG_SUCCESS,
         payload: dog
     }
 }
