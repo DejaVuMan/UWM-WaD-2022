@@ -30,6 +30,7 @@ public class ReportService : IReportService
 
     public void Create(NewTrainerReport model)
     {
+        Console.WriteLine("Entered Create for NTR");
         // map model to new user object
         var report = _mapper.Map<TrainerReport>(model);
 
@@ -37,6 +38,7 @@ public class ReportService : IReportService
         _context.TrainerReport.Add(report);
 
         _context.SaveChanges();
+        Console.WriteLine("Created Trainer Report in db");
     }
 
 }

@@ -122,7 +122,7 @@ export const trainerRatingUpdate = (userId, currentRating) => async(dispatch) =>
 export const trainerReport = (userId, trainerId, report) => async(dispatch) => {
     dispatch(userRequest())
     try {
-        const response = await axios.post("http://localhost:4000/trainerreport", {
+        const response = await axios.post("http://localhost:4000/report/create", {
                 userId: userId,
                 trainerId: trainerId,
                 report: report
